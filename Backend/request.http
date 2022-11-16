@@ -1,0 +1,10 @@
+POST http://localhost:8000/api/user/register
+Content-Type: application/json
+
+{
+    "username": "MinhLuong",
+    "email": "luongminh@gmail.com",
+    "password": "luongminh",
+    "avatar": "https://znews-photo.zingcdn.me/w660/Uploaded/qhj_yvobvhfwbv/2018_07_18/Nguyen_Huy_Binh1.jpg"
+}
+
