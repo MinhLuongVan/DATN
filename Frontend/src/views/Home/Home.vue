@@ -1,8 +1,7 @@
-import ShareWithYou from '@/views/Shared/ShareWithYou.vue';
 <template>
   <div class="">
     <!-- BEGIN: Page Layout -->
-    <div class="intro-y py-3 lg:px-52 ">
+    <div class="intro-y py-3 lg:px-52">
       <div class="intro-y grid grid-cols-12 gap-6">
         <!-- BEGIN: slide show  -->
         <div class="intro-y lg:col-span-9 col-span-12">
@@ -102,6 +101,31 @@ import ShareWithYou from '@/views/Shared/ShareWithYou.vue';
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
           </div>
+
+          <!-- begin:slide -->
+          <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://denanphuoc.vn/wp-content/uploads/2020/10/chia-se-cac-loai-cay-canh-trong-nha-tot-cho-phong-thuy-1.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://coconhouse.com/wp-content/uploads/2020/06/c%C3%A2y-mini.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="https://www.uplevo.com/blog/wp-content/uploads/2019/07/kinh-doanh-cay-canh-hieu-qua.jpg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+          <!-- end:slide -->
+
         </div>
         <!-- END: new product -->
         <!-- BEGIN: product sale -->
@@ -167,7 +191,7 @@ import ShareWithYou from '@/views/Shared/ShareWithYou.vue';
         </div>
 
         <!-- BEGIN: standout tree -->
-        <div class="lg:col-span-8 col-span-12 ">
+        <div class="lg:col-span-8 col-span-12">
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
               style="height: 3px"
@@ -192,9 +216,7 @@ import ShareWithYou from '@/views/Shared/ShareWithYou.vue';
             >
               <div class="border-1 rounded-md">
                 <div class="px-2.5 py-2">
-                  <div
-                    class="lg:h-60 lg:w-48 w-full h-64 image-fit"
-                  >
+                  <div class="lg:h-60 lg:w-48 w-full h-64 image-fit">
                     <img
                       alt="Midone - HTML Admin Template"
                       class=""
@@ -270,6 +292,5 @@ import ShareWithYou from '@/views/Shared/ShareWithYou.vue';
 <script lang="ts">
 export default {
   name: "Home",
-
 };
 </script>
