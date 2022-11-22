@@ -1,5 +1,5 @@
 <template>
-  <div class="py-5 md:py-0">
+  <div class="sm:py-5 lg:pt-10 md:py-0">
     <DarkModeSwitcher />
     <MainColorSwitcher />
     <MobileMenu />

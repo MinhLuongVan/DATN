@@ -7,6 +7,6 @@
         content: "";
         width: 8px;
         height: 8px;
-        @apply rounded-full absolute top-[-2px] right-0 bg-danger;
+        @apply absolute -top-[-2px] right-0 bg-white;
     }
 }

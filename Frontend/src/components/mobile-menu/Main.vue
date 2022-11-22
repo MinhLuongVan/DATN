@@ -7,28 +7,21 @@
     }"
   >
     <div class="mobile-menu-bar">
-      <a href="" class="flex mr-auto">
-        <img
-          alt="Enigma Tailwind HTML Admin Template"
-          class="w-6"
-          src="@/assets/images/logo.svg"
-        />
-      </a>
-      <a href="javascript:;" class="mobile-menu-toggler">
-        <BarChart2Icon
-          class="w-8 h-8 text-white transform -rotate-90"
+      <p class="mobile-menu-toggler">
+        <Align-justifyIcon
+          class="w-10 h-6 mb-16 text-gray-500 transform"
           @click="toggleMobileMenu"
         />
-      </a>
+      </p>
     </div>
     <div class="scrollable">
       <a href="javascript:;" class="mobile-menu-toggler">
         <XCircleIcon
-          class="w-8 h-8 text-white transform -rotate-90"
+          class="w-8 h-8 mt-3 text-white transform -rotate-90"
           @click="toggleMobileMenu"
         />
       </a>
-      <ul class="scrollable__content py-2">
+      <ul class="scrollable__content py-3">
         <!-- BEGIN: First Child -->
         <template v-for="(menu, menuKey) in formattedMenu">
           <li
