@@ -6,9 +6,7 @@ import router from "./router/index";
 import globalComponents from "./global-components";
 import utils from "./utils/index";
 import "./assets/css/app.css";
-
 const app = createApp(App)
-
 const pinia = createPinia();
 pinia.use(piniaPersist);
 

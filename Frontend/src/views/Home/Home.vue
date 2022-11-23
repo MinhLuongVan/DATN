@@ -103,27 +103,109 @@
           </div>
 
           <!-- begin:slide -->
-          <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false" data-bs-interval="false">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="https://denanphuoc.vn/wp-content/uploads/2020/10/chia-se-cac-loai-cay-canh-trong-nha-tot-cho-phong-thuy-1.jpg" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="https://coconhouse.com/wp-content/uploads/2020/06/c%C3%A2y-mini.jpg" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="https://www.uplevo.com/blog/wp-content/uploads/2019/07/kinh-doanh-cay-canh-hieu-qua.jpg" class="d-block w-100" alt="...">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+          <!-- :slides-per-view="`${isMobile ? 1 : 4}`" -->
+            <swiper 
+    class="swiper mt-4 grid grid-cols-12 "
+    :modules="modules"
+    :space-between="20"
+    :slides-per-view="5"
+    :pagination="{ clickable: true }"
+  
+  >
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+  </swiper>
+  <!-- <swiper v-else
+    class="swiper mt-4 grid grid-cols-12 "
+    :modules="modules"
+    :space-between="30"
+    :slides-per-view="1"
+    :pagination="{ clickable: true }"
+  >
+    <swiper-slide class="w-24 h-auto border rounded-md">
+      <div>
+        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
+      </div>
+      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
+        <span >Cây cảnh</span>
+      </div>
+      <div class="text-center mb-4 mt-2 text-base" >
+      <span class="text-orange-400">200.000đ</span>
+      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+      </div>
+    </swiper-slide>
+  </swiper> -->
+
           <!-- end:slide -->
 
         </div>
@@ -146,11 +228,15 @@
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
           </div>
+            <!-- Begin:slide -->
+
+            <!-- end:slide -->
+
         </div>
         <!-- END: product sale -->
         <div class="lg:col-span-6 col-span-12">
           <img
-            src="../../assets/images/tree1.jpg"
+            src="../../assets/images/tree4.jpg"
             alt="/"
             class="rounded-2xl"
           />
@@ -214,9 +300,9 @@
               :key="fakerKey"
               class="intro-y lg:col-span-3 col-span-9"
             >
-              <div class="border-1 rounded-md">
-                <div class="px-2.5 py-2">
-                  <div class="lg:h-60 lg:w-48 w-full h-64 image-fit">
+              <div class="border-1 rounded-md hover:border-lime-300">
+                <div class="px-2 py-2">
+                  <div class="lg:h-60 lg:w-full w-full h-64 image-fit">
                     <img
                       alt="Midone - HTML Admin Template"
                       class=""
@@ -259,7 +345,7 @@
             :key="fakerKey"
             class="intro-y mt-4"
           >
-            <div class="border-1 rounded-md mb-2">
+            <div class="border-1 rounded-md mb-2 hover:border-lime-300">
               <div class="p-2 flex">
                 <div
                   class="h-24 w-24 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
@@ -286,11 +372,37 @@
         <!-- END: standout tree -->
       </div>
     </div>
+    
     <!-- END: Page Layout -->
   </div>
 </template>
 <script lang="ts">
+  import { Pagination} from 'swiper'
+  import { Swiper, SwiperSlide } from 'swiper/vue'
+  import 'swiper/css'
+  import 'swiper/css/pagination'
+  import 'swiper/css/navigation'
+  
 export default {
   name: "Home",
+  components: {
+      Swiper,
+      SwiperSlide
+    },
+    setup() {
+      // const isMobile = ref(false)
+      // if( window.screen.width < 500) {
+      //   isMobile.value = true
+        
+      // }
+      const isMobile = window.screen.width < 500;
+      return {
+        isMobile,
+        modules: [Pagination]
+       
+      }
+    }
 };
 </script>
+
+
