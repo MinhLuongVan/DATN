@@ -91,7 +91,7 @@
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
             <button
-              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white rounded-full py-2.5 px-4 bg-lime-600"
+              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
               SẢN PHẨM MỚI NHẤT
             </button>
@@ -103,111 +103,33 @@
           </div>
 
           <!-- begin:slide -->
-          <!-- :slides-per-view="`${isMobile ? 1 : 4}`" -->
-            <swiper 
-    class="swiper mt-4 grid grid-cols-12 "
-    :modules="modules"
-    :space-between="20"
-    :slides-per-view="5"
-    :pagination="{ clickable: true }"
-  
-  >
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-  </swiper>
-  <!-- <swiper v-else
-    class="swiper mt-4 grid grid-cols-12 "
-    :modules="modules"
-    :space-between="30"
-    :slides-per-view="1"
-    :pagination="{ clickable: true }"
-  >
-    <swiper-slide class="w-24 h-auto border rounded-md">
-      <div>
-        <img src="../../assets/images/tree1.jpg" alt="" class="w-full h-60 rounded-t-md">
-      </div>
-      <div class=" w-full h-10 text-center cursor-pointer mt-4 text-base hover:text-lime-400 ">
-        <span >Cây cảnh</span>
-      </div>
-      <div class="text-center mb-4 mt-2 text-base" >
-      <span class="text-orange-400">200.000đ</span>
-      <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-      </div>
-    </swiper-slide>
-  </swiper> -->
+          <carousel :settings="settings" :breakpoints="breakpoints">
+            <slide v-for="(item,index) in Fake" :key="index">
+              <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
+                <div>
+                <img
+                  :src="item.name"
+                  alt="/"
+                  class="w-full h-60 rounded-t-xl"
+                />
+              </div>
+              <div
+                class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+              >
+                <span>Cây cảnh</span>
+              </div>
+              <div class="text-center mb-4 mt-4 text-base">
+                <span class="text-orange-400">200.000đ</span>
+                <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+              </div>
+              </div>
+            </slide>
 
+            <template #addons>
+              <navigation />
+            </template>
+          </carousel>
           <!-- end:slide -->
-
         </div>
         <!-- END: new product -->
         <!-- BEGIN: product sale -->
@@ -218,20 +140,44 @@
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
             <button
-              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white rounded-full py-2.5 px-4 bg-lime-600"
+              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
               SẢN PHẨM KHUYẾN MÃI
             </button>
             <hr
               lg:block
-              style="height: 2px"
+              style="height: 2px "
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
           </div>
-            <!-- Begin:slide -->
+          <!-- Begin:slide -->
+          <carousel :settings="settings" :breakpoints="breakpoints">
+            <slide v-for="(item,index) in Fake" :key="index">
+              <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
+                <div>
+                <img
+                  :src="item.name"
+                  alt="/"
+                  class="w-full h-60 rounded-t-xl"
+                />
+              </div>
+              <div
+                class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+              >
+                <span>Cây cảnh</span>
+              </div>
+              <div class="text-center mb-4 mt-4 text-base">
+                <span class="text-orange-400">200.000đ</span>
+                <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+              </div>
+              </div>
+            </slide>
 
-            <!-- end:slide -->
-
+            <template #addons>
+              <navigation />
+            </template>
+          </carousel>
+          <!-- end:slide -->
         </div>
         <!-- END: product sale -->
         <div class="lg:col-span-6 col-span-12">
@@ -256,7 +202,7 @@
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
             <button
-              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white rounded-full py-2.5 px-4 bg-lime-600"
+              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
               CÂY XANH TRONG VƯỜN
             </button>
@@ -284,7 +230,7 @@
               class="w-2/6 mt-3 bg-orange-600 hidden lg:block"
             />
             <button
-              class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white rounded-full py-2.5 px-4 bg-lime-600"
+              class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
               CÂY PHONG THỦY
             </button>
@@ -330,7 +276,7 @@
               class="w-2/6 mt-3 bg-orange-600 hidden lg:block"
             />
             <button
-              class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white rounded-full py-2.5 px-4 bg-lime-600"
+              class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
               NỔI BẬT
             </button>
@@ -372,37 +318,64 @@
         <!-- END: standout tree -->
       </div>
     </div>
-    
+    <bottom/>
     <!-- END: Page Layout -->
   </div>
 </template>
 <script lang="ts">
-  import { Pagination} from 'swiper'
-  import { Swiper, SwiperSlide } from 'swiper/vue'
-  import 'swiper/css'
-  import 'swiper/css/pagination'
-  import 'swiper/css/navigation'
-  
+import "vue3-carousel/dist/carousel.css";
+import { Carousel, Slide, Navigation } from "vue3-carousel";
+import bottom from "../../views/Footer/Footer.vue"
 export default {
   name: "Home",
   components: {
-      Swiper,
-      SwiperSlide
+    bottom,
+    Carousel,
+    Slide,
+    Navigation,
+  },
+  setup() {
+    const Fake = [{
+      name:"http://list.vn/wp-content/uploads/2021/02/qu-2.jpg"
     },
-    setup() {
-      // const isMobile = ref(false)
-      // if( window.screen.width < 500) {
-      //   isMobile.value = true
-        
-      // }
-      const isMobile = window.screen.width < 500;
-      return {
-        isMobile,
-        modules: [Pagination]
-       
-      }
+    {
+      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
+    },
+    {
+      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
+    },
+    {
+      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
     }
+  ]
+    return {
+      Fake,
+      settings: {
+        itemsToShow: 1,
+        snapAlign: "center",
+      },
+      breakpoints: {
+        700: {
+          itemsToShow: 3,
+          snapAlign: "center",
+        },
+        1024: {
+          itemsToShow: 4,
+          snapAlign: "start",
+        },
+      },
+    };
+  },
 };
 </script>
+<style>
 
+.carousel__slide {
+  padding: 10px;
+}
 
+.carousel__prev,
+.carousel__next {
+  background-color: #fff7;
+}
+</style>
