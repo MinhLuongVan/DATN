@@ -104,24 +104,28 @@
 
           <!-- begin:slide -->
           <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item,index) in Fake" :key="index">
+            <slide v-for="(item, index) in Fake" :key="index">
               <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
                 <div>
-                <img
-                  :src="item.name"
-                  alt="/"
-                  class="w-full h-60 rounded-t-xl"
-                />
-              </div>
-              <div
-                class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-              >
-                <span>Cây cảnh</span>
-              </div>
-              <div class="text-center mb-4 mt-4 text-base">
-                <span class="text-orange-400">200.000đ</span>
-                <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-              </div>
+                  <img
+                    :src="item.name"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
+                    >-20%
+                  </span>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>Cây cảnh</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
               </div>
             </slide>
 
@@ -146,30 +150,34 @@
             </button>
             <hr
               lg:block
-              style="height: 2px "
+              style="height: 2px"
               class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
             />
           </div>
           <!-- Begin:slide -->
           <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item,index) in Fake" :key="index">
+            <slide v-for="(item, index) in Fake" :key="index">
               <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
                 <div>
-                <img
-                  :src="item.name"
-                  alt="/"
-                  class="w-full h-60 rounded-t-xl"
-                />
-              </div>
-              <div
-                class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-              >
-                <span>Cây cảnh</span>
-              </div>
-              <div class="text-center mb-4 mt-4 text-base">
-                <span class="text-orange-400">200.000đ</span>
-                <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-              </div>
+                  <img
+                    :src="item.name"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
+                    >-20%
+                  </span>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>Cây cảnh</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
               </div>
             </slide>
 
@@ -215,10 +223,42 @@
         </div>
         <!-- END: green tree -->
         <div class="col-span-12">
+          <!-- Begin:slide -->
+          <carousel :settings="settings" :breakpoints="breakpoints">
+            <slide v-for="(item, index) in Fake" :key="index">
+              <div class="carousel__item w-full h-auto border rounded-xl">
+                <div>
+                  <img
+                    :src="item.name"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-4 px-3 py-1 rounded z-10"
+                    >-20%
+                  </span>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>Cây cảnh</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
+              </div>
+            </slide>
+
+            <template #addons>
+              <navigation />
+            </template>
+          </carousel>
+          <!-- end:slide -->
           <img
             src="../../assets/images/tree3.jpg"
             alt="/"
-            class="rounded-2xl"
+            class="rounded-2xl mt-4"
           />
         </div>
 
@@ -254,6 +294,7 @@
                       class=""
                       :src="faker.images[0]"
                     />
+                    
                   </div>
                   <div class="text-slate-600 dark:text-slate-500 mt-4">
                     <div class="flex items-center">
@@ -318,14 +359,14 @@
         <!-- END: standout tree -->
       </div>
     </div>
-    <bottom/>
+    <bottom />
     <!-- END: Page Layout -->
   </div>
 </template>
 <script lang="ts">
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import bottom from "../../views/Footer/Footer.vue"
+import bottom from "../../views/Footer/Footer.vue";
 export default {
   name: "Home",
   components: {
@@ -335,19 +376,23 @@ export default {
     Navigation,
   },
   setup() {
-    const Fake = [{
-      name:"http://list.vn/wp-content/uploads/2021/02/qu-2.jpg"
-    },
-    {
-      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
-    },
-    {
-      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
-    },
-    {
-      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
-    }
-  ]
+    const Fake = [
+      {
+        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
+      },
+      {
+        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+      },
+      {
+        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+      },
+      {
+        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+      },
+      {
+        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
+      },
+    ];
     return {
       Fake,
       settings: {
@@ -369,7 +414,6 @@ export default {
 };
 </script>
 <style>
-
 .carousel__slide {
   padding: 10px;
 }

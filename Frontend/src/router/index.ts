@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory,RouteRecordRaw } from "vue-router";
 import TopMenu from "../layouts/top-menu/Main.vue";
 import PageHome from "../views/Home/Home.vue";
-import PageIntroduce from "../views/Introduce/Introduce.vue"
+import PageIntroduce from "../views/Introduce/Introduce.vue";
+import PageProduct from "../views/Product/ListProduct.vue";
 import PageContact from "../views/Contact/Contact.vue";
 import PageTransport from "../views/Introduce/Transport.vue";
 import PageSecurity from "../views/Introduce/Security.vue"
@@ -37,23 +38,28 @@ const routes: Array<RouteRecordRaw> = [
         component: PageIntroduce,
       },
       {
-        path: "/contact",
+        path: "/listproduct",
         name: "side-menu-page-3",
+        component: PageProduct,
+      },
+      {
+        path: "/contact",
+        name: "side-menu-page-4",
         component: PageContact,
       },
       {
         path: "/introduce/transport",
-        name: "side-menu-page-4",
+        name: "side-menu-page-5",
         component:PageTransport ,
       },
       {
         path: "/introduce/security",
-        name: "side-menu-page-5",
+        name: "side-menu-page-6",
         component:PageSecurity ,
       },
       {
         path: "/introduce/condition",
-        name: "side-menu-page-6",
+        name: "side-menu-page-7",
         component:PageConditions ,
       },
     ],

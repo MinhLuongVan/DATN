@@ -226,7 +226,7 @@
       <a href="/introduce" class="hover:text-lime-500 mr-6 text-base"
         >GIỚI THIỆU</a
       >
-      <a href="" class="hover:text-lime-500 mr-6 text-base">SẢN PHẨM</a>
+      <a href="/listproduct" class="hover:text-lime-500 mr-6 text-base">SẢN PHẨM</a>
       <a href="/contact" class="hover:text-lime-500 mr-6 text-base">LIÊN HỆ</a>
     </nav>
   </div>

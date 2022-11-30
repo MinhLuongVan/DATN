@@ -1,6 +1,5 @@
 <template>
   <div>
-    <top-bar />
     <div class="lg:px-52 lg:border-t-0 border-t-2 mt-3">
       <div class="intro-y flex mt-3 lg:mt-0 items-center">
         <div class="flex" @click="router.push('/')">
