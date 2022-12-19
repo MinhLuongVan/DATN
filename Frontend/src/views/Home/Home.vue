@@ -106,16 +106,22 @@
           <carousel :settings="settings" :breakpoints="breakpoints">
             <slide v-for="(item, index) in Fake" :key="index">
               <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
-                <div>
+                <div class="item-container">
                   <img
                     :src="item.name"
                     alt="/"
-                    class="w-full h-60 rounded-t-xl"
+                    class="w-full h-60 block rounded-t-xl"
                   />
                   <span
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
                     >-20%
                   </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
@@ -158,7 +164,7 @@
           <carousel :settings="settings" :breakpoints="breakpoints">
             <slide v-for="(item, index) in Fake" :key="index">
               <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
-                <div>
+                <div class="item-container">
                   <img
                     :src="item.name"
                     alt="/"
@@ -168,6 +174,12 @@
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
                     >-20%
                   </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
@@ -227,7 +239,7 @@
           <carousel :settings="settings" :breakpoints="breakpoints">
             <slide v-for="(item, index) in Fake" :key="index">
               <div class="carousel__item w-full h-auto border rounded-xl">
-                <div>
+                <div class="item-container">
                   <img
                     :src="item.name"
                     alt="/"
@@ -237,6 +249,12 @@
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-4 px-3 py-1 rounded z-10"
                     >-20%
                   </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
                 </div>
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
@@ -294,7 +312,6 @@
                       class=""
                       :src="faker.images[0]"
                     />
-                    
                   </div>
                   <div class="text-slate-600 dark:text-slate-500 mt-4">
                     <div class="flex items-center">
@@ -421,5 +438,25 @@ export default {
 .carousel__prev,
 .carousel__next {
   background-color: #fff7;
+}
+.item-container {
+  position: relative;
+}
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: 0.5s ease;
+  opacity: 0;
+  color: white;
+  font-size: 20px;
+  padding: 15px;
+  text-align: center;
+}
+.item-container:hover .overlay {
+  opacity: 1;
 }
 </style>

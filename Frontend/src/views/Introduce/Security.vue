@@ -2,7 +2,7 @@
   <div>
     <div class="lg:px-52 lg:border-t-0 border-t-2 mt-3">
       <div class="intro-y flex mt-3 lg:mt-0 items-center">
-        <div class="flex" @click="router.push('/')">
+        <div class="flex cursor-pointer" @click="router.push('/')">
           <HomeIcon class="w-5 h-5 mt-0.5"></HomeIcon>
           <h2 class="text-lg mx-2 hover:text-lime-500">Trang chủ</h2>
         </div>

@@ -3,7 +3,7 @@
     <!-- BEGIN: Page Layout -->
     <div class="intro-y py-3 lg:px-52">
       <div class="intro-y flex lg:mt-0 items-center">
-        <div class="flex" @click="router.push('/')">
+        <div class="flex cursor-pointer" @click="router.push('/')">
           <HomeIcon class="w-5 h-5 mt-0.5"></HomeIcon>
           <h2 class="text-lg mx-2 hover:text-lime-500">Trang chủ</h2>
         </div>
@@ -34,40 +34,40 @@
               <li class="px-3 py-2 hover:text-lime-500">Chậu cảnh</li>
             </ul>
           </div>
-          <div class="w-full mt-5 border ">
+          <div class="w-full mt-5 border">
             <button
               class="w-full text-base font-medium text-white bg-lime-500 p-2"
             >
               SẢN PHẨM KHUYẾN MÃI
             </button>
             <div
-            v-for="(faker, fakerKey) in $_.take($f(), 12)"
-            :key="fakerKey"
-            class="intro-y mt-4"
-          >
-            <div class="lg:border-y lg:px-2 mb-2">
-              <div class="p-2 flex">
-                <div
-                  class="h-20 w-20 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
-                >
-                  <img
-                    alt="Midone - HTML Admin Template"
-                    class=""
-                    :src="faker.images[0]"
-                  />
-                </div>
-                <div class="text-slate-600 dark:text-slate-500 ml-3">
-                  <div class="flex items-center">
-                    Price: ${{ faker.totals[0] }}
+              v-for="(faker, fakerKey) in $_.take($f(), 12)"
+              :key="fakerKey"
+              class="intro-y mt-4"
+            >
+              <div class="lg:border-y lg:px-2 mb-2">
+                <div class="p-2 flex">
+                  <div
+                    class="h-20 w-20 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
+                  >
+                    <img
+                      alt="Midone - HTML Admin Template"
+                      class=""
+                      :src="faker.images[0]"
+                    />
                   </div>
-                  <div class="flex items-center mt-2">
-                    Remaining Stock:
-                    {{ faker.stocks[0] }}
+                  <div class="text-slate-600 dark:text-slate-500 ml-3">
+                    <div class="flex items-center">
+                      Price: ${{ faker.totals[0] }}
+                    </div>
+                    <div class="flex items-center mt-2">
+                      Remaining Stock:
+                      {{ faker.stocks[0] }}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
         <div class="intro-y lg:col-span-8 col-span-12">
@@ -92,25 +92,40 @@
           </div>
           <!-- BEGIN: product -->
           <div class="intro-y grid grid-cols-9 gap-6">
-            <div  class="intro-y lg:col-span-3 col-span-9 mt-4"
-            v-for="(item,index) in Fake" :key="index">
-              <div class=" w-full h-auto  border rounded-xl">
-                <div>
-                <img
-                  :src="item.name"
-                  alt="/"
-                  class="w-full h-60 rounded-t-xl"
-                />
-              </div>
-              <div
-                class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-              >
-                <span>Cây cảnh</span>
-              </div>
-              <div class="text-center mb-4 mt-4 text-base">
-                <span class="text-orange-400">200.000đ</span>
-                <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-              </div>
+            <div
+              class="intro-y lg:col-span-3 col-span-9 mt-4"
+              v-for="(item, index) in Fake"
+              :key="index"
+            >
+              <div class="w-full h-auto border rounded-xl">
+                <div class="item-container">
+                  <img
+                    :src="item.name"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
+                    >-20%
+                  </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>Cây cảnh</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
               </div>
             </div>
           </div>
@@ -127,31 +142,32 @@
 import { useRouter } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
 export default {
-  name: "Home",
+  name: "Product",
   components: {
     bottom,
   },
   setup() {
     const router = useRouter();
-    const Fake = [{
-      name:"http://list.vn/wp-content/uploads/2021/02/qu-2.jpg"
-    },
-    {
-      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
-    },
-    {
-      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
-    },
-    {
-      name:"https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg"
-    },
-    {
-      name:"http://list.vn/wp-content/uploads/2021/02/qu-2.jpg"
-    }
-  ]
+    const Fake = [
+      {
+        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
+      },
+      {
+        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+      },
+      {
+        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+      },
+      {
+        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+      },
+      {
+        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
+      },
+    ];
     return {
       router,
-      Fake
+      Fake,
     };
   },
 };
