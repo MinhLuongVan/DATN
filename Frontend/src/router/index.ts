@@ -13,6 +13,7 @@ import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
 import AdminHome from "../views/Admin/AdminHome.vue";
+import LayoutAdmin from "../layouts/Admin/Main.vue";
 // import Cookies from "js-cookie";
 // import {env} from '../utils/myVariables';
 // import { useAuthStore } from "../stores/authStore";
@@ -83,6 +84,17 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
+  {
+    path: '/admin',
+    component: LayoutAdmin,
+    children: [
+      {
+        path: '/admin',
+        name: "layout-admin-main",
+        component: AdminHome
+      }
+    ]
+  }
   
   // {
   //   path: "/page-3",
