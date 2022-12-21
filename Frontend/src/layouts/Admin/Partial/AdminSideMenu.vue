@@ -1,18 +1,20 @@
 <template>
-    <div class="ad-lsb-mn">
+    <div class="bg-black">
       <ul>
-        <li >
-          <router-link class="py-3 px-5 flex items-center" :to="'/admin/' ">
-            <!-- <i v-if="list.meta && list.meta.lucideIcon" :icon-name="list.meta.lucideIcon" class="w-4 h-4 mr-2 shrink-0"></i> -->
-          </router-link>
-          <ul >
-            <li >
-              <router-link class="py-3 px-5 flex items-center" :to="'/admin/' ">
-                <!-- <i v-if="listC.meta && listC.meta.lucideIcon" :icon-name="listC.meta.lucideIcon" class="w-4 h-4 mr-2 shrink-0"></i> -->
-              </router-link>
-            </li>
-          </ul>
-        </li>
+        <li v-for="(list,index) in listRouterAdmin" :key="index">
+        <router-link class="py-3 px-5 flex items-center text-white" :to="'/admin/' + list.path">
+          <i v-if="list.meta && list.meta.lucideIcon" :icon-name="list.meta.lucideIcon" class="w-4 h-4 mr-2 shrink-0"></i>
+        {{list.name }}
+        </router-link>
+        <ul v-if="list.children && list.children.length > 0">
+          <li v-for="(listC,index) in list.children" :key="index">
+            <router-link class="py-3 px-5 flex items-center text-white" :to="'/admin/' + list.path + '/' + listC.path">
+              <i v-if="listC.meta && listC.meta.lucideIcon" :icon-name="listC.meta.lucideIcon" class="w-4 h-4 mr-2 shrink-0"></i>
+            {{listC.name}}
+            </router-link>
+          </li>
+        </ul>
+      </li>
       </ul>
     </div>
   </template>
@@ -35,12 +37,10 @@
         if(findAdmin && findAdmin.children) {
           findAdmin.children.forEach(item => listRouterAdmin.value.push(item));
         }
-  
-       
+        console.log('find',findAdmin)
+        console.log('findArr',listRouterAdmin)
         return {
-         
-          listRouterAdmin,
-         
+          listRouterAdmin, 
         }
       }
     })

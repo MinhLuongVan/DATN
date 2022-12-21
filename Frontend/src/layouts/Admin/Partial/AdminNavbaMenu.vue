@@ -1,5 +1,5 @@
 <template>
-    <nav class="admin-navbar-menu flex items-center py-2 px-3">
+    <nav class="admin-navbar-menu flex items-center py-2.5 px-3">
       <h1 v-if="$route.name" class="text-xl shrink-0 mr-2"></h1>
       <div class="grow">
         <div class="flex items-center justify-end">
@@ -24,9 +24,6 @@
             </Dropdown>
           </div>
           <div class="nav-main pl-5 flex items-center">
-            <Tippy tag="a" content="iNET Help" href="https://helpdesk.inet.vn" target="_blank" class="p-2 mr-2">
-              <HelpCircleIcon class="w-4 h-4"/>
-            </Tippy>
             <!-- <Tippy tag="a" content="iNET notification" href="/" class="p-2 mr-2">
               <BellIcon class="w-4 h-4"/>
             </Tippy> -->

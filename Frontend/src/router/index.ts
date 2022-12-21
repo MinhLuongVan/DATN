@@ -86,21 +86,37 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/admin',
+    name: 'admin',
     component: LayoutAdmin,
     children: [
       {
-        path: '/admin',
-        name: "layout-admin-main",
+        path: 'dashboard',
+        name: 'Trang chủ',
+        meta: {
+          lucideIcon: 'home'
+        },
+        component: AdminHome
+      },
+      {
+        path: 'products',
+        name: 'Quản lý sản phẩm',
+        meta: {
+          lucideIcon: 'shopping-bag'
+        },
+        component: AdminHome
+      },
+      {
+        path: 'configuration',
+        name: 'Cấu hình',
+        meta: {
+          lucideIcon: 'settings'
+        },
         component: AdminHome
       }
     ]
   }
   
-  // {
-  //   path: "/page-3",
-  //       name: "side-menu-page-3",
-  //       component: Page3,
-  // }
+
 ];
 
 const router = createRouter({
