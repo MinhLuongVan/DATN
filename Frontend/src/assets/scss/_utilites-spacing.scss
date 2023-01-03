@@ -1,0 +1,22 @@
+
+@for $i from 0 through 100 {
+   $px: $i + px;
+   .m {
+      &-#{$px} {
+         margin: $px;
+      }
+      &--#{$px} {
+         margin: -$px;
+      }
+      &lr {
+         &-#{$px} {
+            margin-left: $px;
+            margin-right: $px;
+         }
+         &--#{$px} {
+            margin-left: -$px;
+            margin-right: -$px;
+         }
+      }
+   }
+}

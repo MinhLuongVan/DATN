@@ -1,0 +1,9 @@
+
+@for $i from 0 through 60{
+   $px: $i + px;
+   .p {
+      &-#{$i}x {
+         padding: $px;
+      }
+   }
+}

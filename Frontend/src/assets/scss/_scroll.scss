@@ -1,0 +1,28 @@
+.scroll {
+   &-x {
+      &-auto {
+         overflow-x: auto;
+      }
+      &-hidden {
+         overflow-x: hidden;
+      }
+   }
+   &-gray-400 {
+      &::-webkit-scrollbar-thumb {
+         background-color: #9ca3af !important;
+      }
+   }
+   &-track {
+      &-rounded {
+         &::-webkit-scrollbar-track {
+            border-radius: 25px;
+         }
+      }
+   }
+}
+[class^=scroll-x] {
+   overflow-x: hidden;
+}
+[class^=scroll-y] {
+   overflow-y: hidden;
+}

@@ -1,0 +1,30 @@
+
+@for $i from 0 through 100 {
+   $vh: #{$i + 'vh'};
+   $vw: #{$i + 'vw'};
+   .min {
+      &-vh-#{$i} {
+         min-height: $vh;
+      }
+      &-vw-#{$i} {
+         min-width: $vw;
+      }
+   }
+   .max {
+      &-vh-#{$i} {
+         max-height: $vh;
+      }
+      &-vw-#{$i} {
+         max-width: $vw;
+      }
+   }
+   .h {
+      &-vh-#{$i} {
+         &\/ {
+            &225px {
+               height: calc(#{$vh} - 225px);
+            }
+         }
+      }
+   }
+}

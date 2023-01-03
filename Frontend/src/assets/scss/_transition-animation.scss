@@ -1,0 +1,17 @@
+
+.animate {
+  &-progress {
+    &-bar {
+      animation: animateProgressBar 1s linear infinite;
+    }
+  }
+}
+
+@keyframes animateProgressBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

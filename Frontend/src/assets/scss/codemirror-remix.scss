@@ -1,0 +1,48 @@
+@import "colors";
+
+.inet-themes-ubuntu {
+   &.dark {
+      .codemirror {
+         &-container {
+            &.file-edit {
+               height: calc(100vh - 275px);
+               overflow: auto;
+            }
+         }
+         &-dracula-theme {
+            &.merge {
+               height: calc(100vh - 305px);
+               overflow: auto;
+            }
+            &.bordered {
+               border-color: rgba(white, .25)
+            }
+            .CodeMirror {
+               &-merge {
+                  &-r {
+                     &-chunk {
+                        background: get-color(dracula);
+                     }
+                  }
+                  &-2pane {
+                     .CodeMirror-merge {
+                        &-gap {
+                           display: none;
+                        }
+                        &-pane {
+                           width: 50%;
+                        }
+                     }
+                  }
+               }
+               &-selected {
+                  background: get-color(ubuntu)
+               }
+               &-scrollbar-filler {
+                  background: none;
+               }
+            }
+         }
+      }
+   }
+}

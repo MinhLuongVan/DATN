@@ -10,4 +10,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  css: {
+    loaderOptions: {
+      sass: {
+        sassOptions: {
+           prependData: `@import" @ / css / _variables.scss ";`,
+        }
+      }
+    }
+  },
 });

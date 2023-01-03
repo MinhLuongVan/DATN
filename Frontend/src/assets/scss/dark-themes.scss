@@ -1,0 +1,109 @@
+@import "colors";
+html.inet-mail-themes {
+   &.dark {
+      ::-webkit-scrollbar {
+         background-color: var(--dark-ubuntu);
+      }
+      ::-webkit-scrollbar-thumb {
+         background-color: rgba(white, .35);
+         &:hover {
+            background-color: rgba(white, .45);
+         }
+      }
+      ::-webkit-scrollbar-corner {
+         background-color: transparent;
+      }
+      background-color: #080808;
+      body {
+         min-height: 100vh;
+      }
+      .content {
+         background-color: rgba(white, .08);
+      }
+      .dropdown-item {
+         svg.svg-inline-icon {
+            path {
+               fill: rgba(white, .5) !important;
+            }
+         }
+      }
+      .flag-active {
+         color: get-color(violet, 600);
+         svg,
+         path {
+            fill: get-color(violet, 600);
+         }
+      }
+      .inbox {
+         .item-hover-border {
+            &:hover {
+               border-color: rgba(white, .25);
+            }
+         }
+         .item-hover-color {
+            &:hover {
+               color: rgba(white, .45);
+            }
+         }
+         .inbox__item {
+            &:hover {
+               background-color: #{rgba(get-color(purple, 500), .18)};
+               .item-hover-border {
+                  border-color: rgba(white, .25);
+               }
+               .item-hover-color {
+                  color: rgba(white, .45);
+               }
+            }
+            .item-hover-color {
+               transition: box-shadow .1s linear 0s;
+               border-radius: 50%;
+               background-color: rgba(white, 0);
+               &:hover {
+                  background-color: rgba(white, 0.15);
+                  box-shadow: 0 0 0 5px rgba(white, .25);
+               }
+            }
+         }
+      }
+      .form-check-input {
+         background-color: rgba(white, .25)
+      }
+      .form-check {
+         .form-check-input {
+            &[type=checkbox] {
+               &:focus,
+               &:checked,
+               &:indeterminate {
+                  border-color: rgba(white, .25);
+                  box-shadow: 0 0 0 3px rgba(white, .12);
+               }
+               &:indeterminate {
+                  background-color: blueviolet;
+               }
+            }
+            &.check-all[type=checkbox] {
+               &:checked {
+                  background-color: blueviolet;
+               }
+            }
+         }
+      }
+      .dark {
+         &\:scroll-dark {
+            &::-webkit-scrollbar-thumb {
+               background-color: rgba(black, .35);
+            }
+         }
+      }
+      .ck {
+         .ck {
+            &-editor__main {
+               > .ck-editor__editable {
+                  color: rgba(white, .75);
+               }
+            }
+         }
+      }
+   }
+}

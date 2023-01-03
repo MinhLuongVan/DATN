@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory,RouteRecordRaw } from "vue-router";
-import TopMenu from "../layouts/top-menu/Main.vue";
+import TopMenu from "../../src/layouts/top-menu/Main.vue";
 import PageHome from "../views/Home/Home.vue";
 import PageIntroduce from "../views/Introduce/Introduce.vue";
 import PageProduct from "../views/Product/ListProduct.vue";
@@ -12,8 +12,9 @@ import PageSecurity from "../views/Introduce/Security.vue"
 import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
-import AdminHome from "../views/Admin/AdminHome.vue";
+import ProductsGridView from "../views/Admin/Products/list-view/GridView.vue";
 import LayoutAdmin from "../layouts/Admin/Main.vue";
+import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 // import Cookies from "js-cookie";
 // import {env} from '../utils/myVariables';
 // import { useAuthStore } from "../stores/authStore";
@@ -95,7 +96,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           lucideIcon: 'home'
         },
-        component: AdminHome
+        component: AdminDashboard
       },
       {
         path: 'products',
@@ -103,7 +104,25 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           lucideIcon: 'shopping-bag'
         },
-        component: AdminHome
+        component: ProductsGridView,
+        children: [
+          {
+            path: 'grid-view',
+            name: 'Danh sách sản phẩm',
+            meta: {
+              lucideIcon: 'trash'
+            },
+            component: ProductsGridView
+          },
+        ]
+      },
+      {
+        path: 'accounts',
+        name: 'Quản lý tài khoản',
+        meta: {
+          lucideIcon: 'users'
+        },
+        component: AdminDashboard
       },
       {
         path: 'configuration',
@@ -111,7 +130,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           lucideIcon: 'settings'
         },
-        component: AdminHome
+        component: AdminDashboard
       }
     ]
   }

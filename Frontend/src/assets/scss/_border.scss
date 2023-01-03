@@ -1,0 +1,9 @@
+
+.border {
+   @for $i from 0 through 5 {
+      $px: $i + px;
+      &-#{$i}x {
+         border-width: $px;
+      }
+   }
+}

@@ -1,0 +1,18 @@
+
+.i-dropdown {
+   position: relative;
+   &-menu {
+      display: none;
+      z-index: 99;
+      min-width: 180px;
+      position: absolute;
+      top: 100%;
+   }
+   &.open {
+      .i-dropdown {
+         &-menu {
+            display: block;
+         }
+      }
+   }
+}

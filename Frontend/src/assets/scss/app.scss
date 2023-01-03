@@ -1,0 +1,18 @@
+@import "utilites-spacing";
+@import "border";
+@import "form";
+@import "scroll";
+@import "spacing";
+@import "sizing";
+@import "dropdown";
+@import "layout";
+@import "tree-view";
+@import "transition-animation";;
+@import "inet-mail-themes";
+
+.dark-mode-switcher {
+   left: 1rem;
+   right: inherit;
+   margin: 0;
+   bottom: 1rem;
+}
