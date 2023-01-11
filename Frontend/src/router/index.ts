@@ -13,6 +13,7 @@ import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
 import ProductsGridView from "../views/Admin/Products/list-view/GridView.vue";
+import ProductsListView from "../views/Admin/Products/list-view/TableView.vue";
 import LayoutAdmin from "../layouts/Admin/Main.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 // import Cookies from "js-cookie";
@@ -104,7 +105,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           lucideIcon: 'shopping-bag'
         },
-        component: ProductsGridView,
+        component: ProductsListView,
         children: [
           {
             path: 'grid-view',

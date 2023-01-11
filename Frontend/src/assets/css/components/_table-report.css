@@ -6,7 +6,7 @@
             @apply border-b-0;
         }
         td {
-            @apply bg-white border-b-0 dark:bg-darkmode-600;
+            @apply bg-white border-b-0; /*dark:bg-darkmode-100*/
             box-shadow: 20px 3px 20px #0000000b;
             &:first-child {
                 @apply rounded-l-md;

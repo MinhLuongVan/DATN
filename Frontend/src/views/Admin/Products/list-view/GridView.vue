@@ -1,15 +1,15 @@
 <template>
   <div>
     <acc-manager-list-view-header />
-    <div class="grid grid-cols-9 gap-6">
+    <div class="grid grid-cols-12 gap-6 ">
       <!-- BEGIN: Users Layout -->
       <div
       v-for="(faker, fakerKey) in $_.take($f(), 12)"
       :key="fakerKey"
-      class="intro-y col-span-9 lg:col-span-3 "
+      class="intro-y col-span-12 lg:col-span-3"
     >
-      <div class="box">
-        <div class="p-5">
+      <div class="box bg-white">
+        <div class="p-4">
           <div
             class="h-40 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
           >
@@ -18,27 +18,14 @@
               class="rounded-md"
               :src="faker.images[0]"
             />
-            <span
-              v-if="faker.trueFalse[0]"
-              class="absolute top-0 bg-pending/80 text-white text-xs m-5 px-2 py-1 rounded z-10"
-              >Featured</span
-            >
-            <div class="absolute bottom-0 text-white px-5 pb-6 z-10">
-              <a href="" class="block font-medium text-base">{{
-                faker.products[0].name
-              }}</a>
-              <span class="text-white/90 text-xs mt-3">{{
-                faker.products[0].category
-              }}</span>
-            </div>
           </div>
-          <div class="text-slate-600 dark:text-slate-500 mt-5">
-            <div class="flex items-center">
-              <LinkIcon class="w-4 h-4 mr-2" /> Price: ${{ faker.totals[0] }}
-            </div>
+          <div class="text-slate-600 dark:text-slate-500 mt-3">
             <div class="flex items-center mt-2">
               <LayersIcon class="w-4 h-4 mr-2" /> Remaining Stock:
               {{ faker.stocks[0] }}
+            </div>
+            <div class="flex items-center mt-2">
+              <LinkIcon class="w-4 h-4 mr-2" /> Price: ${{ faker.totals[0] }}
             </div>
             <div class="flex items-center mt-2">
               <CheckSquareIcon class="w-4 h-4 mr-2" /> Status:
@@ -47,11 +34,8 @@
           </div>
         </div>
         <div
-          class="flex justify-center lg:justify-end items-center p-5 border-t border-slate-200/60 dark:border-darkmode-400"
+          class="flex justify-center lg:justify-end items-center p-4  border-t border-slate-200/60 dark:border-slate-200"
         >
-          <a class="flex items-center text-primary mr-auto" href="javascript:;">
-            <EyeIcon class="w-4 h-4 mr-1" /> Preview
-          </a>
           <a class="flex items-center mr-3" href="javascript:;">
             <CheckSquareIcon class="w-4 h-4 mr-1" /> Edit
           </a>
