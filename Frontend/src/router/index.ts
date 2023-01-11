@@ -14,6 +14,8 @@ import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
 import ProductsGridView from "../views/Admin/Products/list-view/GridView.vue";
 import ProductsListView from "../views/Admin/Products/list-view/TableView.vue";
+import AccountGridView from "../views/Admin/Account/list-view/GridViewAccount.vue";
+import AccountListView from "../views/Admin/Account/list-view/TableViewAccount.vue";
 import LayoutAdmin from "../layouts/Admin/Main.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 // import Cookies from "js-cookie";
@@ -105,7 +107,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           lucideIcon: 'shopping-bag'
         },
-        component: ProductsListView,
+        component: ProductsGridView,
         children: [
           {
             path: 'grid-view',
@@ -113,7 +115,7 @@ const routes: Array<RouteRecordRaw> = [
             meta: {
               lucideIcon: 'trash'
             },
-            component: ProductsGridView
+            component: ProductsListView
           },
         ]
       },
@@ -123,7 +125,17 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           lucideIcon: 'users'
         },
-        component: AdminDashboard
+        component: AccountGridView,
+        children: [
+          {
+            path: 'grid-view',
+            name: 'Danh sách sản phẩm',
+            meta: {
+              lucideIcon: 'trash'
+            },
+            component: AccountGridView
+          },
+        ]
       },
       {
         path: 'configuration',

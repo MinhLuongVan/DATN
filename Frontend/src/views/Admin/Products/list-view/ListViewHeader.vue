@@ -3,11 +3,11 @@
     <div class="p-2 mb-3 bg-white rounded-md">
       <button class="border rounded-md py-2 px-3 flex bg-lime-500 text-white">
         <plus-squareIcon class="w-4 h-4 mr-2 mt-0.5"></plus-squareIcon>
-        Thêm sản phẩm
+        Thêm tài khoản
       </button>
     </div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5">Tổng số sản phẩm : 5</span>
+      <span class="lg:pt-2.5">Tổng số tài khoản : 5</span>
       <div class="flex">
         <div class="min-w-[230px] max-w-sm relative my-2 lg:my-0">
           <input
@@ -35,13 +35,13 @@
                 class="flex dropdown-item text-sm bg-white hover:bg-slate-200"
               >
                 <TableIcon class="w-4 h-4 mr-2 mt-0.5"></TableIcon>
-                List product
+                List account
               </a>
             </li>
             <li class="py-1">
               <a href="" class="flex dropdown-item text-sm bg-white hover:bg-slate-200">
                 <Layout-gridIcon class="w-4 h-4 mr-2 mt-0.5"></Layout-gridIcon>
-                Grid product
+                Grid account
               </a>
             </li>
           </ul>
@@ -57,7 +57,7 @@ import { computed, defineComponent, PropType, ref } from "vue";
 import { createIcons, icons } from "lucide";
 
 export default defineComponent({
-  name: "AccManagerListViewHeader",
+  name: "AccountListViewHeader",
   data() {
     return {
       ListView: "",

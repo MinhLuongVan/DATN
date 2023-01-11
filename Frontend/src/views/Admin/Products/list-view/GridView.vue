@@ -83,11 +83,11 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import AccManagerListViewHeader from "../../Products/list-view/ListViewHeader.vue";
+import ProductListViewHeader from "../../Products/list-view/ListViewHeader.vue";
 
 export default defineComponent({
   name: "ProductsGridView",
-  components: { AccManagerListViewHeader },
+  components: { ProductListViewHeader },
   setup() {
     const deleteConfirmationModal = ref(false);
     return {
