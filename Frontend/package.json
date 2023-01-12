@@ -49,7 +49,7 @@
     "toastify-js": "^1.9.3",
     "tom-select": "^1.7.5",
     "vue": "^3.2.25",
-    "vue-router": "^4.1.5",
+    "vue-router": "^4",
     "vue3-carousel": "^0.2.5",
     "xlsx": "^0.16.9",
     "zoom-vanilla.js": "^2.0.6"

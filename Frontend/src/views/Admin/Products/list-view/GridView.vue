@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-view></router-view>
     <acc-manager-list-view-header />
     <div class="grid grid-cols-12 gap-6 ">
       <!-- BEGIN: Users Layout -->

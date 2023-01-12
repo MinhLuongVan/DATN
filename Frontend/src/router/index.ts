@@ -12,11 +12,12 @@ import PageSecurity from "../views/Introduce/Security.vue"
 import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
+import Main from "../views/Admin/Products/Main.vue";
 import ProductsGridView from "../views/Admin/Products/list-view/GridView.vue";
 import ProductsListView from "../views/Admin/Products/list-view/TableView.vue";
 import AccountGridView from "../views/Admin/Account/list-view/GridViewAccount.vue";
 import AccountListView from "../views/Admin/Account/list-view/TableViewAccount.vue";
-import LayoutAdmin from "../layouts/Admin/Main.vue";
+import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 // import Cookies from "js-cookie";
 // import {env} from '../utils/myVariables';
@@ -90,62 +91,46 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/admin',
-    name: 'admin',
     component: LayoutAdmin,
-    children: [
-      {
-        path: 'dashboard',
-        name: 'Trang chủ',
-        meta: {
-          lucideIcon: 'home'
-        },
-        component: AdminDashboard
-      },
-      {
-        path: 'products',
-        name: 'Quản lý sản phẩm',
-        meta: {
-          lucideIcon: 'shopping-bag'
-        },
-        component: ProductsGridView,
-        children: [
-          {
-            path: 'grid-view',
-            name: 'Danh sách sản phẩm',
-            meta: {
-              lucideIcon: 'trash'
-            },
-            component: ProductsListView
-          },
-        ]
-      },
-      {
-        path: 'accounts',
-        name: 'Quản lý tài khoản',
-        meta: {
-          lucideIcon: 'users'
-        },
-        component: AccountGridView,
-        children: [
-          {
-            path: 'grid-view',
-            name: 'Danh sách sản phẩm',
-            meta: {
-              lucideIcon: 'trash'
-            },
-            component: AccountGridView
-          },
-        ]
-      },
-      {
-        path: 'configuration',
-        name: 'Cấu hình',
-        meta: {
-          lucideIcon: 'settings'
-        },
-        component: AdminDashboard
-      }
-    ]
+    // children: [
+    //   {
+    //     path: 'dashboard',
+    //     name: 'side-menu-dashboard',
+    //     component: AdminDashboard
+    //   },
+    //   {
+    //     path: 'products',
+    //     name: 'side-menu-menu-layout',
+    //     component: ProductsListView,
+    
+    //   },
+    //   {
+    //     path: 'accounts',
+    //     name: 'Quản lý tài khoản',
+    //     meta: {
+    //       lucideIcon: 'users'
+    //     },
+    //     component: AccountGridView,
+    //     children: [
+    //       {
+    //         path: 'grid-view',
+    //         name: 'Danh sách sản phẩm',
+    //         meta: {
+    //           lucideIcon: 'trash'
+    //         },
+    //         component: AccountListView
+    //       },
+    //     ]
+    //   },
+    //   {
+    //     path: 'configuration',
+    //     name: 'Cấu hình',
+    //     meta: {
+    //       lucideIcon: 'settings'
+    //     },
+    //     component: AdminDashboard
+    //   }
+    // ]
   }
   
 
