@@ -12,7 +12,6 @@ import PageSecurity from "../views/Introduce/Security.vue"
 import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
-import Main from "../views/Admin/Products/Main.vue";
 import ProductsGridView from "../views/Admin/Products/list-view/GridView.vue";
 import ProductsListView from "../views/Admin/Products/list-view/TableView.vue";
 import AccountGridView from "../views/Admin/Account/list-view/GridViewAccount.vue";
@@ -92,45 +91,25 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/admin',
     component: LayoutAdmin,
-    // children: [
-    //   {
-    //     path: 'dashboard',
-    //     name: 'side-menu-dashboard',
-    //     component: AdminDashboard
-    //   },
-    //   {
-    //     path: 'products',
-    //     name: 'side-menu-menu-layout',
-    //     component: ProductsListView,
+    children: [
+      {
+        path: '',
+        component: AdminDashboard
+      },
+      {
+        path: 'products',
+        component: ProductsListView,
     
-    //   },
-    //   {
-    //     path: 'accounts',
-    //     name: 'Quản lý tài khoản',
-    //     meta: {
-    //       lucideIcon: 'users'
-    //     },
-    //     component: AccountGridView,
-    //     children: [
-    //       {
-    //         path: 'grid-view',
-    //         name: 'Danh sách sản phẩm',
-    //         meta: {
-    //           lucideIcon: 'trash'
-    //         },
-    //         component: AccountListView
-    //       },
-    //     ]
-    //   },
-    //   {
-    //     path: 'configuration',
-    //     name: 'Cấu hình',
-    //     meta: {
-    //       lucideIcon: 'settings'
-    //     },
-    //     component: AdminDashboard
-    //   }
-    // ]
+      },
+      {
+        path: 'accounts',
+        component:AccountListView,
+      },
+      {
+        path: 'configuration',
+        component: AdminDashboard
+      }
+    ]
   }
   
 

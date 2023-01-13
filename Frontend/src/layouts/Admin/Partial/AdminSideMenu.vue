@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="ad-lsb-mn bg-slate-600">
       <ul>
         <li v-for="(list,index) in listRouterAdmin" :key="index">
@@ -120,4 +120,80 @@ html.inet-mail-themes {
     }
   }
 }
-</style>
+</style> -->
+<template>
+   <div class="col-auto px-0">
+        <div id="sidebar" class="collapse collapse-horizontal show border-end">
+          <div
+            id="sidebar-nav"
+            class="list-group border-0 rounded-0 bg-[#1e293b] text-sm-start min-vh-100 w-20 lg:w-60"
+          >
+            <a
+              class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
+              @click="router.push('/admin')"
+              :class="`${routeMenu === '/admin' ? 'bg-[#4a4a4a]':''}`"
+            >
+              <HomeIcon class="w-6 h-6 lg:w-5 lg:h-5"></HomeIcon>
+              <span class="pl-2 pt-0.5 hidden lg:block">Trang chủ</span>
+            </a>
+            <a
+              class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
+              @click="router.push('/admin/products')"
+              :class="`${routeMenu.includes('/admin/products') ? 'bg-[#4a4a4a]':''}`"
+            >
+              <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
+              <span class="pl-2 pt-0.5 hidden lg:block">Quản lý sản phẩm</span>
+            </a>
+            <a
+              class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
+            >
+              <Shopping-bagIcon
+                class="w-6 h-6 lg:w-5 lg:h-5"
+              ></Shopping-bagIcon>
+              <span class="pl-2 pt-0.5 hidden lg:block">Quản lý đơn hàng</span>
+            </a>
+            <a
+              class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
+              @click="router.push('/admin/accounts')"
+              :class="`${routeMenu.includes('/admin/accounts') ? 'bg-[#4a4a4a]':''}`"
+            >
+              <UsersIcon class="w-6 h-6 lg:w-5 lg:h-5"></UsersIcon>
+              <span class="pl-2 pt-0.5 hidden lg:block">Quản lý tài khoản</span>
+            </a>
+            <a
+              class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
+            >
+              <CalendarIcon class="w-6 h-6 lg:w-5 lg:h-5"></CalendarIcon>
+              <span class="pl-2 pt-0.5 hidden lg:block">Báo cáo thống kê</span>
+            </a>
+            <a
+              class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
+              @click="router.push('/admin/configuration')"
+              :class="`${routeMenu.includes('/admin/configuration') ? 'bg-[#4a4a4a]':''}`"
+            >
+              <SettingsIcon class="w-6 h-6 lg:w-5 lg:h-5"></SettingsIcon>
+              <span class="pl-2 pt-0.5 hidden lg:block">Cấu hình hệ thống</span>
+            </a>
+          </div>
+        </div>
+      </div>
+</template>
+<script lang="ts">
+import { computed, defineComponent } from "vue";
+import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+export default defineComponent({
+  name: "SideMenuAdmin",
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const routeMenu = computed(() => route.path);
+    return {
+      route,
+      router,
+      routeMenu,
+    };
+  },
+});
+</script>
+<style></style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <acc-manager-list-view-header />
+    <product-list-view-header />
     <div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -16,66 +16,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(faker, fakerKey) in $_.take($f(), 9)"
-              :key="fakerKey"
-              class="intro-x"
-            >
+            <tr v-for="(item, index) in Fake" :key="item.name" class="intro-x">
               <td class="w-40">
-                <div class="flex">
-                  <div class="w-10 h-10 image-fit zoom-in">
-                    <Tippy
-                      tag="img"
-                      alt="Midone Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="faker.images[0]"
-                      :content="`Uploaded at ${faker.dates[0]}`"
-                    />
-                  </div>
-                  <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                    <Tippy
-                      tag="img"
-                      alt="Midone Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="faker.images[1]"
-                      :content="`Uploaded at ${faker.dates[1]}`"
-                    />
-                  </div>
-                  <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                    <Tippy
-                      tag="img"
-                      alt="Midone Tailwind HTML Admin Template"
-                      class="rounded-full"
-                      :src="faker.images[2]"
-                      :content="`Uploaded at ${faker.dates[2]}`"
-                    />
-                  </div>
+                <div class="w-10 h-10 image-fit zoom-in">
+                  <Tippy
+                    tag="img"
+                    alt="Midone Tailwind HTML Admin Template"
+                    class="rounded-full"
+                    :src="item.url"
+                  />
                 </div>
               </td>
-              <td>
-                <a href="" class="font-medium whitespace-nowrap">{{
-                  faker.products[0].name
-                }}</a>
-                <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
-                  {{ faker.products[0].category }}
-                </div>
-              </td>
-              <td class="text-center">{{ faker.stocks[0] }}</td>
-              <td class="text-center">${{ faker.totals[0] }}</td>
-              <td class="w-40">
-                <div
-                  class="flex items-center justify-center"
-                  :class="{
-                    'text-success': faker.trueFalse[0],
-                    'text-danger': !faker.trueFalse[0],
-                  }"
-                >
-                  <CheckSquareIcon class="w-4 h-4 mr-2" />
-                  {{ faker.trueFalse[0] ? "Active" : "Inactive" }}
-                </div>
-              </td>
+              <td class="pt-4">{{ item.name }}></td>
+              <td class="text-center pt-4">{{ item.number }}</td>
+              <td class="text-center pt-4">${{ item.price }}</td>
+              <td class="text-center pt-4">{{ item.status }}</td>
               <td class="table-report__action w-56">
-                <div class="flex justify-center items-center">
+                <div class="flex justify-center items-center pt-4">
                   <a class="flex items-center mr-3" href="javascript:;">
                     <CheckSquareIcon class="w-4 h-4 mr-1" /> Edit
                   </a>
@@ -131,7 +88,45 @@ export default defineComponent({
   components: { ProductListViewHeader },
   setup() {
     const deleteConfirmationModal = ref(false);
+    const Fake = [
+      {
+        url: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
+        name: "sp1",
+        number: 20,
+        price: 200,
+        status: true,
+      },
+      {
+        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+        name: "sp2",
+        number: 30,
+        price: 200,
+        status: true,
+      },
+      {
+        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+        name: "sp3",
+        number: 30,
+        price: 200,
+        status: true,
+      },
+      {
+        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+        name: "sp4",
+        number: 50,
+        price: 200,
+        status: true,
+      },
+      {
+        url: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
+        name: "sp5",
+        number: 90,
+        price: 200,
+        status: false,
+      },
+    ];
     return {
+      Fake,
       deleteConfirmationModal,
     };
   },
