@@ -33,13 +33,15 @@
               <a
                 href=""
                 class="flex dropdown-item text-sm bg-white hover:bg-slate-200"
+                @click="$router.push('/admin/products')"
               >
                 <TableIcon class="w-4 h-4 mr-2 mt-0.5"></TableIcon>
                 List product
               </a>
             </li>
             <li class="py-1">
-              <a href="" class="flex dropdown-item text-sm bg-white hover:bg-slate-200">
+              <a href="" class="flex dropdown-item text-sm bg-white hover:bg-slate-200"
+              @click="$router.push('/admin/grid-view')">
                 <Layout-gridIcon class="w-4 h-4 mr-2 mt-0.5"></Layout-gridIcon>
                 Grid product
               </a>

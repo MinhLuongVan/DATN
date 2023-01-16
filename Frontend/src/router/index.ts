@@ -98,8 +98,11 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'products',
-        component: ProductsListView,
-    
+        component: ProductsListView
+      },
+      {
+        path: 'grid-view',
+        component: ProductsGridView
       },
       {
         path: 'accounts',
