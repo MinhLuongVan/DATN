@@ -139,7 +139,7 @@ html.inet-mail-themes {
             <a
               class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
               @click="router.push('/admin/products')"
-              :class="`${routeMenu.includes('/admin/products') ? 'bg-[#4a4a4a]':''}`"
+              :class="`${routeMenu ==='/admin/products' ? 'bg-[#4a4a4a]':''}`"
             >
               <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
               <span class="pl-2 pt-0.5 hidden lg:block">Quản lý sản phẩm</span>
@@ -155,7 +155,7 @@ html.inet-mail-themes {
             <a
               class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center cursor-pointer"
               @click="router.push('/admin/accounts')"
-              :class="`${routeMenu.includes('/admin/accounts') ? 'bg-[#4a4a4a]':''}`"
+              :class="`${routeMenu === '/admin/accounts' ? 'bg-[#4a4a4a]':''}`"
             >
               <UsersIcon class="w-6 h-6 lg:w-5 lg:h-5"></UsersIcon>
               <span class="pl-2 pt-0.5 hidden lg:block">Quản lý tài khoản</span>

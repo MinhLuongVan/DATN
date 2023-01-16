@@ -3,7 +3,7 @@
     <AdminNavbarMenu />
     <div class="row flex-nowrap">
       <SideMenuAdmin/>
-      <div class="content p-4 ">
+      <div class="content p-2.5 lg:p-4 ">
         <router-view />
       </div>
     </div>

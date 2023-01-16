@@ -23,9 +23,6 @@
             />
           </DropdownToggle>
           <DropdownMenu class="w-40 lg:w-56 bg-[#28334e] mt-3">
-            <DropdownContent
-              class="bg-primary/80 before:block before:absolute before:bg-black before:inset-0 before:rounded-md before:z-[-1] text-white"
-            >
               <DropdownHeader
                 tag="div"
                 class="!font-normal text-white -mt-2 border-b"
@@ -35,16 +32,15 @@
                   minhlv
                 </div>
               </DropdownHeader>
-              <DropdownItem class="text-sm hover:bg-white/80 text-white">
+              <DropdownItem class="flex py-2 text-sm hover:bg-white/80 text-white">
                 <UserIcon class="w-4 h-4 mr-2" /> Thông tin
               </DropdownItem>
-              <DropdownItem class="text-sm hover:bg-white/80 text-white">
+              <DropdownItem class="flex py-2 text-sm hover:bg-white/80 text-white">
                 <UnlockIcon class="w-4 h-4 mr-2" /> Đổi mật khẩu</DropdownItem
               >
-              <DropdownItem class="text-sm hover:bg-white/80 text-white">
+              <DropdownItem class="flex py-2 text-sm hover:bg-white/80 text-white">
                 <Log-outIcon class="w-4 h-4 mr-2" />Đăng xuất</DropdownItem
               >
-            </DropdownContent>
           </DropdownMenu>
         </Dropdown>
       </div>

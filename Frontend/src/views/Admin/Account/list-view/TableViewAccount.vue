@@ -1,6 +1,5 @@
 <template>
     <div>
-      <account-list-view-header />
       <div>
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -121,10 +120,8 @@
   </template>
   <script lang="ts">
   import { defineComponent, ref } from "vue";
-  import AccountListViewHeader from "../../Account/list-view/ListViewHeader.vue";
   export default defineComponent({
     name: "AccountListView",
-    components: { AccountListViewHeader },
     setup() {
       const deleteConfirmationModal = ref(false);
       return {
@@ -133,3 +130,8 @@
     },
   });
   </script>
+  <style>
+  .table {
+    z-index: 0;
+  }
+</style>

@@ -12,10 +12,8 @@ import PageSecurity from "../views/Introduce/Security.vue"
 import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
-import ProductsGridView from "../views/Admin/Products/list-view/GridView.vue";
-import ProductsListView from "../views/Admin/Products/list-view/TableView.vue";
-import AccountGridView from "../views/Admin/Account/list-view/GridViewAccount.vue";
-import AccountListView from "../views/Admin/Account/list-view/TableViewAccount.vue";
+import ProductMain from "../views/Admin/Products/ProductMain.vue";
+import AccountMain from "../views/Admin/Account/AccountMain.vue";
 import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 // import Cookies from "js-cookie";
@@ -98,15 +96,11 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'products',
-        component: ProductsListView
-      },
-      {
-        path: 'grid-view',
-        component: ProductsGridView
+        component: ProductMain
       },
       {
         path: 'accounts',
-        component:AccountListView,
+        component:AccountMain,
       },
       {
         path: 'configuration',

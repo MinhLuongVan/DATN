@@ -1,6 +1,5 @@
 <template>
     <div>
-      <account-list-view-header />
       <div class="grid grid-cols-12 gap-6 ">
         <!-- BEGIN: Users Layout -->
         <div
@@ -83,11 +82,9 @@
   
   <script lang="ts">
   import { computed, defineComponent, ref } from "vue";
-  import AccountListViewHeader from "../../Account/list-view/ListViewHeader.vue";
   
   export default defineComponent({
     name: "AccountGridView",
-    components: { AccountListViewHeader },
     setup() {
       const deleteConfirmationModal = ref(false);
       return {

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <product-list-view-header />
     <div>
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -11,12 +10,13 @@
               <th class="whitespace-nowrap">Tên sản phẩm</th>
               <th class="text-center whitespace-nowrap">Số lượng</th>
               <th class="text-center whitespace-nowrap">Giá</th>
+              <th class="text-center whitespace-nowrap">Giảm giá</th>
               <th class="text-center whitespace-nowrap">Trạng thái</th>
               <th class="text-center whitespace-nowrap">Hành động</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in Fake" :key="item.name" class="intro-x">
+            <tr v-for="(item, index) in Fake" :key="index" class="intro-x">
               <td class="w-40">
                 <div class="w-10 h-10 image-fit zoom-in">
                   <Tippy
@@ -29,7 +29,8 @@
               </td>
               <td class="pt-4">{{ item.name }}></td>
               <td class="text-center pt-4">{{ item.number }}</td>
-              <td class="text-center pt-4">${{ item.price }}</td>
+              <td class="text-center pt-4">{{ item.price }}$</td>
+              <td class="text-center pt-4">{{ item.sale }}%</td>
               <td class="text-center pt-4">{{ item.status }}</td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center pt-4">
@@ -82,10 +83,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import ProductListViewHeader from "../../Products/list-view/ListViewHeader.vue";
 export default defineComponent({
   name: "ProductsListView",
-  components: { ProductListViewHeader },
   setup() {
     const deleteConfirmationModal = ref(false);
     const Fake = [
@@ -94,6 +93,7 @@ export default defineComponent({
         name: "sp1",
         number: 20,
         price: 200,
+        sale: 20,
         status: true,
       },
       {
@@ -101,6 +101,7 @@ export default defineComponent({
         name: "sp2",
         number: 30,
         price: 200,
+        sale: 20,
         status: true,
       },
       {
@@ -108,6 +109,7 @@ export default defineComponent({
         name: "sp3",
         number: 30,
         price: 200,
+        sale: 20,
         status: true,
       },
       {
@@ -115,6 +117,7 @@ export default defineComponent({
         name: "sp4",
         number: 50,
         price: 200,
+        sale: 20,
         status: true,
       },
       {
@@ -122,6 +125,7 @@ export default defineComponent({
         name: "sp5",
         number: 90,
         price: 200,
+        sale: 20,
         status: false,
       },
     ];
