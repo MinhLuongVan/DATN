@@ -3,9 +3,9 @@
     <AdminNavbarMenu />
     <div class="row flex-nowrap">
       <SideMenuAdmin/>
-      <div class="content p-2.5 lg:p-4 ">
+      <!-- <div class="content p-2.5 lg:p-4 ">
         <router-view />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import AdminNavbarMenu from "../Admin/Partial/AdminNavbaMenu.vue";
-import SideMenuAdmin from "../Admin/Partial/AdminSideMenu.vue"
+import SideMenuAdmin from "../Admin/Partial/side-menu/Main.vue"
 export default defineComponent({
   name: "AdminLayout",
   components: { AdminNavbarMenu,SideMenuAdmin},

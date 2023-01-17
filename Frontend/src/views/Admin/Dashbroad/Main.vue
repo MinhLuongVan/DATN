@@ -3,22 +3,22 @@
       <div class="mb-6 bg-white shadow rounded p-3">
         <div class="flex items-center">
           <h3 class="text-xl text-slate-600 pr-3"></h3>
-          <router-link class="btn btn-outline-secondary text-slate-600 dark:text-slate-600 rounded-full px-2 shrink-0" to="/admin/organization">
+          <!-- <router-link class="btn btn-outline-secondary text-slate-600 dark:text-slate-600 rounded-full px-2 shrink-0" to="/admin/organization">
             <EditIcon class="w-4 h-4"/>
-          </router-link>
+          </router-link> -->
         </div>
-        <admin-organization></admin-organization>
+        <!-- <admin-organization></admin-organization> -->
       </div>
       <div class="mb-6">
-        <admin-email-verify />
+        <!-- <admin-email-verify /> -->
       </div>
       <div class="mb-6 bg-white p-5 rounded shadow">
         <div class="flex items-center mb-3">
           <h3 class="mb-3 text-xl text-slate-600 grow"></h3>
           <div class="flex items-center -mx-2">
-            <router-link class="btn btn-sm btn-outline-primary my-1.5 mx-2" to="/admin/account-manager">
+            <!-- <router-link class="btn btn-sm btn-outline-primary my-1.5 mx-2" to="/admin/account-manager">
               <ChevronsRightIcon class="w-4 h-4 ml-2"/>
-            </router-link>
+            </router-link> -->
   <!--          <Dropdown class="inline-block my-1.5">
               <DropdownToggle class="btn btn-outline-secondary dark:text-slate-600 btn-sm">
                 <MoreVerticalIcon class="w-4 h-4"/>
@@ -32,7 +32,7 @@
             </Dropdown>-->
           </div>
         </div>
-        <acc-mng-table-view></acc-mng-table-view>
+        <!-- <acc-mng-table-view></acc-mng-table-view> -->
       </div>
       <div>
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
@@ -47,9 +47,9 @@
               <div class="flex items-center mb-3">
                 <h3 class="text-xl text-slate-600 grow"></h3>
                 <div class="flex items-center">
-                  <router-link class="flex items-center text-blue-600 hover:underline" to="/admin/email-tracker">
+                  <!-- <router-link class="flex items-center text-blue-600 hover:underline" to="/admin/email-tracker">
                    <ChevronsRightIcon class="w-4 h-4 ml-2"/>
-                  </router-link>
+                  </router-link> -->
                   <!--            <Dropdown class="inline-block my-1.5">
                                 <DropdownToggle class="btn btn-outline-secondary dark:text-slate-600 btn-sm">
                                   <MoreVerticalIcon class="w-4 h-4"/>
