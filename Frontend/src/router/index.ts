@@ -108,7 +108,6 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
   }
-  
 
 ];
 

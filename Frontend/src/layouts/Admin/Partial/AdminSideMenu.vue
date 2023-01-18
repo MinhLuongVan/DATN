@@ -122,7 +122,7 @@ html.inet-mail-themes {
 }
 </style> -->
 <template>
-   <div class="col-auto px-0">
+   <div class="col-auto px-0 max-h-screen">
         <div id="sidebar" class="collapse collapse-horizontal show border-end">
           <div
             id="sidebar-nav"

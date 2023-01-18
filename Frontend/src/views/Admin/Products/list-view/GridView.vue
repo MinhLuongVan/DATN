@@ -127,6 +127,14 @@ export default defineComponent({
         sale: 20,
         status: true,
       },
+      {
+        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
+        name: "sp4",
+        number: 50,
+        price: 200,
+        sale: 20,
+        status: true,
+      },
     ];
     return {
       Fake,
