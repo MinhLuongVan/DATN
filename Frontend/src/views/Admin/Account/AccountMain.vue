@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="mb-3 bg-white rounded-md">
+      <div class="mb-3 bg-white rounded-md mt-20 lg:mt-4">
         <button class="border rounded-md py-2 px-3 flex bg-lime-500 text-white">
           <plus-squareIcon class="w-4 h-4 mr-2 mt-0.5"></plus-squareIcon>
           Thêm tài khoản
@@ -56,7 +56,7 @@
           </div>
         </div>
       </div>
-      <table-view-account v-if="!showAccount" />
+      <table-view-account v-if="showAccount" />
       <grid-view-account v-else/>
     </div>
   </template>

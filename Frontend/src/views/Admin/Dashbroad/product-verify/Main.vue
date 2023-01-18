@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 ">
       <div class="lg:col-span-6">
         <div class="bg-white rounded p-5 shadow">
           <p class="text-base mb-3"></p>

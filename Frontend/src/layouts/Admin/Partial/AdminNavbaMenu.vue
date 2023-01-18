@@ -1,29 +1,11 @@
-<!-- <template>
-  <div class="top-bar row flex h-16 bg-[#1e293b]">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center mb-4 px-2 lg:px-4 py-2">
-        <img
-          src="../../../assets/images/logoAdmin.jfif"
-          alt=""
-          class="h-[45px]"
-          height="35"
-        />
-        <span class="pl-2 hidden lg:block">Admin</span>
-      </div>
-      <div class="mb-4 mr-1 lg:mr-6">
-        
-      </div>
-    </div>
-  </div>
-</template> -->
 <template>
   <!-- BEGIN: Top Bar -->
   <div
-    class=" bg-[#1e293b] h-[70px] md:h-[65px] z-[51] border-b border-white/[0.08] md:mt-0 -mx-3 sm:-mx-8 md:-mx-0 px-3 md:border-b-0 relative lg:fixed md:inset-x-0 lg:top-0 sm:fixed sm:top-0 sm:px-8 md:px-10 md:pt-2 md:bg-gradient-to-b md:from-slate-100 md:to-transparent dark:md:from-darkmode-700"
+    class=" bg-[#1e293b] h-[70px] md:h-[65px] z-[51] border-b border-white/[0.08] md:mt-0 -mx-3 sm:-mx-8 md:-mx-0 px-3 md:border-b-0  lg:fixed md:inset-x-0 lg:top-0 fixed  w-full sm:px-8 md:px-10 md:pt-2 md:bg-gradient-to-b md:from-slate-100 md:to-transparent dark:md:from-darkmode-700"
   >
     <div class="h-full flex items-center">
       <!-- BEGIN: Logo -->
-      <a href="" class="logo -intro-x hidden md:flex xl:w-[180px] block">
+      <a href="" class="logo -intro-x  md:flex xl:w-[180px] block">
         <img
           src="../../../assets/images/logoAdmin.jfif"
           alt=""
@@ -36,8 +18,7 @@
       <!-- BEGIN: Breadcrumb -->
       <nav aria-label="breadcrumb" class="-intro-x pl-0.5 h-[45px] mr-auto">
         <ol class="breadcrumb breadcrumb-light">
-          <li class="breadcrumb-item"><a href="#">Application</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+          <li class="breadcrumb-item active hidden lg:block" aria-current="page">Trang chủ</li>
         </ol>
       </nav>
       <!-- END: Breadcrumb -->

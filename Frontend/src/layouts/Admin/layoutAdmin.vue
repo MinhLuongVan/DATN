@@ -1,9 +1,9 @@
 <template>
   <div class="container-fluid">
     <AdminNavbarMenu />
-    <div class="row flex-nowrap mt-16">
+    <div class="row flex-nowrap lg:mt-16">
       <SideMenuAdmin/>
-      <div class="content p-2.5 lg:p-4 ">
+      <div class=" pl-24 pr-3 lg:pl-72 lg:pr-12 ">
         <router-view />
       </div>
     </div>
