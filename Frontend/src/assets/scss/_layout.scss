@@ -1,8 +1,0 @@
-
-@for $i from 999 through 1999 {
-   .z-index {
-      &-#{$i} {
-         z-index: $i;
-      }
-   }
-}

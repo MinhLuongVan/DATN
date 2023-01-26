@@ -1,7 +1,7 @@
 <template>
     <div class="admin-dashboard mt-24 lg:mt-6">
       <div class="mb-6 bg-white shadow rounded p-3">
-        <div class="flex items-center">
+        <div class="flex items-center h-5">
           <h3 class="text-xl text-slate-600 pr-3"></h3>
           <!-- <router-link class="btn btn-outline-secondary text-slate-600 dark:text-slate-600 rounded-full px-2 shrink-0" to="/admin/organization">
             <EditIcon class="w-4 h-4"/>

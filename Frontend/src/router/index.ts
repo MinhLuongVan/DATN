@@ -14,6 +14,7 @@ import Login from "../views/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
 import ProductMain from "../views/Admin/Products/ProductMain.vue";
 import AccountMain from "../views/Admin/Account/AccountMain.vue";
+import CartMainVue from "../views/Admin/Cart/CartMain.vue";
 import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 // import Cookies from "js-cookie";
@@ -101,6 +102,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'accounts',
         component:AccountMain,
+      },
+      {
+        path: 'cart',
+        component:CartMainVue,
       },
       {
         path: 'configuration',

@@ -21,11 +21,11 @@
         </div>
         <div class="dropdown ml-2 my-2 lg:my-0">
           <button
-            class="dropdown-toggle btn bg-white border"
+            class=" btn bg-white border"
             aria-expanded="false"
             data-tw-toggle="dropdown"
           >
-            <more-verticalIcon class="w-4 h-4 -mr-3 my-0.5"></more-verticalIcon>
+            <more-verticalIcon class="w-4 h-4  my-0.5"></more-verticalIcon>
           </button>
           <div class="dropdown-menu border mt-1 w-36 lg:w-40">
             <ul class="bg-white">
@@ -36,7 +36,7 @@
                   @click="actionShowTableView"
                 >
                   <TableIcon class="w-4 h-4 mr-2 mt-0.5"></TableIcon>
-                  List product
+                  Table product
                 </a>
               </li>
               <li class="py-1">
@@ -56,8 +56,8 @@
         </div>
       </div>
     </div>
-    <table-view v-if="showProduct" />
-    <grid-view v-else/>
+    <table-view v-if="!showProduct" />
+    <grid-view v-if="showProduct"/>
   </div>
 </template>
 <script lang="ts">

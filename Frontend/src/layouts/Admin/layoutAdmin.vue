@@ -3,7 +3,7 @@
     <AdminNavbarMenu />
     <div class="row flex-nowrap lg:mt-16">
       <SideMenuAdmin/>
-      <div class=" pl-24 pr-3 lg:pl-72 lg:pr-12 ">
+      <div class=" pl-24 pr-3 lg:pl-72 lg:pr-12 min-h-screen ">
         <router-view />
       </div>
     </div>
