@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-3 mt-20 lg:mt-4 bg-white rounded-md">
+    <div class="mb-3 mt-20 lg:mt-16 bg-white rounded-md">
       <button class="border rounded-md py-2 px-3 flex bg-lime-500 text-white">
         <plus-squareIcon class="w-4 h-4 mr-2 mt-0.5"></plus-squareIcon>
         Thêm sản phẩm

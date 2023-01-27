@@ -1,5 +1,5 @@
 html {
-    @apply bg-primary md:bg-slate-200;
+    @apply bg-primary md:bg-white;
     &.dark {
         @apply bg-darkmode-800;
         body {

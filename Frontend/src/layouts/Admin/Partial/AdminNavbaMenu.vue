@@ -1,7 +1,7 @@
 <template>
   <!-- BEGIN: Top Bar -->
   <div
-    class=" bg-[#1e293b] h-[70px] md:h-[65px] z-[51] border-b border-white/[0.08] md:mt-0 -mx-3 sm:-mx-8 md:-mx-0 px-3 md:border-b-0  lg:fixed md:inset-x-0 lg:top-0 fixed  w-full sm:px-8 md:px-10 md:pt-2 "
+    class=" bg-[#1e293b] h-[70px] md:h-[65px] z-[51] border-b border-white/[0.08] md:mt-0 -mx-3 sm:-mx-8 md:-mx-0 px-3 md:border-b-0  lg:fixed md:inset-x-0 sm:top-0 lg:top-0 fixed  w-full sm:px-8 md:px-10 md:pt-2 "
   >
     <div class="h-full flex items-center">
       <!-- BEGIN: Logo -->

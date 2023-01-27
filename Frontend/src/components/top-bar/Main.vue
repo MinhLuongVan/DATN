@@ -7,7 +7,7 @@
       <!-- BEGIN: Logo -->
       <p class="logo -intro-x md:flex xl:w-[180px] block">
         <img
-          class="logo__image h-20 w-full lg:h-auto lg:w-4/5  lg:mb-0 lg:ml-0 lg:mt-6 cursor-pointer"
+          class="logo__image h-20 w-full lg:h-auto lg:w-4/5  lg:mb-0 -lg:ml-0 lg:mt-6 cursor-pointer"
           src="../../assets/images/logo.png"
           @click="router.push('/')"
         />
@@ -108,7 +108,7 @@
       <!-- END: Search -->
 
       <!-- BEGIN: Shopping-cart -->
-      <Dropdown class="intro-x mr-7">
+      <Dropdown class="intro-x mr-5">
         <span
           class="px-1.5 py-0.5 bg-lime-500 border-lime-500 text-white rounded-full ml-3"
           >0</span
@@ -207,7 +207,7 @@
 
       <!-- BEGIN: Login-Register -->
 
-      <nav class="-intro-x h-[55px] mb-2">
+      <nav class="-intro-x h-[55px] mb-2 pt-2">
         <div class="text-black hidden lg:block">
           <a class="hover:text-red-500 lg:text-base" href="/register"
             >Đăng ký</a
@@ -220,7 +220,7 @@
       <!-- END: Login-Register -->
     </div>
     <nav
-      class="-intro-x h-[55px] lg:mt-7 hidden lg:flex float-right pr-44 font-medium"
+      class="-intro-x h-[55px] lg:mt-7 hidden lg:flex float-right pr-36 font-medium"
     >
       <a href="/" class="hover:text-lime-500 mr-6 text-base">TRANG CHỦ</a>
       <a href="/introduce" class="hover:text-lime-500 mr-6 text-base"

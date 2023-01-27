@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="intro-y py-3 lg:px-52">
+    <div class="intro-y py-3 lg:px-52 mt-3 lg:mt-5">
       <div class="intro-y flex lg:mt-0 items-center">
         <div class="flex cursor-pointer" @click="router.push('/')">
           <HomeIcon class="w-5 h-5 mt-0.5"></HomeIcon>
@@ -35,7 +35,7 @@
                 <td class="border">1</td>
                 <td class="border">50.000đ</td>
                 <td class="border">
-                  <div class="flex">
+                  <div class="flex justify-center text-red-500">
                     <TrashIcon class="w-5"></TrashIcon> 
                     <p class="pl-1 pt-1">Xóa</p>
                   </div>

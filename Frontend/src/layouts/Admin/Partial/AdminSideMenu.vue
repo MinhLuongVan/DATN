@@ -126,7 +126,7 @@ html.inet-mail-themes {
         <div id="sidebar" class="collapse collapse-horizontal show border-end">
           <div
             id="sidebar-nav"
-            class="list-group border-0 rounded-0 bg-[#1e293b] text-sm-start min-vh-100 w-20 lg:w-60"
+            class="list-group border-0 rounded-0 bg-[#1e293b] text-sm-start min-vh-100 w-20 lg:w-60 h-screen"
           >
             <a
               class="flex h-12 mb-2 px-4 lg:ml-1 lg:px-4 items-center text-white cursor-pointer"

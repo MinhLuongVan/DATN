@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- BEGIN: Page Layout -->
-    <div class="intro-y py-3 mt-4 lg:mt-28 lg:px-52">
+    <div class="intro-y py-3 mt-4 lg:mt-8 lg:px-52">
       <div class="intro-y grid grid-cols-12 gap-6">
         <!-- BEGIN: slide show  -->
         <div class="intro-y lg:col-span-9 col-span-12">

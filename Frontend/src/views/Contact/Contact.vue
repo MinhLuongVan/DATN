@@ -1,7 +1,7 @@
 <template>
   <div >
     <top-bar />
-    <div class="lg:px-52 ">
+    <div class="lg:px-52 mt-3 lg:mt-8">
       <div class="intro-y flex sm:mt-4 lg:mt-0 items-center">
         <div class="flex" @click="router.push('/')">
           <HomeIcon class="w-5 h-5 mt-0.5"></HomeIcon>

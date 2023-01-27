@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="lg:px-52 lg:border-t-0 border-t-2 mt-3">
+    <div class="lg:px-52 lg:border-t-0 border-t-2 mt-3 lg:mt-8">
       <div class="intro-y flex mt-3 items-center">
         <div class="flex cursor-pointer" @click="router.push('/')">
           <HomeIcon class="w-5 h-5 mt-0.5"></HomeIcon>

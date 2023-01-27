@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <!-- BEGIN: Page Layout -->
-    <div class="intro-y py-3 lg:px-52">
+    <div class="intro-y py-3 lg:px-52 mt-3 lg:mt-5">
       <div class="intro-y flex lg:mt-0 items-center">
         <div class="flex cursor-pointer" @click="router.push('/')">
           <HomeIcon class="w-5 h-5 mt-0.5"></HomeIcon>
