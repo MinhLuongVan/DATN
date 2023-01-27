@@ -7,7 +7,7 @@
     }"
   >
     <div class="mobile-menu-bar">
-      <p class="mobile-menu-toggler">
+      <p class="mobile-menu-toggler mt-16">
         <Align-justifyIcon
           class="w-10 h-6 mb-16 text-gray-500 transform"
           @click="toggleMobileMenu"

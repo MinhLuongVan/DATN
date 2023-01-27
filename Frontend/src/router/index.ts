@@ -17,6 +17,7 @@ import AccountMain from "../views/Admin/Account/AccountMain.vue";
 import CartMainVue from "../views/Admin/Cart/CartMain.vue";
 import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
+import AdminSetting from '../views/Admin/Setting/Configuration.vue';
 // import Cookies from "js-cookie";
 // import {env} from '../utils/myVariables';
 // import { useAuthStore } from "../stores/authStore";
@@ -109,7 +110,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'configuration',
-        component: AdminDashboard
+        component: AdminSetting
       }
     ]
   }

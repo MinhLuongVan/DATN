@@ -5,7 +5,7 @@
     <MobileMenu />
     <TopBar class="top-bar-boxed--top-menu" />
     <!-- BEGIN: Top Menu -->
-    <nav class="top-nav">
+    <!-- <nav class="top-nav">
       <ul>
         <li v-for="(menu, menuKey) in formattedMenu" :key="menuKey">
           <a
@@ -28,8 +28,8 @@
               <ChevronDownIcon v-if="menu.subMenu" class="top-menu__sub-icon" />
             </div>
           </a>
-          <!-- BEGIN: Second Child -->
-          <ul v-if="menu.subMenu">
+           BEGIN: Second Child -->
+          <!-- <ul v-if="menu.subMenu">
             <li v-for="(subMenu, subMenuKey) in menu.subMenu" :key="subMenuKey">
               <a
                 :href="
@@ -50,9 +50,9 @@
                     class="top-menu__sub-icon"
                   />
                 </div>
-              </a>
+              </a> -->
               <!-- BEGIN: Third Child -->
-              <ul v-if="subMenu.subMenu">
+              <!-- <ul v-if="subMenu.subMenu">
                 <li
                   v-for="(lastSubMenu, lastSubMenuKey) in subMenu.subMenu"
                   :key="lastSubMenuKey"
@@ -74,14 +74,14 @@
                     </div>
                   </a>
                 </li>
-              </ul>
+              </ul> -->
               <!-- END: Third Child -->
-            </li>
-          </ul>
+            <!-- </li>
+          </ul> -->
           <!-- END: Second Child -->
-        </li>
+        <!-- </li>
       </ul>
-    </nav>
+    </nav> -->
     <!-- END: Top Menu -->
     <!-- BEGIN: Content -->
     <div class="content content--top-nav">

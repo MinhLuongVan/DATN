@@ -1,11 +1,11 @@
 <template>
-  <div class="">
+  <div>
     <!-- BEGIN: Page Layout -->
-    <div class="intro-y py-3 lg:px-52">
+    <div class="intro-y py-3 mt-4 lg:mt-28 lg:px-52">
       <div class="intro-y grid grid-cols-12 gap-6">
         <!-- BEGIN: slide show  -->
         <div class="intro-y lg:col-span-9 col-span-12">
-          <div
+          <!-- <div
             id="carouselExampleControls"
             class="carousel slide"
             data-bs-ride="carousel"
@@ -57,10 +57,49 @@
               ></span>
               <span class="visually-hidden">Next</span>
             </button>
-          </div>
+          </div> -->
+          <!-- BEGIN: Fade Animation -->
+      <PreviewComponent class="intro-y ">
+        <div>
+          <Preview>
+            <div>
+              <TinySlider
+                :options="{
+                  mode: 'gallery',
+                  // controls: true,
+                  speed: 500,
+                }"
+              >
+                <div class="h-44 lg:h-80 px-2">
+                  <div class="h-full image-fit rounded-md overflow-hidden">
+                    <img
+                    src="https://caycanhcala.com/wp-content/uploads/2019/11/Kim-Tien_2.jpg"
+                    />
+                  </div>
+                </div>
+                <div class="h-44 lg:h-80 px-2">
+                  <div class="h-full image-fit rounded-md overflow-hidden">
+                    <img
+                    src="https://sgl.com.vn/wp-content/uploads/2021/12/top-cac-loai-cay-canh-dang-hot.jpg"
+                    />
+                  </div>
+                </div>
+                <div class="h-44 lg:h-80 px-2">
+                  <div class="h-full image-fit rounded-md overflow-hidden">
+                    <img
+                    src="https://freshgarden.exdomain.net/image/cache/catalog/Slide/slide-img-1360x520.jpg"
+                    />
+                  </div>
+                </div>
+              </TinySlider>
+            </div>
+          </Preview>
+        </div>
+      </PreviewComponent>
+      <!-- END: Fade Animation -->
         </div>
         <div class="intro-y lg:col-span-3 col-span-12">
-          <div class="flex border-b mt-5 ml-3 pb-3">
+          <div class="flex border-b mt-3 lg:mt-8 ml-3 pb-3">
             <img src="../../assets/images/car.png" alt="" />
             <div class="">
               <p class="lg:text-base font-bold">Miễn phí vận chuyên</p>
@@ -87,8 +126,8 @@
         <div class="col-span-12">
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
-              style="height: 2px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              style="height: 3px"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
             <button
               class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
@@ -96,9 +135,8 @@
               SẢN PHẨM MỚI NHẤT
             </button>
             <hr
-              lg:block
-              style="height: 2px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              style="height: 3px"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
           </div>
 
@@ -146,8 +184,8 @@
         <div class="col-span-12">
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
-              style="height: 2px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              style="height: 3px"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
             <button
               class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
@@ -155,9 +193,8 @@
               SẢN PHẨM KHUYẾN MÃI
             </button>
             <hr
-              lg:block
-              style="height: 2px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              style="height: 3px"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
           </div>
           <!-- Begin:slide -->
@@ -219,7 +256,7 @@
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
               style="height: 3px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
             <button
               class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
@@ -227,9 +264,8 @@
               CÂY XANH TRONG VƯỜN
             </button>
             <hr
-              lg:block
               style="height: 3px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
           </div>
         </div>
@@ -285,7 +321,7 @@
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
               style="height: 3px"
-              class="w-2/6 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
             <button
               class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
@@ -293,9 +329,8 @@
               CÂY PHONG THỦY
             </button>
             <hr
-              lg:block
               style="height: 3px"
-              class="w-2/6 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
           </div>
           <div class="intro-y grid grid-cols-9 gap-8 mt-4">
@@ -331,7 +366,7 @@
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
               style="height: 3px"
-              class="w-2/6 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
             <button
               class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
@@ -339,9 +374,8 @@
               NỔI BẬT
             </button>
             <hr
-              lg:block
               style="height: 3px"
-              class="w-2/6 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
             />
           </div>
           <div
