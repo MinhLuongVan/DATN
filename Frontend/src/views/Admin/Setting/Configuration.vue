@@ -1,5 +1,5 @@
 <template>
-  <div class="border">
+  <div class="border mt-12 lg:mt-0">
     <h2 class="text-black py-2 text-lg font-medium">Cấu hình website</h2>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-3 mt-20 lg:mt-16 bg-white rounded-md">
+    <div class="mb-3 mt-12 lg:mt-0 bg-white rounded-md">
       <button class="border rounded-md py-2 px-3 flex bg-lime-500 text-white">
         <plus-squareIcon class="w-4 h-4 mr-2 mt-0.5"></plus-squareIcon>
         Thêm sản phẩm
@@ -9,13 +9,13 @@
     <div class="block lg:flex justify-between">
       <span class="lg:pt-2.5 text-slate-700">Tổng số sản phẩm : 5</span>
       <div class="flex">
-        <div class="min-w-[230px] max-w-sm relative my-2 lg:my-0">
+        <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
           />
-          <button class="btn absolute inset-y-0 right-0">
+          <button class="absolute inset-y-0 right-0 px-3 border-l">
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -69,7 +69,6 @@ export default defineComponent({
   components: { TableView, GridView },
   setup() {
     const showProduct = ref(false);
-    const deleteConfirmationModal = ref(false);
     
     function actionShowTableView() {
         showProduct.value = false;
@@ -81,7 +80,6 @@ export default defineComponent({
       showProduct,
       actionShowTableView,
       actionShowGridView,
-      deleteConfirmationModal,
     };
   },
 });

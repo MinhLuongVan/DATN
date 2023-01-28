@@ -1,5 +1,5 @@
 <template>
-    <div class="admin-dashboard mt-24 lg:mt-6">
+    <div class="admin-dashboard mt-12 lg:mt-4">
       <div class="mb-6 bg-white shadow rounded p-3">
         <div class="flex items-center h-5">
           <h3 class="text-xl text-slate-600 pr-3"></h3>

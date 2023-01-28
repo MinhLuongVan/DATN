@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div class="block lg:flex justify-between py-3">
+      <div class="block lg:flex justify-between py-3 lg:py-1 mt-8 lg:mt-0">
         <span class="lg:pt-2.5 text-slate-700">Tổng số đơn hàng : 5</span>
         <div class="flex">
           <div class="min-w-[230px] max-w-sm relative my-2 lg:my-0">
@@ -9,7 +9,7 @@
               type="search"
               placeholder="Tìm kiếm..."
             />
-            <button class="btn absolute inset-y-0 right-0">
+            <button class="absolute inset-y-0 right-0 px-3 border-l">
               <SearchIcon class="w-4 h-4" />
             </button>
           </div>
