@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <div>
+  <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
         <table class="table table-report -mt-2">
@@ -121,7 +120,6 @@
         </div>
       </div>
       <!-- END: Modal Content -->
-    </div>
   </div>
 </template>
 <script lang="ts">

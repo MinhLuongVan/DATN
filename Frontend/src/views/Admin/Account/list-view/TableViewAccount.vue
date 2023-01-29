@@ -1,6 +1,5 @@
 <template>
-    <div>
-      <div>
+    <div class="mt-2 lg:mt-4">
         <!-- BEGIN: Data List -->
         <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
           <table class="table table-report -mt-2">
@@ -98,8 +97,7 @@
               <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
               <div class="text-3xl mt-5">Are you sure?</div>
               <div class="text-slate-500 mt-2">
-                Do you really want to delete these records? <br />This process
-                cannot be undone.
+               Bạn có chắc chắn muốn xóa tài khoản này ?
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
@@ -115,7 +113,6 @@
           </ModalBody>
         </Modal>
         <!-- END: Delete Confirmation Modal -->
-      </div>
     </div>
   </template>
   <script lang="ts">
