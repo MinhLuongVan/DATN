@@ -72,18 +72,20 @@
             <label class="text-base">Tên sản phẩm</label>
             <input
               type="text"
+              v-model="name"
               class="form-control my-2"
               placeholder="Nhập tên sản phẩm"
             />
           </div>
           <div class="px-5">
             <label class="text-base">Số lượng</label>
-            <input type="number" class="form-control my-2" min="0" />
+            <input type="number" class="form-control my-2" min="0" v-model="amount"/>
           </div>
           <div class="px-5">
             <label class="text-base">Giá</label>
             <input
               type="text"
+              v-model="price"
               class="form-control my-2"
               min="0"
               placeholder="vnđ"
@@ -93,6 +95,7 @@
             <label class="text-base">Giảm giá</label>
             <input
               type="text"
+              v-model="discount"
               class="form-control my-2"
               min="0"
               placeholder="%"
@@ -100,7 +103,7 @@
           </div>
           <div class="px-5">
             <label class="text-base">Thể loại</label>
-            <select id="category" class="form-select my-2">
+            <!-- <select id="category" class="form-select my-2">
               <option
                 v-for="(category, index) in Category"
                 :key="index"
@@ -108,7 +111,13 @@
               >
                 {{ category.name }}
               </option>
-            </select>
+            </select> -->
+            <input
+              type="text"
+              v-model="category"
+              class="form-control my-2"
+              placeholder="Nhập tên sản phẩm"
+            />
           </div>
           <div class="px-5">
             <label class="text-base">Hình ảnh</label>
@@ -132,9 +141,9 @@
               </div>
             </PreviewComponent> -->
             <input
-                type="file"
-                class="intro-x login__input form-control py-3 px-4 block mt-1"
-              />
+              type="file"
+              class="intro-x login__input form-control py-3 px-4 block mt-1"
+            />
             <!-- END: Single File Upload -->
           </div>
         </div>
@@ -146,7 +155,11 @@
           >
             Trở lại
           </button>
-          <button type="button" class="btn text-white bg-lime-500 ">
+          <button
+            type="button"
+            class="btn text-white bg-lime-500"
+            @click="actionSaveProduct"
+          >
             Lưu và đóng
           </button>
         </div>
@@ -159,47 +172,85 @@
 import { computed, defineComponent, ref } from "vue";
 import TableView from "./list-view/TableView.vue";
 import GridView from "./list-view/GridView.vue";
+import { useAuthStore } from "../../../stores/authStore";
+import { productInfor } from '../../../types/productType';
+import productService from "../../../services/productService";
+import { setNotificationToastMessage } from "../../../utils/myFunction";
 export default defineComponent({
   name: "Products",
   components: { TableView, GridView },
   setup() {
     const showProduct = ref(false);
     const AddConfirmationModal = ref(false);
-    const Category = [
-      {
-        name: "Cây văn phòng",
-      },
-      {
-        name: "Cây phong thủy",
-      },
-      {
-        name: "Cây dàn leo",
-      },
-      {
-        name: "Cây treo ",
-      },
-      {
-        name: "Cây xương rồng",
-      },
-      {
-        name: "Cây sen đá",
-      },
-      {
-        name: "Chậu cảnh",
-      },
-    ];
+    const authStore = useAuthStore();
+    const products = ref<productInfor[]>([]);
+    const name = ref("");
+    const image = ref("");
+    const price = ref(0);
+    const amount = ref(0);
+    const discount = ref(0);
+    const category = ref("")
+    // const Category = [
+    //   {
+    //     name: "Cây văn phòng",
+    //   },
+    //   {
+    //     name: "Cây phong thủy",
+    //   },
+    //   {
+    //     name: "Cây dàn leo",
+    //   },
+    //   {
+    //     name: "Cây treo ",
+    //   },
+    //   {
+    //     name: "Cây xương rồng",
+    //   },
+    //   {
+    //     name: "Cây sen đá",
+    //   },
+    //   {
+    //     name: "Chậu cảnh",
+    //   },
+    // ];
     function actionShowTableView() {
       showProduct.value = false;
     }
     function actionShowGridView() {
       showProduct.value = true;
     }
+    
+    const actionSaveProduct = async () => {
+      const data = {
+        name: name.value,
+        amount: amount.value,
+        price: price.value,
+        discount: discount.value,
+        category: category.value,
+       
+      } as productInfor;
+      const response = await productService.save(data,authStore.token);
+      if (response.data.success) {
+        setNotificationToastMessage("Tải dữ liệu thành công", true);
+        AddConfirmationModal.value = false;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+      }
+    }
+
     return {
       showProduct,
       actionShowTableView,
       actionShowGridView,
       AddConfirmationModal,
-      Category,
+      actionSaveProduct,
+      image,
+      name,
+      discount,
+      price,
+      amount,
+      products,
+      category
     };
   },
 });

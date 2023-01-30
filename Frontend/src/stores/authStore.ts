@@ -44,7 +44,7 @@ export const useAuthStore: StoreDefinition = defineStore({
         enabled: true,
         strategies: [
           {
-            key: "Blog",
+            key: "Fresh-Garden",
             storage: localStorage,
           },
         ],

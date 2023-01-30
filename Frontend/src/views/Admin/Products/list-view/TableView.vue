@@ -84,50 +84,10 @@ export default defineComponent({
   name: "ProductsListView",
   setup() {
     const deleteConfirmationModal = ref(false);
-    const Fake = [
-      {
-        url: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-        name: "sp1",
-        number: 20,
-        price: 200,
-        sale: 20,
-        status: true,
-      },
-      {
-        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-        name: "sp2",
-        number: 30,
-        price: 200,
-        sale: 20,
-        status: true,
-      },
-      {
-        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-        name: "sp3",
-        number: 30,
-        price: 200,
-        sale: 20,
-        status: true,
-      },
-      {
-        url: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-        name: "sp4",
-        number: 50,
-        price: 200,
-        sale: 20,
-        status: true,
-      },
-      {
-        url: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-        name: "sp5",
-        number: 90,
-        price: 200,
-        sale: 20,
-        status: false,
-      },
-    ];
+    
+  
     return {
-      Fake,
+    
       deleteConfirmationModal,
     };
   },
