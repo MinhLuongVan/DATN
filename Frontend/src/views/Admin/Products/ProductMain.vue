@@ -113,7 +113,7 @@
           <div class="px-5">
             <label class="text-base">Hình ảnh</label>
             <!-- BEGIN: Single File Upload -->
-            <PreviewComponent class="intro-y box">
+            <!-- <PreviewComponent class="intro-y box">
               <div class="p-3">
                 <Dropzone
                   ref-key="dropzoneSingleRef"
@@ -130,11 +130,15 @@
                   </div>
                 </Dropzone>
               </div>
-            </PreviewComponent>
+            </PreviewComponent> -->
+            <input
+                type="file"
+                class="intro-x login__input form-control py-3 px-4 block mt-1"
+              />
             <!-- END: Single File Upload -->
           </div>
         </div>
-        <div class="pb-5 pt-2 text-center lg:pl-60 lg:pr-3.5">
+        <div class="pb-5 pt-2 text-center lg:pl-56 lg:pr-3">
           <button
             type="button"
             @click="AddConfirmationModal = false"
@@ -142,8 +146,8 @@
           >
             Trở lại
           </button>
-          <button type="button" class="btn text-white bg-lime-500 w-24">
-            Thêm
+          <button type="button" class="btn text-white bg-lime-500 ">
+            Lưu và đóng
           </button>
         </div>
       </ModalBody>
