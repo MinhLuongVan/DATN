@@ -22,45 +22,85 @@
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
-        <div class="dropdown ml-2 my-2 lg:my-0">
-          <button
-            class="btn bg-white border"
-            aria-expanded="false"
-            data-tw-toggle="dropdown"
-          >
-            <more-verticalIcon class="w-4 h-4 my-0.5"></more-verticalIcon>
-          </button>
-          <div class="dropdown-menu border mt-1 w-36 lg:w-40">
-            <ul class="bg-white">
-              <li class="py-1">
-                <a
-                  href=""
-                  class="flex dropdown-item text-sm bg-white hover:bg-slate-200"
-                  @click="actionShowTableView"
-                >
-                  <TableIcon class="w-4 h-4 mr-2 mt-0.5"></TableIcon>
-                  Table product
-                </a>
-              </li>
-              <li class="py-1">
-                <a
-                  href=""
-                  class="flex dropdown-item text-sm bg-white hover:bg-slate-200"
-                  @click="actionShowGridView"
-                >
-                  <Layout-gridIcon
-                    class="w-4 h-4 mr-2 mt-0.5"
-                  ></Layout-gridIcon>
-                  Grid product
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
-    <table-view v-if="!showProduct" />
-    <grid-view v-if="showProduct" />
+    <div class="mt-2 lg:mt-4">
+      <!-- BEGIN: Data List -->
+      <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+        <table class="table table-report -mt-2">
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap">Hình ảnh</th>
+              <th class="whitespace-nowrap">Tên sản phẩm</th>
+              <th class="text-center whitespace-nowrap">Số lượng</th>
+              <th class="text-center whitespace-nowrap">Giá</th>
+              <th class="text-center whitespace-nowrap">Giảm giá</th>
+              <th class="text-center whitespace-nowrap">Thể loại</th>
+              <th class="text-center whitespace-nowrap">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in products" :key="index" class="intro-x">
+              <td class="w-40">
+                <div class="w-10 h-10 image-fit zoom-in">
+                  <img
+                    alt="Midone Tailwind HTML Admin Template"
+                    class="rounded-full"
+                    :src="item.image"
+                  />
+                </div>
+              </td>
+              <td class="pt-4">{{ item.name }}</td>
+              <td class="text-center pt-4">{{ item.amount }}</td>
+              <td class="text-center pt-4">{{ item.price }}vnđ</td>
+              <td class="text-center pt-4">{{ item.discount }}%</td>
+              <td class="text-center pt-4">{{ item.category }}</td>
+              <td class="table-report__action w-56">
+                <div class="flex justify-center items-center pt-4">
+                  <a class="flex items-center mr-3" href="javascript:;">
+                    <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
+                  </a>
+                  <a
+                    class="flex items-center text-danger"
+                    href="javascript:;"
+                    @click="deleteConfirmationModal = true"
+                  >
+                    <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- END: Data List -->
+      <!-- BEGIN: Delete Confirmation Modal -->
+      <Modal
+        :show="deleteConfirmationModal"
+        @hidden="deleteConfirmationModal = false"
+      >
+        <ModalBody class="p-0">
+          <div class="p-5 text-center">
+            <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
+            <div class="text-3xl mt-5">Xóa sản phẩm</div>
+            <div class="text-slate-500 mt-2">
+              Bạn có chắc chắn muốn xóa sản phẩm này?
+            </div>
+          </div>
+          <div class="px-5 pb-8 text-center">
+            <button
+              type="button"
+              @click="deleteConfirmationModal = false"
+              class="btn btn-outline-secondary w-24 mr-1"
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn btn-danger w-24">Delete</button>
+          </div>
+        </ModalBody>
+      </Modal>
+      <!-- END: Delete Confirmation Modal -->
+  </div>
     <!-- BEGIN: Add,Edit Confirmation Modal -->
     <Modal :show="AddConfirmationModal" @hidden="AddConfirmationModal = false">
       <ModalBody class="p-0">
@@ -103,7 +143,7 @@
           </div>
           <div class="px-5">
             <label class="text-base">Thể loại</label>
-            <!-- <select id="category" class="form-select my-2">
+            <select v-model="category" class="form-select my-2">
               <option
                 v-for="(category, index) in Category"
                 :key="index"
@@ -111,40 +151,23 @@
               >
                 {{ category.name }}
               </option>
-            </select> -->
-            <input
-              type="text"
-              v-model="category"
-              class="form-control my-2"
-              placeholder="Nhập tên sản phẩm"
-            />
+            </select>
           </div>
           <div class="px-5">
             <label class="text-base">Hình ảnh</label>
             <!-- BEGIN: Single File Upload -->
-            <!-- <PreviewComponent class="intro-y box">
-              <div class="p-3">
-                <Dropzone
-                  ref-key="dropzoneSingleRef"
-                  :options="{
-                    url: 'https://httpbin.org/post',
-                    thumbnailWidth: 150,
-                    maxFilesize: 1,
-                    maxFiles: 1,
-                  }"
-                  class="dropzone"
-                >
-                  <div class="text-base font-medium">
-                    Click vào đây để chọn ảnh
-                  </div>
-                </Dropzone>
-              </div>
-            </PreviewComponent> -->
             <input
-              type="file"
-              class="intro-x login__input form-control py-3 px-4 block mt-1"
-            />
+                type="file"
+                @change="uploadAvatar"
+                class="intro-x login__input form-control py-3 px-4 block mt-1"
+              />
             <!-- END: Single File Upload -->
+            <div
+                class="text-danger mt-3"
+                v-if="chosenFile && !chosenFile.type.includes('image/')"
+              >
+                Đây không phải là file hình ảnh
+              </div>
           </div>
         </div>
         <div class="pb-5 pt-2 text-center lg:pl-56 lg:pr-3">
@@ -169,18 +192,17 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import TableView from "./list-view/TableView.vue";
-import GridView from "./list-view/GridView.vue";
+import {  defineComponent, onMounted, ref } from "vue";
 import { useAuthStore } from "../../../stores/authStore";
 import { productInfor } from '../../../types/productType';
 import productService from "../../../services/productService";
 import { setNotificationToastMessage } from "../../../utils/myFunction";
+import {useRouter} from "vue-router";
 export default defineComponent({
   name: "Products",
-  components: { TableView, GridView },
   setup() {
-    const showProduct = ref(false);
+    const router = useRouter();
+    const deleteConfirmationModal = ref(false);
     const AddConfirmationModal = ref(false);
     const authStore = useAuthStore();
     const products = ref<productInfor[]>([]);
@@ -189,37 +211,47 @@ export default defineComponent({
     const price = ref(0);
     const amount = ref(0);
     const discount = ref(0);
-    const category = ref("")
-    // const Category = [
-    //   {
-    //     name: "Cây văn phòng",
-    //   },
-    //   {
-    //     name: "Cây phong thủy",
-    //   },
-    //   {
-    //     name: "Cây dàn leo",
-    //   },
-    //   {
-    //     name: "Cây treo ",
-    //   },
-    //   {
-    //     name: "Cây xương rồng",
-    //   },
-    //   {
-    //     name: "Cây sen đá",
-    //   },
-    //   {
-    //     name: "Chậu cảnh",
-    //   },
-    // ];
-    function actionShowTableView() {
-      showProduct.value = false;
+    const category = ref("");
+    const chosenFile: any = ref(null);
+    const Category = [
+      {
+        name: "Cây phong thủy"
+      },
+      {
+        name: "Cây treo"
+      },
+      {
+        name: "Cây dàn leo"
+      },
+      {
+        name: "Cây sen đá"
+      },
+      {
+        name: "Cây xương rồng"
+      },
+      {
+        name: "Chậu cảnh"
+      },
+    ]
+  
+    async function uploadAvatar(event:any) {
+      chosenFile.value = event.target.files[0];
     }
-    function actionShowGridView() {
-      showProduct.value = true;
+    // Get all product
+    async function initGetAllProduct() {
+        const data = {} as productInfor;
+        const response = await productService.findAll(data,authStore.token);
+        // products.value = response.data.values;
+        if (response.data.success) {
+          products.value = response.data.values;
+          } else {
+            setNotificationToastMessage("Tải dữ liệu thât bại", false)
+          }
     }
-    
+    onMounted(() => {
+      initGetAllProduct();
+    })
+    // Save product
     const actionSaveProduct = async () => {
       const data = {
         name: name.value,
@@ -227,30 +259,33 @@ export default defineComponent({
         price: price.value,
         discount: discount.value,
         category: category.value,
-       
+        image: chosenFile.value  
       } as productInfor;
+      console.log('test',data)
       const response = await productService.save(data,authStore.token);
       if (response.data.success) {
-        setNotificationToastMessage("Tải dữ liệu thành công", true);
         AddConfirmationModal.value = false;
+        initGetAllProduct();
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
 
     return {
-      showProduct,
-      actionShowTableView,
-      actionShowGridView,
+      router,
       AddConfirmationModal,
+      deleteConfirmationModal,
       actionSaveProduct,
+      Category,
       image,
       name,
       discount,
       price,
       amount,
       products,
-      category
+      category,
+      chosenFile,
+      uploadAvatar
     };
   },
 });

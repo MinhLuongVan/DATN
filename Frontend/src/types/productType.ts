@@ -5,5 +5,6 @@ export type productInfor = {
     price: number;
     discount: number;
     category: string;
+    image: string;
     createdAt: Date;
 }
