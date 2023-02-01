@@ -4,6 +4,7 @@ import cors from 'cors';
 import {env} from './utils/myVariables'
 import {useRoute} from './routes/appRoute'
 import cookieParser from 'cookie-parser'
+const multer = require('multer')
 const app = express() 
 
 const MONGODB = env.MONGODB;

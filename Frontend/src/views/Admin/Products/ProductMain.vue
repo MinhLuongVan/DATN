@@ -10,7 +10,9 @@
       </button>
     </div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số sản phẩm : {{ products.length }}</span>
+      <span class="lg:pt-2.5 text-slate-700"
+        >Tổng số sản phẩm : {{ products.length }}</span
+      >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
@@ -281,21 +283,25 @@ export default defineComponent({
     });
     // Save product
     const actionSaveProduct = async () => {
-      const data = {
+        const data = {
         name: name.value,
         amount: amount.value,
         price: price.value,
-        discount: discount.value,
-        category: category.value,
-        image: chosenFile.value,
-      } as productInfor;
-      const response = await productService.save(data, authStore.token);
-      if (response.data.success) {
-        AddConfirmationModal.value = false;
-        initGetAllProduct();
-      } else {
-        setNotificationToastMessage("Tải dữ liệu thất bại", false);
-      }
+          discount: discount.value,
+          category: category.value,
+          image: chosenFile.value,
+        } as productInfor;
+        // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
+        //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
+        // } else {
+        const response = await productService.save(data, authStore.token);
+        if (response.data.success) {
+          AddConfirmationModal.value = false;
+          initGetAllProduct();
+        } else {
+          setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        }
+      
     };
 
     function actionInitDeleteProduct(item: ProductModel) {
