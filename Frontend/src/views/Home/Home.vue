@@ -5,59 +5,6 @@
       <div class="intro-y grid grid-cols-12 gap-6">
         <!-- BEGIN: slide show  -->
         <div class="intro-y lg:col-span-9 col-span-12">
-          <!-- <div
-            id="carouselExampleControls"
-            class="carousel slide"
-            data-bs-ride="carousel"
-          >
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src="https://caycanhcala.com/wp-content/uploads/2019/11/Kim-Tien_2.jpg"
-                  class="d-block w-100 h-44 lg:h-96 lg:rounded-2xl"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://sgl.com.vn/wp-content/uploads/2021/12/top-cac-loai-cay-canh-dang-hot.jpg"
-                  class="d-block w-100 h-44 lg:h-96 lg:rounded-2xl"
-                  alt="..."
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  src="https://freshgarden.exdomain.net/image/cache/catalog/Slide/slide-img-1360x520.jpg"
-                  class="d-block w-100 h-44 lg:h-96 lg:rounded-2xl"
-                  alt="..."
-                />
-              </div>
-            </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div> -->
           <!-- BEGIN: Fade Animation -->
       <PreviewComponent class="intro-y ">
         <div>
@@ -142,17 +89,17 @@
 
           <!-- begin:slide -->
           <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item, index) in Fake" :key="index">
+            <slide v-for="(item, index) in products" :key="index">
               <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
                 <div class="item-container">
                   <img
-                    :src="item.name"
+                    :src="item.image"
                     alt="/"
-                    class="w-full h-60 block rounded-t-xl"
+                    class="w-full h-64 lg:h-60 block rounded-t-xl"
                   />
-                  <span
+                  <span v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
-                    >-20%
+                    > {{item.discount}} %
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
@@ -164,10 +111,10 @@
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
                 >
-                  <span>Cây cảnh</span>
+                  <span>{{ item.name }}</span>
                 </div>
                 <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                   <span class="text-gray-300 px-3"><del>250.000đ</del></span>
                 </div>
               </div>
@@ -199,17 +146,17 @@
           </div>
           <!-- Begin:slide -->
           <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item, index) in Fake" :key="index">
+            <slide v-for="(item, index) in sales" :key="index">
               <div class="carousel__item w-full h-auto mt-6 border rounded-xl">
                 <div class="item-container">
                   <img
-                    :src="item.name"
+                    :src="item.image"
                     alt="/"
-                    class="w-full h-60 rounded-t-xl"
+                    class="w-full h-64 lg:h-60 rounded-t-xl"
                   />
                   <span
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
-                    >-20%
+                    >{{ item.discount }}%
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
@@ -221,10 +168,10 @@
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
                 >
-                  <span>Cây cảnh</span>
+                  <span>{{ item.name }}</span>
                 </div>
                 <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-orange-400">{{item.price}}vnđ</span>
                   <span class="text-gray-300 px-3"><del>250.000đ</del></span>
                 </div>
               </div>
@@ -273,17 +220,17 @@
         <div class="col-span-12">
           <!-- Begin:slide -->
           <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item, index) in Fake" :key="index">
+            <slide v-for="(item, index) in trees" :key="index">
               <div class="carousel__item w-full h-auto border rounded-xl">
                 <div class="item-container">
                   <img
-                    :src="item.name"
+                    :src="item.image"
                     alt="/"
-                    class="w-full h-60 rounded-t-xl"
+                    class="w-full h-64 lg:h-60 rounded-t-xl"
                   />
-                  <span
+                  <span v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-4 px-3 py-1 rounded z-10"
-                    >-20%
+                    >{{ item.discount }}%
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
@@ -295,10 +242,10 @@
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
                 >
-                  <span>Cây cảnh</span>
+                  <span>{{ item.name }}</span>
                 </div>
                 <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                   <span class="text-gray-300 px-3"><del>250.000đ</del></span>
                 </div>
               </div>
@@ -326,7 +273,7 @@
             <button
               class="lg:w-2/6 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
-              CÂY PHONG THỦY
+              CÂY VĂN PHÒNG
             </button>
             <hr
               style="height: 3px"
@@ -335,33 +282,40 @@
           </div>
           <div class="intro-y grid grid-cols-9 gap-8 mt-4">
             <div
-              v-for="(faker, fakerKey) in $_.take($f(), 12)"
-              :key="fakerKey"
+              
+            v-for="(item, index) in categorys" :key="index"
               class="intro-y lg:col-span-3 col-span-9"
             >
-              <div class="border-1 rounded-md hover:border-lime-300">
-                <div class="px-2 py-2">
-                  <div class="lg:h-60 lg:w-full w-full h-64 image-fit">
-                    <img
-                      alt="Midone - HTML Admin Template"
-                      class=""
-                      :src="faker.images[0]"
-                    />
-                  </div>
-                  <div class="text-slate-600 dark:text-slate-500 mt-4">
-                    <div class="flex items-center">
-                      Price: ${{ faker.totals[0] }}
+              <div class="border rounded-xl hover:border-lime-300">
+                <div class="item-container">
+                  <img
+                    :src="item.image"
+                    alt="/"
+                    class="w-full h-64 lg:h-60 block rounded-t-xl"
+                  />
+                  <span v-if="item.discount > 0"
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-4 mt-5 px-3 py-1 rounded z-10"
+                    > {{item.discount}} %
+                  </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
                     </div>
-                    <div class="flex items-center mt-2">
-                      Remaining Stock:
-                      {{ faker.stocks[0] }}
-                    </div>
                   </div>
+                 </div> 
+                <div class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400">
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{item.price}}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+      
         <div class="lg:col-span-4 col-span-12">
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
@@ -379,45 +333,51 @@
             />
           </div>
           <div
-            v-for="(faker, fakerKey) in $_.take($f(), 12)"
-            :key="fakerKey"
+            v-for="(item, index) in products"
+            :key="index"
             class="intro-y mt-4"
           >
             <div class="border-1 rounded-md mb-2 hover:border-lime-300">
               <div class="p-2 flex">
                 <div
-                  class="h-24 w-24 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
+                  class="h-24 w-24 image-fit o"
                 >
                   <img
                     alt="Midone - HTML Admin Template"
                     class=""
-                    :src="faker.images[0]"
+                    :src="item.image"
                   />
                 </div>
-                <div class="text-slate-600 dark:text-slate-500 ml-3">
+                <div class="text-slate-600 dark:text-slate-500 ml-3 py-5">
                   <div class="flex items-center">
-                    Price: ${{ faker.totals[0] }}
+                    {{ item.name }}
                   </div>
                   <div class="flex items-center mt-2">
-                    Remaining Stock:
-                    {{ faker.stocks[0] }}
+                    Giá: {{ item.price }}vnđ
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </div>
         <!-- END: standout tree -->
       </div>
-    </div>
+   
     <bottom />
     <!-- END: Page Layout -->
   </div>
 </template>
 <script lang="ts">
 import "vue3-carousel/dist/carousel.css";
+import { useRouter } from "vue-router";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import bottom from "../../views/Footer/Footer.vue";
+import { useAuthStore } from '../../stores/authStore';
+import { onMounted, ref } from 'vue';
+import { productInfor } from '../../types/productType';
+import productService from '../../services/productService';
+import { setNotificationToastMessage } from '../../utils/myFunction';
 export default {
   name: "Home",
   components: {
@@ -427,25 +387,72 @@ export default {
     Navigation,
   },
   setup() {
-    const Fake = [
-      {
-        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-      },
-    ];
+    const router = useRouter();
+    const products = ref<productInfor[]>([]);
+    const categorys = ref<productInfor[]>([]);
+    const trees = ref<productInfor[]>([]);
+    const sales = ref<productInfor[]>([]);
+    const authStore = useAuthStore();
+    
+     // Get all product by new
+     async function initGetAllProductByNew() {
+      const data = {} as productInfor;
+      const response = await productService.findByNew(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        products.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by category
+    async function initGetAllProductByCategory() {
+      const data = {} as productInfor;
+      const response = await productService.findByCategory(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        categorys.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by tree
+    async function initGetAllProductByTree() {
+      const data = {} as productInfor;
+      const response = await productService.findByTree(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        trees.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by tree
+    async function initGetAllProductBySale() {
+      const data = {} as productInfor;
+      const response = await productService.findBySale(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        sales.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+    onMounted(() => {
+      initGetAllProductByNew();
+      initGetAllProductByCategory();
+      initGetAllProductByTree();
+      initGetAllProductBySale();
+    });
     return {
-      Fake,
+      router,
+      products,
+      categorys,
+      trees,
+      sales,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

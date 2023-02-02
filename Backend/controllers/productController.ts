@@ -3,7 +3,7 @@ import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { errorUnknown } from '../utils/myVariables';
 import { errJwtNotVerify, errResponse } from '../notifications/message';
-import { getAllProductService,createProductSevice,findOneProductServices,updateProductSevice,deleteProductServices } from '../services/productService';
+import { getAllProductService, createProductSevice, findOneProductServices, updateProductSevice, deleteProductServices, getProductByNewService, getProductByCategoryService, getProductByTreeService, getProductBySaleService } from '../services/productService';
 
 //Get All Product
 export const getAllProduct = async function (req: Request, res: Response) {
@@ -20,6 +20,70 @@ export const getAllProduct = async function (req: Request, res: Response) {
         return response.error(err, res);
     }
 }
+
+// get product by new
+export const getProductByNew = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByNewService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+}
+
+// get product by category
+export const getProductByCategory = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByCategoryService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
+
+// get product by tree
+export const getProductByTree = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByTreeService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
+
+// get product by sale
+export const getProductBySale = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductBySaleService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
 
 // Create Product 
 export const addProduct = async function (req: Request, res: Response) {

@@ -245,13 +245,10 @@ export default defineComponent({
     const chosenFile: any = ref(null);
     const Category = [
       {
-        name: "Cây phong thủy",
+        name: "Cây văn phòng",
       },
       {
         name: "Cây treo",
-      },
-      {
-        name: "Cây dàn leo",
       },
       {
         name: "Cây sen đá",
@@ -322,6 +319,7 @@ export default defineComponent({
       }
     }
 
+    // lấy product by id
     async function actionInitEditProduct(item: productInfor) {
       const itemFindId = { _id: item._id } as productInfor;
       const response = await productService.findOne(
@@ -334,11 +332,13 @@ export default defineComponent({
       discount.value = response.data.values.discount;
       price.value = response.data.values.price;
       image.value = response.data.values.image;
-      category.value = response.data.values.category;
+      category.value= response.data.values.category;
       AddConfirmationModal.value = true;
       showButtonEdit.value = true;
     }
 
+
+    //edit product
     async function actionEditProduct() {
       const dataUpdate = {
         _id: idUpdate.value,

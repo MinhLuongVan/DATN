@@ -6,6 +6,18 @@ class ProductService {
     findAll(data: productInfor, token: string) {
         return apiClient(token).post("/product",data)
     }
+    findByNew(data: productInfor, token: string) {
+        return apiClient(token).post("/product/new",data)
+    }
+    findByCategory(data: productInfor, token: string) {
+        return apiClient(token).post("/product/category",data)
+    }
+    findByTree(data: productInfor, token: string) {
+        return apiClient(token).post("/product/tree",data)
+    }
+    findBySale(data: productInfor, token: string) {
+        return apiClient(token).post("/product/sale",data)
+    }
     save(data: productInfor, token: string) {
         return apiClient(token).post("/product/save",data)
     }

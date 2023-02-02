@@ -1,3 +1,4 @@
+import { ref } from 'vue';
 <template>
   <div class="">
     <!-- BEGIN: Page Layout -->
@@ -28,9 +29,6 @@
                 Cây văn phòng
               </li>
               <li class="px-3 py-2 border-b hover:text-lime-500">Cây treo</li>
-              <li class="px-3 py-2 border-b hover:text-lime-500">
-                Cây dàn leo
-              </li>
               <li class="px-3 py-2 hover:text-lime-500">Chậu cảnh</li>
             </ul>
           </div>
@@ -139,36 +137,40 @@
   </div>
 </template>
 <script lang="ts">
+import { defineComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../../stores/authStore";
+import { productInfor } from '../../types/productType';
+import { setNotificationToastMessage } from "../../utils/myFunction";
 import bottom from "../../views/Footer/Footer.vue";
-export default {
+import productService from "../../services/productService";
+export default defineComponent ({
   name: "Product",
   components: {
     bottom,
   },
   setup() {
     const router = useRouter();
-    const Fake = [
-      {
-        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-      },
-    ];
+    const products = ref<productInfor[]>([]);
+    const authStore = useAuthStore();
+     // Get all product
+     async function initGetAllProductByNew() {
+      const data = {} as productInfor;
+      const response = await productService.findByNew(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        products.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+    onMounted(() => {
+      initGetAllProductByNew();
+    });
     return {
       router,
-      Fake,
+     
     };
   },
-};
+});
 </script>
