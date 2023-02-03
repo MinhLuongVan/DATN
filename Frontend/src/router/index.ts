@@ -18,9 +18,9 @@ import CartMainVue from "../views/Admin/Cart/CartMain.vue";
 import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 import AdminSetting from '../views/Admin/Setting/Configuration.vue';
-// import Cookies from "js-cookie";
-// import {env} from '../utils/myVariables';
-// import { useAuthStore } from "../stores/authStore";
+import { useAuthStore } from "../stores/authStore";
+
+
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     component: TopMenu,
-    // meta: {requiresAuth: true},
+     meta: {requiresAuth: true},
     children: [
       {
         path: "/",
@@ -91,6 +91,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/admin',
     component: LayoutAdmin,
+    meta: {requiresAuth: true},
     children: [
       {
         path: '',
@@ -121,18 +122,21 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-// router.beforeEach((to, _from, next) => {
-//   const authStore = useAuthStore();
-//    authStore.getToken();
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//       if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
-//           next();
-//       } else {
-//           next("/login");
-//       }
-//   } else {
-//       next();
-//   }
-// });
+router.beforeEach((to, _from, next) => {
+  const authStore = useAuthStore();
+   authStore.getToken();
+   authStore.getInforUser();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+      if (authStore.isAuthenticated && authStore.currentUser) {
+          next();
+      } else {
+          next("/login");
+      }
+      
+  } else {
+      next();
+  }
+
+});
 
 export default router;

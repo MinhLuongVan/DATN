@@ -32,7 +32,7 @@ export const useAuthStore: StoreDefinition = defineStore({
             if(this.token) {
                 const data = {} as userInfor;
                 const response =  await UserService.findOne(data,this.token)
-                this.currentUser =  response.data.values
+                this.currentUser =  response.data.values;
             }
         },
         logoutUser() {

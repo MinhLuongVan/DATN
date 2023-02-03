@@ -9,6 +9,9 @@ class UserService {
     register(data: userInfor) {
         return apiAuthClient.post("/user/register",data)
     }
+    findAll( data: userInfor,token: string) {
+        return apiClient(token).post("/user/find-all",data)
+    }
     update( data: userInfor,token: string) {
         return apiClient(token).post("/user/update",data)
     }
