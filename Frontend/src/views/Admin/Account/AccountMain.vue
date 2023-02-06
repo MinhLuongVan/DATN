@@ -45,17 +45,19 @@
                 <a href="" class="font-medium whitespace-nowrap">{{
                   item.username
                 }}</a>
+              </td>
+              <td>
                 <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
                   {{ item.email }}
                 </div>
               </td>
-              <td class="w-40">
+              <td >
                 <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
                   {{ item.sdt }}
                 </div>
               </td>
-              <td class="w-40">
-                <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
+              <td >
+                <div class="text-slate-500 text-xs text-center whitespace-nowrap mt-0.5">
                   {{ item.isAdmin }}
                 </div>
               </td>

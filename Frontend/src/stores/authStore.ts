@@ -5,10 +5,10 @@ import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 
 
-export const useAuthStore = defineStore({
+export const useAuthStore: StoreDefinition= defineStore({
     id:'auth',
     state: () => ({
-        currentUser: {} as User,
+        currentUser: {} as User | {},
         currentRegister: {} as User | {},
         isAuthenticated:false,
         activeUser: [] as string[],

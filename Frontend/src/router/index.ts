@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     component: TopMenu,
-    meta: {requiresAuth: true},
+     meta: {requiresAuth: true},
     beforeEnter(to, _from, next){
       const authStore = useAuthStore();
      //  authStore.getToken();
@@ -159,27 +159,21 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-router.beforeEach((to, _from, next) => {
-  const authStore = useAuthStore();
-   authStore.getToken();
-   authStore.getInforUser();
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
-          next();
-      } else {
-          next("/login");
-      }
+// router.beforeEach((to, _from, next) => {
+//   const authStore = useAuthStore();
+//    authStore.getToken();
+//    authStore.getInforUser();
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//       if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
+//           next();
+//       } else {
+//           next("/login");
+//       }
       
-  } else {
-      next();
-  }
+//   } else {
+//       next();
+//   }
    
-//   if (to.matched.some((record) => record.meta.requiresAdminAuth) && !authStore.isAuthenticated) {
-//     next('/admin/login');
-// }
-// else if (authStore.isAuthenticated && (to.path === '/admin/login') && authStore.currentUser.isAdmin === 'true') {
-//     next('/admin/');
-// }
-});
+// });
 
 export default router;

@@ -3,7 +3,7 @@ import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { errorUnknown } from '../utils/myVariables';
 import { errJwtNotVerify, errResponse } from '../notifications/message';
-import { getAllProductService, createProductSevice, findOneProductServices, updateProductSevice, deleteProductServices, getProductByNewService, getProductByCategoryService, getProductByTreeService, getProductBySaleService } from '../services/productService';
+import { getAllProductService, createProductSevice, findOneProductServices, updateProductSevice, deleteProductServices, getProductByNewService, getProductByCategoryService, getProductByTreeService, getProductBySaleService, getProductByCactusTreeService, getProductByStoneLotusTreeService, getProductByPotService, getProductByHangingTreeService } from '../services/productService';
 
 //Get All Product
 export const getAllProduct = async function (req: Request, res: Response) {
@@ -52,6 +52,70 @@ export const getProductByCategory = async function (req: Request, res: Response)
         return response.error(err, res);
     }
 } 
+
+// get product by category = xương rồng
+export const getProductByCastus = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByCactusTreeService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
+
+// get product by category = sen đá
+export const getProductByStoneLotus = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByStoneLotusTreeService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+}
+
+// get product by category = cây treo
+export const getProductByHangingTree = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByHangingTreeService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+}
+
+// get product by category =chậu cảnh
+export const getProductByPot = async function (req: Request, res: Response) {
+    try {
+        const itemProduct = await getProductByPotService();
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+}
 
 // get product by tree
 export const getProductByTree = async function (req: Request, res: Response) {

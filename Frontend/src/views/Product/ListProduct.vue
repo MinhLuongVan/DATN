@@ -1,4 +1,3 @@
-import { ref } from 'vue';
 <template>
   <div class="">
     <!-- BEGIN: Page Layout -->
@@ -21,15 +20,41 @@ import { ref } from 'vue';
               DANH MỤC SẢN PHẨM
             </button>
             <ul class="text-base border">
-              <li class="px-3 py-2 border-b hover:text-lime-500 flex">
+              <li
+                class="px-3 py-2 border-b hover:text-lime-500 flex cursor-pointer"
+                @click="initGetAllProductByCastus()"
+                :class="`${castus.length > 0 ? 'text-lime-500' : ''}`"
+              >
                 Xương rồng
               </li>
-              <li class="px-3 py-2 border-b hover:text-lime-500">Sen đá</li>
-              <li class="px-3 py-2 border-b hover:text-lime-500">
+              <li
+                class="px-3 py-2 border-b hover:text-lime-500 cursor-pointer"
+                @click="initGetAllProductByStoneLotus()"
+                :class="`${stonelotus.length > 0 ? 'text-lime-500' : ''}`"
+              >
+                Sen đá
+              </li>
+              <li
+                class="px-3 py-2 border-b hover:text-lime-500 cursor-pointer"
+                :class="`${officetree.length > 0 ? 'text-lime-500' : ''}`"
+                @click="initGetAllProductByOfficeTree()"
+              >
                 Cây văn phòng
               </li>
-              <li class="px-3 py-2 border-b hover:text-lime-500">Cây treo</li>
-              <li class="px-3 py-2 hover:text-lime-500">Chậu cảnh</li>
+              <li
+                class="px-3 py-2 border-b hover:text-lime-500 cursor-pointer"
+                @click="initGetAllProductByHangingTree()"
+                :class="`${hangingtree.length > 0 ? 'text-lime-500' : ''}`"
+              >
+                Cây treo
+              </li>
+              <li
+                class="px-3 py-2 hover:text-lime-500 cursor-pointer"
+                @click="initGetAllProductByPot()"
+                :class="`${pots.length > 0 ? 'text-lime-500' : ''}`"
+              >
+                Chậu cảnh
+              </li>
             </ul>
           </div>
           <div class="w-full mt-5 border">
@@ -39,9 +64,9 @@ import { ref } from 'vue';
               SẢN PHẨM KHUYẾN MÃI
             </button>
             <div
-              v-for="(faker, fakerKey) in $_.take($f(), 12)"
-              :key="fakerKey"
-              class="intro-y mt-4"
+              v-for="(item, index) in sales"
+              :key="index"
+              class="intro-y mt-2"
             >
               <div class="lg:border-y lg:px-2 mb-2">
                 <div class="p-2 flex">
@@ -51,16 +76,15 @@ import { ref } from 'vue';
                     <img
                       alt="Midone - HTML Admin Template"
                       class=""
-                      :src="faker.images[0]"
+                      :src="item.image"
                     />
                   </div>
-                  <div class="text-slate-600 dark:text-slate-500 ml-3">
+                  <div class="text-slate-600 dark:text-slate-500 ml-3 py-4">
                     <div class="flex items-center">
-                      Price: ${{ faker.totals[0] }}
+                      {{ item.name }}
                     </div>
                     <div class="flex items-center mt-2">
-                      Remaining Stock:
-                      {{ faker.stocks[0] }}
+                      Giá: {{ item.price }}vnđ
                     </div>
                   </div>
                 </div>
@@ -91,20 +115,21 @@ import { ref } from 'vue';
           <!-- BEGIN: product -->
           <div class="intro-y grid grid-cols-9 gap-6">
             <div
-              class="intro-y lg:col-span-3 col-span-9 mt-4"
-              v-for="(item, index) in Fake"
+              class="intro-y lg:col-span-3 col-span-9 mt-5"
+              v-for="(item, index) in officetree"
               :key="index"
             >
               <div class="w-full h-auto border rounded-xl">
                 <div class="item-container">
                   <img
-                    :src="item.name"
+                    :src="item.image"
                     alt="/"
                     class="w-full h-60 rounded-t-xl"
                   />
                   <span
+                    v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
-                    >-20%
+                    >{{ item.discount }}%
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
@@ -118,18 +143,181 @@ import { ref } from 'vue';
                 <div
                   class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
                 >
-                  <span>Cây cảnh</span>
+                  <span>{{ item.name }}</span>
                 </div>
                 <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">200.000đ</span>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                   <span class="text-gray-300 px-3"><del>250.000đ</del></span>
                 </div>
               </div>
             </div>
           </div>
           <!-- END: product -->
+          <!-- BEGIN: product castus -->
+          <div class="intro-y grid grid-cols-9 gap-6">
+            <div
+              class="intro-y lg:col-span-3 col-span-9 mt-4"
+              v-for="(item, index) in castus"
+              :key="index"
+            >
+              <div class="w-full h-auto border rounded-xl">
+                <div class="item-container">
+                  <img
+                    :src="item.image"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    v-if="item.discount > 0"
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
+                    >{{ item.discount }}%
+                  </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END: product castus -->
+          <!-- BEGIN: product stone lotus -->
+          <div class="intro-y grid grid-cols-9 gap-6">
+            <div
+              class="intro-y lg:col-span-3 col-span-9 mt-4"
+              v-for="(item, index) in stonelotus"
+              :key="index"
+            >
+              <div class="w-full h-auto border rounded-xl">
+                <div class="item-container">
+                  <img
+                    :src="item.image"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    v-if="item.discount > 0"
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
+                    >{{ item.discount }}%
+                  </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END: product stone lotus -->
+          <!-- BEGIN: product hanging tree -->
+          <div class="intro-y grid grid-cols-9 gap-6">
+            <div
+              class="intro-y lg:col-span-3 col-span-9 mt-4"
+              v-for="(item, index) in hangingtree"
+              :key="index"
+            >
+              <div class="w-full h-auto border rounded-xl">
+                <div class="item-container">
+                  <img
+                    :src="item.image"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    v-if="item.discount > 0"
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
+                    >{{ item.discount }}%
+                  </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END: product hanging tree -->
+          <!-- BEGIN: product pot -->
+          <div class="intro-y grid grid-cols-9 gap-6">
+            <div
+              class="intro-y lg:col-span-3 col-span-9 mt-4"
+              v-for="(item, index) in pots"
+              :key="index"
+            >
+              <div class="w-full h-auto border rounded-xl">
+                <div class="item-container">
+                  <img
+                    :src="item.image"
+                    alt="/"
+                    class="w-full h-60 rounded-t-xl"
+                  />
+                  <span
+                    v-if="item.discount > 0"
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
+                    >{{ item.discount }}%
+                  </span>
+                  <div class="overlay">
+                    <div class="flex justify-center">
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
+                  <span>{{ item.name }}</span>
+                </div>
+                <div class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END: product pot -->
         </div>
-        <!-- END: slide show -->
       </div>
     </div>
     <bottom />
@@ -140,36 +328,121 @@ import { ref } from 'vue';
 import { defineComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
-import { productInfor } from '../../types/productType';
+import { productInfor } from "../../types/productType";
 import { setNotificationToastMessage } from "../../utils/myFunction";
 import bottom from "../../views/Footer/Footer.vue";
 import productService from "../../services/productService";
-export default defineComponent ({
+export default defineComponent({
   name: "Product",
   components: {
     bottom,
   },
   setup() {
     const router = useRouter();
-    const products = ref<productInfor[]>([]);
+    const sales = ref<productInfor[]>([]);
+    const officetree = ref<productInfor[]>([]);
+    const castus = ref<productInfor[]>([]);
+    const stonelotus = ref<productInfor[]>([]);
+    const hangingtree = ref<productInfor[]>([]);
+    const pots = ref<productInfor[]>([]);
     const authStore = useAuthStore();
-     // Get all product
-     async function initGetAllProductByNew() {
+
+    // Get all product sale
+    async function initGetAllProductBySale() {
       const data = {} as productInfor;
-      const response = await productService.findByNew(data, authStore.token);
+      const response = await productService.findBySale(data, authStore.token);
       // products.value = response.data.values;
       if (response.data.success) {
-        products.value = response.data.values;
+        sales.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by category
+    async function initGetAllProductByOfficeTree() {
+      const data = {} as productInfor;
+      const response = await productService.findByCategory(
+        data,
+        authStore.token
+      );
+      // products.value = response.data.values;
+      if (response.data.success) {
+        officetree.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by category = xương rồng
+    async function initGetAllProductByCastus() {
+      const data = {} as productInfor;
+      const response = await productService.findByCastus(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        castus.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by category = sen đá
+    async function initGetAllProductByStoneLotus() {
+      const data = {} as productInfor;
+      const response = await productService.findByStoneLotus(
+        data,
+        authStore.token
+      );
+      // products.value = response.data.values;
+      if (response.data.success) {
+        stonelotus.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by category = cây treo
+    async function initGetAllProductByHangingTree() {
+      const data = {} as productInfor;
+      const response = await productService.findByHangingTree(
+        data,
+        authStore.token
+      );
+      // products.value = response.data.values;
+      if (response.data.success) {
+        hangingtree.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // Get all product by category = chậu cảnh
+    async function initGetAllProductByPot() {
+      const data = {} as productInfor;
+      const response = await productService.findByPot(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        pots.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
     onMounted(() => {
-      initGetAllProductByNew();
+      initGetAllProductBySale();
     });
     return {
       router,
-     
+      sales,
+      officetree,
+      castus,
+      stonelotus,
+      hangingtree,
+      pots,
+      initGetAllProductByOfficeTree,
+      initGetAllProductByCastus,
+      initGetAllProductByStoneLotus,
+      initGetAllProductByHangingTree,
+      initGetAllProductByPot,
     };
   },
 });

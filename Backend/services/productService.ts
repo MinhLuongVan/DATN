@@ -88,6 +88,91 @@ export const getProductByCategoryService = async function() {
     }
 };
 
+//get product by cay treo
+export const getProductByHangingTreeService = async function() {
+    try {
+       
+        const itemFind = await Product.find({category: 'cây treo'});
+        if(itemFind) {
+            return okResponse(itemFind);
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+//get product by xương rồng
+export const getProductByCactusTreeService = async function() {
+    try {
+       
+        const itemFind = await Product.find({category: 'cây xương rồng'});
+        if(itemFind) {
+            return okResponse(itemFind);
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+//get product by sen đá
+export const getProductByStoneLotusTreeService = async function() {
+    try {
+       
+        const itemFind = await Product.find({category: 'cây sen đá'});
+        if(itemFind) {
+            return okResponse(itemFind);
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+//get product by chậu cảnh
+export const getProductByPotService = async function() {
+    try {
+       
+        const itemFind = await Product.find({category: 'Chậu cảnh'});
+        if(itemFind) {
+            return okResponse(itemFind);
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+
 //get product by sale
 export const getProductBySaleService = async function() {
     try {

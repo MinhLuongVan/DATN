@@ -12,6 +12,18 @@ class ProductService {
     findByCategory(data: productInfor, token: string) {
         return apiClient(token).post("/product/category",data)
     }
+    findByCastus(data: productInfor, token: string) {
+        return apiClient(token).post("/product/castus",data)
+    }
+    findByPot(data: productInfor, token: string) {
+        return apiClient(token).post("/product/pot",data)
+    }
+    findByStoneLotus(data: productInfor, token: string) {
+        return apiClient(token).post("/product/stonelotus",data)
+    }
+    findByHangingTree(data: productInfor, token: string) {
+        return apiClient(token).post("/product/hangingtree",data)
+    }
     findByTree(data: productInfor, token: string) {
         return apiClient(token).post("/product/tree",data)
     }
