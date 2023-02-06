@@ -11,6 +11,7 @@ import PageTransport from "../views/Introduce/Transport.vue";
 import PageSecurity from "../views/Introduce/Security.vue"
 import PageConditions from "../views/Introduce/Conditions.vue"
 import Login from "../views/Login/Login.vue";
+import LoginAdmin from "../views/Admin/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
 import ProductMain from "../views/Admin/Products/ProductMain.vue";
 import AccountMain from "../views/Admin/Account/AccountMain.vue";
@@ -19,6 +20,8 @@ import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
 import AdminSetting from '../views/Admin/Setting/Configuration.vue';
 import { useAuthStore } from "../stores/authStore";
+import Cookies from "js-cookie";
+import { env } from "../utils/myVariables";
 
 
 
@@ -34,7 +37,22 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     component: TopMenu,
-     meta: {requiresAuth: true},
+    meta: {requiresAuth: true},
+    beforeEnter(to, _from, next){
+      const authStore = useAuthStore();
+     //  authStore.getToken();
+      authStore.getInforUser();
+     if (to.matched.some((record) => record.meta.requiresAuth)) {
+         if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
+             next();
+         } else {
+             next("/login");
+         }
+         
+     } else {
+         next();
+     }
+   },
     children: [
       {
         path: "/",
@@ -89,9 +107,28 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path:"/admin/login",
+    component: LoginAdmin,
+  },
+  {
     path: '/admin',
     component: LayoutAdmin,
     meta: {requiresAuth: true},
+    beforeEnter(to, _from, next){
+       const authStore = useAuthStore();
+       authStore.getToken();
+       authStore.getInforUser();
+      if (to.matched.some((record) => record.meta.requiresAuth)) {
+          if (Cookies.get(env.nameCookie) && authStore.isAuthenticated && authStore.currentUser.userInfor.isAdmin == true ) {
+              next();
+          } else {
+              next("/admin/login");
+          }
+          
+      } else {
+          next();
+      }
+    },
     children: [
       {
         path: '',
@@ -127,7 +164,7 @@ router.beforeEach((to, _from, next) => {
    authStore.getToken();
    authStore.getInforUser();
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (authStore.isAuthenticated && authStore.currentUser) {
+      if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
           next();
       } else {
           next("/login");
@@ -136,7 +173,13 @@ router.beforeEach((to, _from, next) => {
   } else {
       next();
   }
-
+   
+//   if (to.matched.some((record) => record.meta.requiresAdminAuth) && !authStore.isAuthenticated) {
+//     next('/admin/login');
+// }
+// else if (authStore.isAuthenticated && (to.path === '/admin/login') && authStore.currentUser.isAdmin === 'true') {
+//     next('/admin/');
+// }
 });
 
 export default router;

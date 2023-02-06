@@ -52,18 +52,18 @@ import { useRouter } from "vue-router";
 import { ref } from "vue";
 import useValidate from '@vuelidate/core';
 import {required, minLength} from '@vuelidate/validators';
-import {useAuthStore} from '../../stores/authStore'
-import UserService from "../../services/userService";
-import { userInfor } from '../../types/userType';
+import {useAuthStore} from '../../../stores/authStore'
+import UserService from "../../../services/userService";
+import { userInfor } from '../../../types/userType';
 import Cookies from 'js-cookie';
-import { env } from '../../utils/myVariables';
+import { env } from '../../../utils/myVariables';
 import {
   setNotificationFailedWhenGetData,
   setNotificationToastMessage,
-} from "../../utils/myFunction";
+} from "../../../utils/myFunction";
 
 export default {
-  name: "Login",
+  name: "AdminLogin",
   setup() {
     const router = useRouter();
     const email = ref('');
@@ -92,7 +92,7 @@ export default {
         const res = await UserService.login(data);
         if(res.data.success) {
           await authStore.loginUser(res.data.values);
-          router.push('/')
+          router.push('/admin')
         } else {
           setNotificationToastMessage(res.data.message, false);
         }
