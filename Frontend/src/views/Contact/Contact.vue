@@ -144,6 +144,7 @@ export default {
           note: state.value.note,
         } as contactInfor;
         const res = await ContactService.save(data, authStore.token);
+        console.log('data',res.data)
         if (res.data.success) {
           setNotificationToastMessage("Gửi liên hệ thành công", true);
         } else {

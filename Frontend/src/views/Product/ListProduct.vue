@@ -154,7 +154,7 @@
           </div>
           <!-- END: product -->
           <!-- BEGIN: product castus -->
-          <div class="intro-y grid grid-cols-9 gap-6">
+          <div v-if="showTree" class="intro-y grid grid-cols-9 gap-6">
             <div
               class="intro-y lg:col-span-3 col-span-9 mt-4"
               v-for="(item, index) in castus"
@@ -345,6 +345,7 @@ export default defineComponent({
     const stonelotus = ref<productInfor[]>([]);
     const hangingtree = ref<productInfor[]>([]);
     const pots = ref<productInfor[]>([]);
+    const showTree = ref('Xương rồng');
     const authStore = useAuthStore();
 
     // Get all product sale
@@ -438,6 +439,7 @@ export default defineComponent({
       stonelotus,
       hangingtree,
       pots,
+      showTree,
       initGetAllProductByOfficeTree,
       initGetAllProductByCastus,
       initGetAllProductByStoneLotus,

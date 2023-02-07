@@ -114,8 +114,8 @@
                   <span>{{ item.name }}</span>
                 </div>
                 <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                  <span class="text-orange-400">{{ item.price }}</span>
+                  <span v-if="item.discount > 0" class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
                 </div>
               </div>
             </slide>
@@ -378,6 +378,7 @@ import { onMounted, ref } from 'vue';
 import { productInfor } from '../../types/productType';
 import productService from '../../services/productService';
 import { setNotificationToastMessage } from '../../utils/myFunction';
+import { Match } from '../../../../../web-mail/zimbra-webmail-admin/src/model/interface/client/soap-zimbra/ISoapAutoComplete';
 export default {
   name: "Home",
   components: {

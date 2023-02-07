@@ -4,6 +4,7 @@ interface ContactType extends Document {
     name: string;
     email: string;
     note: string;
+   // owner: mongoose.Schema.Types.ObjectId;
 }
  const ContactSchema = new Schema<ContactType>({
     name:{
