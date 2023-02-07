@@ -218,13 +218,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { useAuthStore } from "../../../stores/authStore";
 import { productInfor } from "../../../types/productType";
 import productService from "../../../services/productService";
 import { setNotificationToastMessage } from "../../../utils/myFunction";
 import { useRouter } from "vue-router";
 import { ProductModel } from "../../../model/productModel";
+import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../firebase.js";
+import { ref as fireBaseRef } from "firebase/storage";
 export default defineComponent({
   name: "Products",
   setup() {
@@ -261,8 +264,58 @@ export default defineComponent({
       },
     ];
 
+    const uploadFiles = (file: any) => {
+      //
+      if (!file) return;
+      const sotrageRef = fireBaseRef(storage, `files/${file.name}`);
+      const uploadTask = uploadBytesResumable(sotrageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+        },
+        (error) => {
+          setNotificationToastMessage("Can't upload an avatar", false);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            image.value = downloadURL;
+          });
+        }
+      );
+    };
+
+    watch(
+      () => image.value,
+      (val) => {
+        console.log("val", val);
+      }
+    );
+
     async function uploadAvatar(event: any) {
       chosenFile.value = event.target.files[0];
+      if (
+        chosenFile.value.name.includes(".jpg") ||
+        chosenFile.value.name.includes(".pdf") ||
+        chosenFile.value.name.includes(".eps") ||
+        chosenFile.value.name.includes(".ai") ||
+        chosenFile.value.name.includes(".webp") ||
+        chosenFile.value.name.includes(".indd") ||
+        chosenFile.value.name.includes(".raw") ||
+        chosenFile.value.name.includes(".jpeg") ||
+        chosenFile.value.name.includes(".psd") ||
+        chosenFile.value.name.includes(".png") ||
+        chosenFile.value.name.includes(".gif") ||
+        chosenFile.value.name.includes(".tiff") ||
+        chosenFile.value.name.includes(".bmp") ||
+        chosenFile.value.name.includes(".jfif")
+      ) {
+        uploadFiles(chosenFile.value);
+      } else {
+        image.value = "";
+      }
     }
     // Get all product
     async function initGetAllProduct() {
@@ -280,25 +333,24 @@ export default defineComponent({
     });
     // Save product
     const actionSaveProduct = async () => {
-        const data = {
+      const data = {
         name: name.value,
         amount: amount.value,
         price: price.value,
-          discount: discount.value,
-          category: category.value,
-          image: chosenFile.value,
-        } as productInfor;
-        // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
-        //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
-        // } else {
-        const response = await productService.save(data, authStore.token);
-        if (response.data.success) {
-          AddConfirmationModal.value = false;
-          initGetAllProduct();
-        } else {
-          setNotificationToastMessage("Tải dữ liệu thất bại", false);
-        }
-      
+        discount: discount.value,
+        category: category.value,
+        image: image.value,
+      } as productInfor;
+      // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
+      //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
+      // } else {
+      const response = await productService.save(data, authStore.token);
+      if (response.data.success) {
+        AddConfirmationModal.value = false;
+        initGetAllProduct();
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+      }
     };
 
     function actionInitDeleteProduct(item: ProductModel) {
@@ -332,11 +384,10 @@ export default defineComponent({
       discount.value = response.data.values.discount;
       price.value = response.data.values.price;
       image.value = response.data.values.image;
-      category.value= response.data.values.category;
+      category.value = response.data.values.category;
       AddConfirmationModal.value = true;
       showButtonEdit.value = true;
     }
-
 
     //edit product
     async function actionEditProduct() {
@@ -347,7 +398,7 @@ export default defineComponent({
         price: price.value,
         discount: discount.value,
         category: category.value,
-        image: chosenFile.value,
+        image: image.value,
       } as productInfor;
       const response = await productService.update(dataUpdate, authStore.token);
       if (response.data.success) {
@@ -372,6 +423,7 @@ export default defineComponent({
       chosenFile,
       showButtonEdit,
       uploadAvatar,
+      uploadFiles,
       actionSaveProduct,
       actionEditProduct,
       actionInitDeleteProduct,

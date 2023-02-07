@@ -155,7 +155,7 @@ export const getProductByStoneLotusTreeService = async function() {
 export const getProductByPotService = async function() {
     try {
        
-        const itemFind = await Product.find({category: 'Chậu cảnh'});
+        const itemFind = await Product.find({category: 'Chậu cảnh'})
         if(itemFind) {
             return okResponse(itemFind);
         } else {

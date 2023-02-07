@@ -52,7 +52,8 @@
     "vue-router": "^4",
     "vue3-carousel": "^0.2.5",
     "xlsx": "^0.16.9",
-    "zoom-vanilla.js": "^2.0.6"
+    "zoom-vanilla.js": "^2.0.6",
+    "firebase": "^9.10.0"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.1",
