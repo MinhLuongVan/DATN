@@ -104,7 +104,9 @@
                   <div class="overlay">
                     <div class="flex justify-center">
                       <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"
+                      @click="actionInitEditProduct(item)" 
+                      ></EyeIcon>
                     </div>
                   </div>
                 </div>
@@ -113,9 +115,12 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}</span>
-                  <span v-if="item.discount > 0" class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                </div>
+                <div v-else class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price}}vnđ</span>
                 </div>
               </div>
             </slide>
@@ -170,9 +175,12 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{item.price}}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                </div>
+                <div v-else class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price}}vnđ</span>
                 </div>
               </div>
             </slide>
@@ -244,9 +252,12 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                </div>
+                <div v-else class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price}}vnđ</span>
                 </div>
               </div>
             </slide>
@@ -307,9 +318,12 @@
                 <div class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400">
                   <span>{{ item.name }}</span>
                 </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{item.price}}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                </div>
+                <div v-else class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price}}vnđ</span>
                 </div>
                 </div>
               </div>
@@ -352,7 +366,10 @@
                   <div class="flex items-center">
                     {{ item.name }}
                   </div>
-                  <div class="flex items-center mt-2">
+                  <div v-if="item.discount > 0" class="flex items-center mt-2">
+                    Giá: {{ item.priceSale }}vnđ
+                  </div>
+                  <div v-else class="flex items-center mt-2">
                     Giá: {{ item.price }}vnđ
                   </div>
                 </div>
@@ -378,7 +395,6 @@ import { onMounted, ref } from 'vue';
 import { productInfor } from '../../types/productType';
 import productService from '../../services/productService';
 import { setNotificationToastMessage } from '../../utils/myFunction';
-import { Match } from '../../../../../web-mail/zimbra-webmail-admin/src/model/interface/client/soap-zimbra/ISoapAutoComplete';
 export default {
   name: "Home",
   components: {
@@ -394,6 +410,7 @@ export default {
     const trees = ref<productInfor[]>([]);
     const sales = ref<productInfor[]>([]);
     const authStore = useAuthStore();
+    const idFind = ref('');
     
      // Get all product by new
      async function initGetAllProductByNew() {
@@ -431,7 +448,7 @@ export default {
       }
     }
 
-    // Get all product by tree
+    // Get all product by sale
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
       const response = await productService.findBySale(data, authStore.token);
@@ -442,6 +459,29 @@ export default {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
+
+     // lấy product by id
+     async function actionInitEditProduct(item: productInfor) {
+      const itemFindId = { _id: item._id } as productInfor;
+      const response = await productService.findOne(
+        itemFindId,
+        authStore.token
+      );
+      if(response.data.success) {
+        router.push('/product/detail')
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại",false);
+      }
+      
+      //  idFind.value = response.data.values._id;
+      // name.value = response.data.values.name;
+      // amount.value = response.data.values.amount;
+      // discount.value = response.data.values.discount;
+      // price.value = response.data.values.price;
+      // image.value = response.data.values.image;
+      // category.value = response.data.values.category;
+      
+    }
     onMounted(() => {
       initGetAllProductByNew();
       initGetAllProductByCategory();
@@ -450,10 +490,12 @@ export default {
     });
     return {
       router,
+      idFind,
       products,
       categorys,
       trees,
       sales,
+      actionInitEditProduct,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

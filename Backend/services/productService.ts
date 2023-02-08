@@ -199,10 +199,11 @@ export const createProductSevice = async function (data: IProduct) {
         const itemAddProduct = await new Product({
             name: data.name,
             amount: data.amount,
+            priceSale: (data.price - ((data.price*data.discount) / 100)),
             price: data.price,
             discount: data.discount,
             category: data.category,
-            image: data.image,
+            image: data.image
         });
         await itemAddProduct.save();
         return okResponse(itemAddProduct);   

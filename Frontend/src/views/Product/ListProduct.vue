@@ -20,38 +20,45 @@
               DANH MỤC SẢN PHẨM
             </button>
             <ul class="text-base border">
-              <li
+              <li v-if="textColor"
+                class="px-3 py-2 border-b hover:text-lime-500 flex cursor-pointer text-lime-500"
+                @click="showTree = 'XuongRong'"
+                :class="`${showTree === 'XuongRong' ? 'text-lime-500' : ''}`"
+              >
+                Xương rồng
+              </li>
+              <li v-else
                 class="px-3 py-2 border-b hover:text-lime-500 flex cursor-pointer"
-                @click="initGetAllProductByCastus()"
-                :class="`${castus.length > 0 ? 'text-lime-500' : ''}`"
+                @click="showTree = 'XuongRong'"
+                :class="`${showTree === 'XuongRong' ? 'text-lime-500' : ''}`"
               >
                 Xương rồng
               </li>
               <li
                 class="px-3 py-2 border-b hover:text-lime-500 cursor-pointer"
-                @click="initGetAllProductByStoneLotus()"
-                :class="`${stonelotus.length > 0 ? 'text-lime-500' : ''}`"
+                @click="showTree = 'SenDa'"
+                :class="`${showTree === 'SenDa' ? 'text-lime-500' : ''}`"
               >
                 Sen đá
               </li>
               <li
                 class="px-3 py-2 border-b hover:text-lime-500 cursor-pointer"
-                :class="`${officetree.length > 0 ? 'text-lime-500' : ''}`"
-                @click="initGetAllProductByOfficeTree()"
+                :class="`${showTree === 'CayVanPhong' ? 'text-lime-500' : ''}`"
+                @click="showTree = 'CayVanPhong'"
               >
                 Cây văn phòng
               </li>
               <li
                 class="px-3 py-2 border-b hover:text-lime-500 cursor-pointer"
-                @click="initGetAllProductByHangingTree()"
-                :class="`${hangingtree.length > 0 ? 'text-lime-500' : ''}`"
+                @click="showTree = 'CayTreo'"
+                :class="`${showTree === 'CayTreo' ? 'text-lime-500' : ''}`"
               >
                 Cây treo
               </li>
               <li
                 class="px-3 py-2 hover:text-lime-500 cursor-pointer"
-                @click="initGetAllProductByPot()"
-                :class="`${pots.length > 0 ? 'text-lime-500' : ''}`"
+                @click="showTree = 'Chaucanh'"
+                :class="`${showTree === 'ChauCanh' ? 'text-lime-500' : ''}`"
               >
                 Chậu cảnh
               </li>
@@ -83,7 +90,10 @@
                     <div class="flex items-center">
                       {{ item.name }}
                     </div>
-                    <div class="flex items-center mt-2">
+                    <div v-if="item.discount > 0" class="flex items-center mt-2">
+                      Giá: {{ item.priceSale }}vnđ
+                    </div>
+                    <div v-else class="flex items-center mt-2">
                       Giá: {{ item.price }}vnđ
                     </div>
                   </div>
@@ -116,7 +126,7 @@
           <div class="intro-y grid grid-cols-9 gap-6">
             <div
               class="intro-y lg:col-span-3 col-span-9 mt-5"
-              v-for="(item, index) in officetree"
+              v-for="(item, index) in treeList"
               :key="index"
             >
               <div class="w-full h-auto border rounded-xl">
@@ -145,178 +155,17 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                </div>
+                <div v-else class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price}}vnđ</span>
                 </div>
               </div>
             </div>
           </div>
           <!-- END: product -->
-          <!-- BEGIN: product castus -->
-          <div v-if="showTree" class="intro-y grid grid-cols-9 gap-6">
-            <div
-              class="intro-y lg:col-span-3 col-span-9 mt-4"
-              v-for="(item, index) in castus"
-              :key="index"
-            >
-              <div class="w-full h-auto border rounded-xl">
-                <div class="item-container">
-                  <img
-                    :src="item.image"
-                    alt="/"
-                    class="w-full h-60 rounded-t-xl"
-                  />
-                  <span
-                    v-if="item.discount > 0"
-                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
-                    >{{ item.discount }}%
-                  </span>
-                  <div class="overlay">
-                    <div class="flex justify-center">
-                      <ShoppingCartIcon
-                        class="w-5 h-5 mx-3 hover:text-lime-500"
-                      ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-                >
-                  <span>{{ item.name }}</span>
-                </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- END: product castus -->
-          <!-- BEGIN: product stone lotus -->
-          <div class="intro-y grid grid-cols-9 gap-6">
-            <div
-              class="intro-y lg:col-span-3 col-span-9 mt-4"
-              v-for="(item, index) in stonelotus"
-              :key="index"
-            >
-              <div class="w-full h-auto border rounded-xl">
-                <div class="item-container">
-                  <img
-                    :src="item.image"
-                    alt="/"
-                    class="w-full h-60 rounded-t-xl"
-                  />
-                  <span
-                    v-if="item.discount > 0"
-                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
-                    >{{ item.discount }}%
-                  </span>
-                  <div class="overlay">
-                    <div class="flex justify-center">
-                      <ShoppingCartIcon
-                        class="w-5 h-5 mx-3 hover:text-lime-500"
-                      ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-                >
-                  <span>{{ item.name }}</span>
-                </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- END: product stone lotus -->
-          <!-- BEGIN: product hanging tree -->
-          <div class="intro-y grid grid-cols-9 gap-6">
-            <div
-              class="intro-y lg:col-span-3 col-span-9 mt-4"
-              v-for="(item, index) in hangingtree"
-              :key="index"
-            >
-              <div class="w-full h-auto border rounded-xl">
-                <div class="item-container">
-                  <img
-                    :src="item.image"
-                    alt="/"
-                    class="w-full h-60 rounded-t-xl"
-                  />
-                  <span
-                    v-if="item.discount > 0"
-                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
-                    >{{ item.discount }}%
-                  </span>
-                  <div class="overlay">
-                    <div class="flex justify-center">
-                      <ShoppingCartIcon
-                        class="w-5 h-5 mx-3 hover:text-lime-500"
-                      ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-                >
-                  <span>{{ item.name }}</span>
-                </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- END: product hanging tree -->
-          <!-- BEGIN: product pot -->
-          <div class="intro-y grid grid-cols-9 gap-6">
-            <div
-              class="intro-y lg:col-span-3 col-span-9 mt-4"
-              v-for="(item, index) in pots"
-              :key="index"
-            >
-              <div class="w-full h-auto border rounded-xl">
-                <div class="item-container">
-                  <img
-                    :src="item.image"
-                    alt="/"
-                    class="w-full h-60 rounded-t-xl"
-                  />
-                  <span
-                    v-if="item.discount > 0"
-                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
-                    >{{ item.discount }}%
-                  </span>
-                  <div class="overlay">
-                    <div class="flex justify-center">
-                      <ShoppingCartIcon
-                        class="w-5 h-5 mx-3 hover:text-lime-500"
-                      ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-                >
-                  <span>{{ item.name }}</span>
-                </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- END: product pot -->
         </div>
       </div>
     </div>
@@ -325,7 +174,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
 import { productInfor } from "../../types/productType";
@@ -340,19 +189,32 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const sales = ref<productInfor[]>([]);
-    const officetree = ref<productInfor[]>([]);
-    const castus = ref<productInfor[]>([]);
-    const stonelotus = ref<productInfor[]>([]);
-    const hangingtree = ref<productInfor[]>([]);
-    const pots = ref<productInfor[]>([]);
-    const showTree = ref('Xương rồng');
+    const showTree = ref("Xương rồng");
     const authStore = useAuthStore();
+    const treeList: any = ref([]);
+    const textColor = ref(true);
+
+    watch(
+      () => showTree.value,
+      (value) => {
+        if (value === "SenDa") {
+          initGetAllProductByStoneLotus();
+        } else if (value === "CayTreo") {
+          initGetAllProductByHangingTree();
+        } else if (value === "XuongRong") {
+          initGetAllProductByCastus();
+        } else if (value === "CayVanPhong") {
+          initGetAllProductByOfficeTree();
+        } else if (value === "ChauCanh") {
+          initGetAllProductByPot();
+        }
+      }
+    );
 
     // Get all product sale
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
       const response = await productService.findBySale(data, authStore.token);
-      // products.value = response.data.values;
       if (response.data.success) {
         sales.value = response.data.values;
       } else {
@@ -367,39 +229,41 @@ export default defineComponent({
         data,
         authStore.token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
-        officetree.value = response.data.values;
+        treeList.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
+      textColor.value = false;
     }
 
     // Get all product by category = xương rồng
     async function initGetAllProductByCastus() {
+      showTree.value == "Xương rồng";
       const data = {} as productInfor;
       const response = await productService.findByCastus(data, authStore.token);
-      // products.value = response.data.values;
       if (response.data.success) {
-        castus.value = response.data.values;
+        treeList.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
+      
     }
 
     // Get all product by category = sen đá
     async function initGetAllProductByStoneLotus() {
+      showTree.value == "Sen đá";
       const data = {} as productInfor;
       const response = await productService.findByStoneLotus(
         data,
         authStore.token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
-        stonelotus.value = response.data.values;
+        treeList.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
+      textColor.value = false;
     }
 
     // Get all product by category = cây treo
@@ -409,37 +273,35 @@ export default defineComponent({
         data,
         authStore.token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
-        hangingtree.value = response.data.values;
+        treeList.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
+      textColor.value = false;
     }
 
     // Get all product by category = chậu cảnh
     async function initGetAllProductByPot() {
       const data = {} as productInfor;
       const response = await productService.findByPot(data, authStore.token);
-      // products.value = response.data.values;
       if (response.data.success) {
-        pots.value = response.data.values;
+        treeList.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
+      textColor.value = false;
     }
     onMounted(() => {
       initGetAllProductBySale();
+      initGetAllProductByCastus();
     });
     return {
       router,
       sales,
-      officetree,
-      castus,
-      stonelotus,
-      hangingtree,
-      pots,
       showTree,
+      treeList,
+      textColor,
       initGetAllProductByOfficeTree,
       initGetAllProductByCastus,
       initGetAllProductByStoneLotus,

@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb+srv://luongminh:luongminh99@cluster0.wx8mw25.mongodb.net/Fresh-Garden?retryWrites=true&w=majority");
+        await mongoose.connect("mongodb://localhost:27017");
         console.log("Kết nối database thành công");
     } catch (error) {
         console.log("Kết nối database thất bại");

@@ -298,6 +298,7 @@ export default defineComponent({
       chosenFile.value = event.target.files[0];
       if (
         chosenFile.value.name.includes(".jpg") ||
+        chosenFile.value.name.includes(".jpeg") ||
         chosenFile.value.name.includes(".pdf") ||
         chosenFile.value.name.includes(".eps") ||
         chosenFile.value.name.includes(".ai") ||

@@ -8,13 +8,18 @@
           <h2 class="text-lg mx-2 hover:text-lime-500">Trang chủ</h2>
         </div>
         <span>--></span>
-        <h2 class="text-lg mx-2 hover:text-lime-500 cursor-pointer" @click="router.push('/listproduct')">Sản phẩm</h2>
+        <h2
+          class="text-lg mx-2 hover:text-lime-500 cursor-pointer"
+          @click="router.push('/listproduct')"
+        >
+          Sản phẩm
+        </h2>
         <span>--></span>
         <h2 class="text-lg ml-2 text-lime-500">Xương rồng</h2>
       </div>
       <div class="intro-y grid grid-cols-12 gap-6 mt-4">
         <div class="col-span-12 lg:col-span-9">
-          <div class="intro-y grid grid-cols-9 gap-4">
+          <div v-for="(item,index) in products" :key="index" class="intro-y grid grid-cols-9 gap-4">
             <div class="col-span-9 h-80 lg:col-span-4 border">
               <img
                 src="../../assets/images/tree5.jpg"
@@ -23,30 +28,41 @@
               />
             </div>
             <div class="col-span-9 lg:col-span-5 px-4">
-              <h2 class="text-base font-bold lg:text-2xl">Tên cây</h2>
+              <h2 class="text-base font-bold lg:text-2xl">{{ item.name }}</h2>
               <ul class="mt-2 flex">
-              <li><StarIcon></StarIcon></li>
-              <li><StarIcon></StarIcon></li>
-              <li><StarIcon></StarIcon></li>
-              <li><StarIcon></StarIcon></li>
-              <li><StarIcon></StarIcon></li>
-            </ul>
-              <p class="py-1.5 lg:text-base">Mã sản phẩm:</p>
+                <li><StarIcon></StarIcon></li>
+                <li><StarIcon></StarIcon></li>
+                <li><StarIcon></StarIcon></li>
+                <li><StarIcon></StarIcon></li>
+                <li><StarIcon></StarIcon></li>
+              </ul>
+              <p class="py-1.5 lg:text-base">Mã sản phẩm:1</p>
               <div class="flex">
                 <p class="py-1.5 lg:text-base">Tình trạng :</p>
-                <span class="py-1.5 text-orange-500 lg:text-base ml-2"
+                <span v-if="item.amount > 0" class="py-1.5 text-orange-500 lg:text-base ml-2"
                   >Còn hàng</span
                 >
+                <span v-else class="py-1.5 text-orange-500 lg:text-base ml-2"
+                  >Hết hàng</span
+                >
               </div>
-              <p class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl">
-                70.000đ
+              <p v-if="item.discount > 0" class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl">
+                {{ item.priceSale }}vnđ
               </p>
-              <div class="flex">
-                <p class="text-gray-400 lg:text-base"><del>50.000đ</del></p>
-                <span class="text-orange-500 ml-2 lg:text-base">(-22%)</span>
+              <p v-else class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl">
+                {{ item.price }}vnđ
+              </p>
+              <div v-if="item.discount > 0" class="flex">
+                <p class="text-gray-400 lg:text-base"><del>{{ item.price }}vnđ</del></p>
+                <span class="text-orange-500 ml-2 lg:text-base">({{ item.discount }}%)</span>
               </div>
-              <p class="lg:text-base border-b pb-3">Giá sau thuế : 70.000đ</p>
-
+              <div v-else class="flex">
+                <!-- <p class="text-gray-400 lg:text-base"><del>{{ item.price }}vnđ</del></p>
+                <span class="text-orange-500 ml-2 lg:text-base">({{ item.discount }}%)</span> -->
+                <p class="text-gray-400 lg:text-base">{{ item.price }}vnđ</p>
+              </div>
+              <p v-if="item.discount > 0" class="lg:text-base border-b pb-3">Giá sau thuế : {{ item.priceSale }}</p>
+              <p v-else class="lg:text-base border-b pb-3">Giá sau thuế : {{ item.price }}</p>
               <div class="mt-4 pt-3 border-t">
                 <span class="font-bold lg:text-base">Số lượng </span>
                 <button class="ml-3 border px-2.5 py-1 text-xl">-</button>
@@ -99,8 +115,8 @@
 
           <!-- BEGIN: mô tả -->
           <div v-else class="mt-4 border p-3">
-           <h2 class="text-lg font-medium">ĐẶC ĐIỂM CỦA CÂY</h2>
-           <P class="text-base mt-3">Mô tả</P>
+            <h2 class="text-lg font-medium">ĐẶC ĐIỂM CỦA CÂY</h2>
+            <P class="text-base mt-3">Mô tả</P>
           </div>
           <!-- END: mô tả -->
         </div>
@@ -149,7 +165,7 @@
             <button
               class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
             >
-             SẢN PHẨM LIÊN QUAN
+              SẢN PHẨM LIÊN QUAN
             </button>
             <hr
               lg:block
@@ -175,7 +191,9 @@
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
-                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
                       <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
                     </div>
                   </div>
@@ -197,7 +215,6 @@
             </template>
           </carousel>
           <!-- end:slide -->
-         
         </div>
         <!-- END: SẢM PHẨM LIÊN QUAN -->
       </div>
@@ -211,7 +228,11 @@ import { useRouter } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { ref } from 'vue';
+import { onMounted, ref } from "vue";
+import { productInfor } from "../../types/productType";
+import productService from "../../services/productService";
+import { useAuthStore } from "../../stores/authStore";
+import { setNotificationToastMessage } from "../../utils/myFunction";
 export default {
   name: "DetailProduct",
   components: {
@@ -222,11 +243,14 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const authStore = useAuthStore();
+    const idFind = ref("");
+    const products = ref<productInfor[]>([]);
     const isShowDescribe = ref(false);
     const isShowEvaluate = ref(false);
 
     function showDescribe() {
-      isShowEvaluate.value = false
+      isShowEvaluate.value = false;
     }
     function showEvaluate() {
       isShowEvaluate.value = true;
@@ -245,15 +269,30 @@ export default {
       {
         name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
       },
-      
     ];
+
+    async function actionGetProductById() {
+      const data = {} as productInfor;
+      const response = await productService.findOne(data, authStore.token);
+      if (response.data.success) {
+        products.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+    onMounted(() => {
+      actionGetProductById();
+    })
     return {
       router,
+      idFind,
+      products,
       showDescribe,
       isShowDescribe,
       isShowEvaluate,
       showEvaluate,
       Fake,
+      actionInitEditProduct,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

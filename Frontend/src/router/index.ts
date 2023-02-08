@@ -70,7 +70,7 @@ const routes: Array<RouteRecordRaw> = [
         component: PageProduct,
       },
       {
-        path: "/product/:id",
+        path: "/product/detail",
         name: "side-menu-page-4",
         component: PageDetailProduct,
       },

@@ -3,6 +3,7 @@ export type productInfor = {
     name: string;
     amount: number;
     price: number;
+    priceSale: number
     discount: number;
     category: string;
     image: string;

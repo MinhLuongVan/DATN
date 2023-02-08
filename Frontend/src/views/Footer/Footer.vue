@@ -42,7 +42,7 @@
           <div class="flex mt-3">
             <Map-pinIcon class="w-4 h-4 mt-1 text-white"></Map-pinIcon>
             <p class="text-base pl-4 text-white">
-              A12, Đinh Tiên Hoàng, Q. Hoàn Kiếm, Hà Nội
+              Ngõ 113 Yên Hòa, Quận Cầu Giấy, Hà Nội
             </p>
           </div>
           <div class="flex mt-3">

@@ -3,6 +3,7 @@ import { Schema,Document } from 'mongoose';
 interface ProductType extends Document {
     name: string;
     amount: number;
+    priceSale: number;
     price: number;
     discount: number;
     category: string;
@@ -15,6 +16,9 @@ interface ProductType extends Document {
     amount: {
         type: Number,
         min: 0,
+    },
+    priceSale: {
+        type: Number,
     },
     price: {
         type: Number,
