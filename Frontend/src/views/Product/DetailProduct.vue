@@ -14,15 +14,14 @@
         >
           Sản phẩm
         </h2>
-        <span>--></span>
-        <h2 class="text-lg ml-2 text-lime-500">Xương rồng</h2>
+        <!-- <h2 class="text-lg ml-2 text-lime-500"></h2> -->
       </div>
       <div class="intro-y grid grid-cols-12 gap-6 mt-4">
         <div class="col-span-12 lg:col-span-9">
-          <div v-for="(item,index) in products" :key="index" class="intro-y grid grid-cols-9 gap-4">
+          <div v-for="(item,index) in listProduct" :key="index" class="intro-y grid grid-cols-9 gap-4">
             <div class="col-span-9 h-80 lg:col-span-4 border">
               <img
-                src="../../assets/images/tree5.jpg"
+                :src="item.image"
                 alt="/"
                 class="w-full h-full bg-contain"
               />
@@ -36,7 +35,7 @@
                 <li><StarIcon></StarIcon></li>
                 <li><StarIcon></StarIcon></li>
               </ul>
-              <p class="py-1.5 lg:text-base">Mã sản phẩm:1</p>
+              <p class="py-1.5 lg:text-base">Mã sản phẩm:{{ item._id }}</p>
               <div class="flex">
                 <p class="py-1.5 lg:text-base">Tình trạng :</p>
                 <span v-if="item.amount > 0" class="py-1.5 text-orange-500 lg:text-base ml-2"
@@ -225,6 +224,7 @@
 </template>
 <script lang="ts">
 import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
@@ -243,9 +243,9 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const route = useRoute();
     const authStore = useAuthStore();
-    const idFind = ref("");
-    const products = ref<productInfor[]>([]);
+    const listProduct = ref<productInfor[]>([]);
     const isShowDescribe = ref(false);
     const isShowEvaluate = ref(false);
 
@@ -256,43 +256,28 @@ export default {
       isShowEvaluate.value = true;
       isShowDescribe.value = false;
     }
-    const Fake = [
-      {
-        name: "http://list.vn/wp-content/uploads/2021/02/qu-2.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-      {
-        name: "https://toplist.vn/images/800px/cay-canh-ha-noi-555822.jpg",
-      },
-    ];
 
     async function actionGetProductById() {
-      const data = {} as productInfor;
-      const response = await productService.findOne(data, authStore.token);
+      const itemFind:any = {_id: route.params.id } as productInfor;
+      const response = await productService.findOne(itemFind, authStore.token);
+      listProduct.value = response.data.values;
       if (response.data.success) {
-        products.value = response.data.values;
+        setNotificationToastMessage("Tải dữ liệu thành công", true);
       } else {
-        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
-    onMounted(() => {
-      actionGetProductById();
+    onMounted(async() => {
+      await actionGetProductById();
     })
     return {
       router,
-      idFind,
-      products,
+      route,
+      listProduct,
       showDescribe,
       isShowDescribe,
       isShowEvaluate,
       showEvaluate,
-      Fake,
-      actionInitEditProduct,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

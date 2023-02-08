@@ -33,7 +33,7 @@ class ProductService {
     save(data: productInfor, token: string) {
         return apiClient(token).post("/product/save",data)
     }
-    findOne(data: productInfor, token: string) {
+    findOne(data: ProductModel, token: string) {
         return apiClient(token).post("/product/find-one",data)
     }
     update(data: productInfor, token: string) {

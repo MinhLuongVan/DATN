@@ -55,13 +55,6 @@
               >
                 Cây treo
               </li>
-              <li
-                class="px-3 py-2 hover:text-lime-500 cursor-pointer"
-                @click="showTree = 'Chaucanh'"
-                :class="`${showTree === 'ChauCanh' ? 'text-lime-500' : ''}`"
-              >
-                Chậu cảnh
-              </li>
             </ul>
           </div>
           <div class="w-full mt-5 border">
@@ -205,8 +198,6 @@ export default defineComponent({
           initGetAllProductByCastus();
         } else if (value === "CayVanPhong") {
           initGetAllProductByOfficeTree();
-        } else if (value === "ChauCanh") {
-          initGetAllProductByPot();
         }
       }
     );

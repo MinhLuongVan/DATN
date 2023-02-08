@@ -45,33 +45,12 @@ export const getProductByNewService = async function() {
     }
 };
 
-//get product by tree
-export const getProductByTreeService = async function() {
-    try {
-       
-        const itemFind = await Product.find({category: 'Cây trong nhà'});
-        if(itemFind) {
-            return okResponse(itemFind);
-        } else {
-            return dataNotFoundResponse();
-        }
-    } catch (error: unknown) {
-        let err: string;
-        if(error instanceof Error) {
-            err = error.message;
-        }else {
-            err = errorUnknown;
-        }
-        return errResponse(err);
-    }
-};
-
 
 //get product by category
 export const getProductByCategoryService = async function() {
     try {
        
-        const itemFind = await Product.find({category: 'cây văn phòng'});
+        const itemFind = await Product.find({category: 'Cây văn phòng'});
         if(itemFind) {
             return okResponse(itemFind);
         } else {
@@ -92,7 +71,7 @@ export const getProductByCategoryService = async function() {
 export const getProductByHangingTreeService = async function() {
     try {
        
-        const itemFind = await Product.find({category: 'cây treo'});
+        const itemFind = await Product.find({category: 'Cây treo'});
         if(itemFind) {
             return okResponse(itemFind);
         } else {
@@ -113,7 +92,7 @@ export const getProductByHangingTreeService = async function() {
 export const getProductByCactusTreeService = async function() {
     try {
        
-        const itemFind = await Product.find({category: 'cây xương rồng'});
+        const itemFind = await Product.find({category: 'Cây xương rồng'});
         if(itemFind) {
             return okResponse(itemFind);
         } else {
@@ -134,7 +113,7 @@ export const getProductByCactusTreeService = async function() {
 export const getProductByStoneLotusTreeService = async function() {
     try {
        
-        const itemFind = await Product.find({category: 'cây sen đá'});
+        const itemFind = await Product.find({category: 'Cây sen đá'});
         if(itemFind) {
             return okResponse(itemFind);
         } else {
@@ -150,28 +129,6 @@ export const getProductByStoneLotusTreeService = async function() {
         return errResponse(err);
     }
 };
-
-//get product by chậu cảnh
-export const getProductByPotService = async function() {
-    try {
-       
-        const itemFind = await Product.find({category: 'Chậu cảnh'})
-        if(itemFind) {
-            return okResponse(itemFind);
-        } else {
-            return dataNotFoundResponse();
-        }
-    } catch (error: unknown) {
-        let err: string;
-        if(error instanceof Error) {
-            err = error.message;
-        }else {
-            err = errorUnknown;
-        }
-        return errResponse(err);
-    }
-};
-
 
 //get product by sale
 export const getProductBySaleService = async function() {
@@ -197,6 +154,7 @@ export const getProductBySaleService = async function() {
 export const createProductSevice = async function (data: IProduct) {
     try {
         const itemAddProduct = await new Product({
+            uuid: data.uuid,
             name: data.name,
             amount: data.amount,
             priceSale: (data.price - ((data.price*data.discount) / 100)),

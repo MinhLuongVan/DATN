@@ -1,5 +1,6 @@
 export class ProductModel {
     _id ='';
+    uuid = '';
     name = '';
     price = 0 ;
     priceSale = '';

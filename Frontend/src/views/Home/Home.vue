@@ -105,7 +105,7 @@
                     <div class="flex justify-center">
                       <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
                       <EyeIcon class="w-5 h-5 hover:text-lime-500"
-                      @click="actionInitEditProduct(item)" 
+                      @click="router.push('/product/' +item._id)" 
                       ></EyeIcon>
                     </div>
                   </div>
@@ -207,66 +207,9 @@
           />
         </div>
         <!-- BEGIN: green tree -->
-        <div class="col-span-12">
-          <div class="flex lg:mt-5 mt-3 justify-center">
-            <hr
-              style="height: 3px"
-              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
-            />
-            <button
-              class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
-            >
-              CÂY XANH TRONG VƯỜN
-            </button>
-            <hr
-              style="height: 3px"
-              class="w-2/5 mt-5 bg-orange-400 hidden lg:block"
-            />
-          </div>
-        </div>
+       
         <!-- END: green tree -->
         <div class="col-span-12">
-          <!-- Begin:slide -->
-          <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item, index) in trees" :key="index">
-              <div class="carousel__item w-full h-auto border rounded-xl">
-                <div class="item-container">
-                  <img
-                    :src="item.image"
-                    alt="/"
-                    class="w-full h-64 lg:h-60 rounded-t-xl"
-                  />
-                  <span v-if="item.discount > 0"
-                    class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-4 px-3 py-1 rounded z-10"
-                    >{{ item.discount }}%
-                  </span>
-                  <div class="overlay">
-                    <div class="flex justify-center">
-                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
-                >
-                  <span>{{ item.name }}</span>
-                </div>
-                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
-                </div>
-                <div v-else class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price}}vnđ</span>
-                </div>
-              </div>
-            </slide>
-
-            <template #addons>
-              <navigation />
-            </template>
-          </carousel>
-          <!-- end:slide -->
           <img
             src="../../assets/images/tree3.jpg"
             alt="/"
@@ -306,7 +249,7 @@
                   />
                   <span v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs ml-4 mt-5 px-3 py-1 rounded z-10"
-                    > {{item.discount}} %
+                    > {{item.discount}}%
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
@@ -405,13 +348,12 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const uuid = ref("");
     const products = ref<productInfor[]>([]);
     const categorys = ref<productInfor[]>([]);
-    const trees = ref<productInfor[]>([]);
     const sales = ref<productInfor[]>([]);
     const authStore = useAuthStore();
-    const idFind = ref('');
-    
+
      // Get all product by new
      async function initGetAllProductByNew() {
       const data = {} as productInfor;
@@ -436,18 +378,6 @@ export default {
       }
     }
 
-    // Get all product by tree
-    async function initGetAllProductByTree() {
-      const data = {} as productInfor;
-      const response = await productService.findByTree(data, authStore.token);
-      // products.value = response.data.values;
-      if (response.data.success) {
-        trees.value = response.data.values;
-      } else {
-        setNotificationToastMessage("Tải dữ liệu thât bại", false);
-      }
-    }
-
     // Get all product by sale
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
@@ -460,42 +390,17 @@ export default {
       }
     }
 
-     // lấy product by id
-     async function actionInitEditProduct(item: productInfor) {
-      const itemFindId = { _id: item._id } as productInfor;
-      const response = await productService.findOne(
-        itemFindId,
-        authStore.token
-      );
-      if(response.data.success) {
-        router.push('/product/detail')
-      } else {
-        setNotificationToastMessage("Tải dữ liệu thât bại",false);
-      }
-      
-      //  idFind.value = response.data.values._id;
-      // name.value = response.data.values.name;
-      // amount.value = response.data.values.amount;
-      // discount.value = response.data.values.discount;
-      // price.value = response.data.values.price;
-      // image.value = response.data.values.image;
-      // category.value = response.data.values.category;
-      
-    }
     onMounted(() => {
       initGetAllProductByNew();
       initGetAllProductByCategory();
-      initGetAllProductByTree();
       initGetAllProductBySale();
     });
     return {
       router,
-      idFind,
       products,
       categorys,
-      trees,
       sales,
-      actionInitEditProduct,
+      uuid,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

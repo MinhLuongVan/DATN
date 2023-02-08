@@ -24,6 +24,8 @@
     "@popperjs/core": "^2.7.0",
     "@types/axios": "^0.14.0",
     "@types/cookie": "^0.5.1",
+    "@types/moment": "^2.13.0",
+    "@types/uuid": "^9.0.0",
     "@vuelidate/core": "^2.0.0-alpha.12",
     "@vuelidate/validators": "^2.0.0-alpha.11",
     "axios": "^1.1.0",
@@ -31,6 +33,7 @@
     "cross-env": "^7.0.3",
     "dayjs": "^1.10.4",
     "dropzone": "^5.7.6",
+    "firebase": "^9.10.0",
     "highlight.js": "^10.6.0",
     "js-beautify": "^1.13.5",
     "js-cookie": "^3.0.1",
@@ -48,12 +51,12 @@
     "tippy.js": "^6.2.7",
     "toastify-js": "^1.9.3",
     "tom-select": "^1.7.5",
+    "uuid": "^9.0.0",
     "vue": "^3.2.25",
     "vue-router": "^4",
     "vue3-carousel": "^0.2.5",
     "xlsx": "^0.16.9",
-    "zoom-vanilla.js": "^2.0.6",
-    "firebase": "^9.10.0"
+    "zoom-vanilla.js": "^2.0.6"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.1",

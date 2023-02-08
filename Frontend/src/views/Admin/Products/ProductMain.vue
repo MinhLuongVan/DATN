@@ -228,6 +228,7 @@ import { ProductModel } from "../../../model/productModel";
 import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase.js";
 import { ref as fireBaseRef } from "firebase/storage";
+import { v1 as uuidv1 } from "uuid";
 export default defineComponent({
   name: "Products",
   setup() {
@@ -246,6 +247,7 @@ export default defineComponent({
     const discount = ref(0);
     const category = ref("");
     const chosenFile: any = ref(null);
+    const uuid = ref("");
     const Category = [
       {
         name: "Cây văn phòng",
@@ -258,10 +260,7 @@ export default defineComponent({
       },
       {
         name: "Cây xương rồng",
-      },
-      {
-        name: "Chậu cảnh",
-      },
+      }
     ];
 
     const uploadFiles = (file: any) => {
@@ -335,6 +334,7 @@ export default defineComponent({
     // Save product
     const actionSaveProduct = async () => {
       const data = {
+        uuid: uuidv1(),
         name: name.value,
         amount: amount.value,
         price: price.value,
@@ -354,7 +354,7 @@ export default defineComponent({
       }
     };
 
-    function actionInitDeleteProduct(item: ProductModel) {
+    function actionInitDeleteProduct(item: productInfor) {
       selectedProduct.value._id = item._id;
       deleteConfirmationModal.value = true;
     }
@@ -374,7 +374,7 @@ export default defineComponent({
 
     // lấy product by id
     async function actionInitEditProduct(item: productInfor) {
-      const itemFindId = { _id: item._id } as productInfor;
+      const itemFindId:any = { _id: item._id } as productInfor;
       const response = await productService.findOne(
         itemFindId,
         authStore.token
@@ -412,6 +412,7 @@ export default defineComponent({
 
     return {
       router,
+      uuid,
       Category,
       image,
       idUpdate,
