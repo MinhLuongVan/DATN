@@ -6,44 +6,44 @@
         <!-- BEGIN: slide show  -->
         <div class="intro-y lg:col-span-9 col-span-12">
           <!-- BEGIN: Fade Animation -->
-      <PreviewComponent class="intro-y ">
-        <div>
-          <Preview>
+          <PreviewComponent class="intro-y">
             <div>
-              <TinySlider
-                :options="{
-                  mode: 'gallery',
-                  // controls: true,
-                  speed: 500,
-                }"
-              >
-                <div class="h-44 lg:h-80 px-2">
-                  <div class="h-full image-fit rounded-md overflow-hidden">
-                    <img
-                    src="https://caycanhcala.com/wp-content/uploads/2019/11/Kim-Tien_2.jpg"
-                    />
-                  </div>
+              <Preview>
+                <div>
+                  <TinySlider
+                    :options="{
+                      mode: 'gallery',
+                      // controls: true,
+                      speed: 500,
+                    }"
+                  >
+                    <div class="h-44 lg:h-80 px-2">
+                      <div class="h-full image-fit rounded-md overflow-hidden">
+                        <img
+                          src="https://caycanhcala.com/wp-content/uploads/2019/11/Kim-Tien_2.jpg"
+                        />
+                      </div>
+                    </div>
+                    <div class="h-44 lg:h-80 px-2">
+                      <div class="h-full image-fit rounded-md overflow-hidden">
+                        <img
+                          src="https://sgl.com.vn/wp-content/uploads/2021/12/top-cac-loai-cay-canh-dang-hot.jpg"
+                        />
+                      </div>
+                    </div>
+                    <div class="h-44 lg:h-80 px-2">
+                      <div class="h-full image-fit rounded-md overflow-hidden">
+                        <img
+                          src="https://freshgarden.exdomain.net/image/cache/catalog/Slide/slide-img-1360x520.jpg"
+                        />
+                      </div>
+                    </div>
+                  </TinySlider>
                 </div>
-                <div class="h-44 lg:h-80 px-2">
-                  <div class="h-full image-fit rounded-md overflow-hidden">
-                    <img
-                    src="https://sgl.com.vn/wp-content/uploads/2021/12/top-cac-loai-cay-canh-dang-hot.jpg"
-                    />
-                  </div>
-                </div>
-                <div class="h-44 lg:h-80 px-2">
-                  <div class="h-full image-fit rounded-md overflow-hidden">
-                    <img
-                    src="https://freshgarden.exdomain.net/image/cache/catalog/Slide/slide-img-1360x520.jpg"
-                    />
-                  </div>
-                </div>
-              </TinySlider>
+              </Preview>
             </div>
-          </Preview>
-        </div>
-      </PreviewComponent>
-      <!-- END: Fade Animation -->
+          </PreviewComponent>
+          <!-- END: Fade Animation -->
         </div>
         <div class="intro-y lg:col-span-3 col-span-12">
           <div class="flex border-b mt-3 lg:mt-8 ml-3 pb-3">
@@ -97,15 +97,20 @@
                     alt="/"
                     class="w-full h-64 lg:h-60 block rounded-t-xl"
                   />
-                  <span v-if="item.discount > 0"
+                  <span
+                    v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-5 px-3 py-1 rounded z-10"
-                    > {{item.discount}} %
+                  >
+                    {{ item.discount }} %
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
-                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"
-                      @click="router.push('/product/' +item._id)" 
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon
+                        class="w-5 h-5 hover:text-lime-500"
+                        @click="router.push('/product/' + item._id)"
                       ></EyeIcon>
                     </div>
                   </div>
@@ -115,12 +120,17 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                <div
+                  v-if="item.discount > 0"
+                  class="text-center mb-4 mt-4 text-base"
+                >
                   <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                  <span class="text-gray-300 px-3"
+                    ><del>{{ item.price }}vnđ</del></span
+                  >
                 </div>
                 <div v-else class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price}}vnđ</span>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                 </div>
               </div>
             </slide>
@@ -165,8 +175,13 @@
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
-                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon
+                        class="w-5 h-5 hover:text-lime-500"
+                        @click="router.push('/product/' + item._id)"
+                      ></EyeIcon>
                     </div>
                   </div>
                 </div>
@@ -175,12 +190,17 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                <div
+                  v-if="item.discount > 0"
+                  class="text-center mb-4 mt-4 text-base"
+                >
                   <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                  <span class="text-gray-300 px-3"
+                    ><del>{{ item.price }}vnđ</del></span
+                  >
                 </div>
                 <div v-else class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price}}vnđ</span>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                 </div>
               </div>
             </slide>
@@ -207,7 +227,7 @@
           />
         </div>
         <!-- BEGIN: green tree -->
-       
+
         <!-- END: green tree -->
         <div class="col-span-12">
           <img
@@ -236,8 +256,8 @@
           </div>
           <div class="intro-y grid grid-cols-9 gap-8 mt-4">
             <div
-              
-            v-for="(item, index) in categorys" :key="index"
+              v-for="(item, index) in categorys"
+              :key="index"
               class="intro-y lg:col-span-3 col-span-9"
             >
               <div class="border rounded-xl hover:border-lime-300">
@@ -247,32 +267,46 @@
                     alt="/"
                     class="w-full h-64 lg:h-60 block rounded-t-xl"
                   />
-                  <span v-if="item.discount > 0"
+                  <span
+                    v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs ml-4 mt-5 px-3 py-1 rounded z-10"
-                    > {{item.discount}}%
+                  >
+                    {{ item.discount }}%
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
-                      <ShoppingCartIcon class="w-5 h-5 mx-3 hover:text-lime-500"></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                      <ShoppingCartIcon
+                        class="w-5 h-5 mx-3 hover:text-lime-500"
+                      ></ShoppingCartIcon>
+                      <EyeIcon
+                        class="w-5 h-5 hover:text-lime-500"
+                        @click="router.push('/product/' + item._id)"
+                      ></EyeIcon>
                     </div>
                   </div>
-                 </div> 
-                <div class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400">
+                </div>
+                <div
+                  class="w-full h-6 text-center cursor-pointer mt-4 text-base hover:text-lime-400"
+                >
                   <span>{{ item.name }}</span>
                 </div>
-                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                <div
+                  v-if="item.discount > 0"
+                  class="text-center mb-4 mt-4 text-base"
+                >
                   <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                  <span class="text-gray-300 px-3"
+                    ><del>{{ item.price }}vnđ</del></span
+                  >
                 </div>
                 <div v-else class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price}}vnđ</span>
-                </div>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                 </div>
               </div>
             </div>
           </div>
-      
+        </div>
+
         <div class="lg:col-span-4 col-span-12">
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
@@ -296,9 +330,7 @@
           >
             <div class="border-1 rounded-md mb-2 hover:border-lime-300">
               <div class="p-2 flex">
-                <div
-                  class="h-24 w-24 image-fit o"
-                >
+                <div class="h-24 w-24 image-fit o">
                   <img
                     alt="Midone - HTML Admin Template"
                     class=""
@@ -320,10 +352,10 @@
             </div>
           </div>
         </div>
-        </div>
-        <!-- END: standout tree -->
       </div>
-   
+      <!-- END: standout tree -->
+    </div>
+
     <bottom />
     <!-- END: Page Layout -->
   </div>
@@ -333,11 +365,11 @@ import "vue3-carousel/dist/carousel.css";
 import { useRouter } from "vue-router";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import bottom from "../../views/Footer/Footer.vue";
-import { useAuthStore } from '../../stores/authStore';
-import { onMounted, ref } from 'vue';
-import { productInfor } from '../../types/productType';
-import productService from '../../services/productService';
-import { setNotificationToastMessage } from '../../utils/myFunction';
+import { useAuthStore } from "../../stores/authStore";
+import { onMounted, ref } from "vue";
+import { productInfor } from "../../types/productType";
+import productService from "../../services/productService";
+import { setNotificationToastMessage } from "../../utils/myFunction";
 export default {
   name: "Home",
   components: {
@@ -354,8 +386,8 @@ export default {
     const sales = ref<productInfor[]>([]);
     const authStore = useAuthStore();
 
-     // Get all product by new
-     async function initGetAllProductByNew() {
+    // Get all product by new
+    async function initGetAllProductByNew() {
       const data = {} as productInfor;
       const response = await productService.findByNew(data, authStore.token);
       // products.value = response.data.values;
@@ -369,7 +401,10 @@ export default {
     // Get all product by category
     async function initGetAllProductByCategory() {
       const data = {} as productInfor;
-      const response = await productService.findByCategory(data, authStore.token);
+      const response = await productService.findByCategory(
+        data,
+        authStore.token
+      );
       // products.value = response.data.values;
       if (response.data.success) {
         categorys.value = response.data.values;

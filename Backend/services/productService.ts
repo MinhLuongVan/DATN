@@ -133,8 +133,8 @@ export const getProductByStoneLotusTreeService = async function() {
 //get product by sale
 export const getProductBySaleService = async function() {
     try {
-       
-        const itemFind = await Product.find({discount: {$gt: 0}});
+        const limit = 6;
+        const itemFind = await Product.find({discount: {$gt: 0}}).limit(limit);
         if(itemFind) {
             return okResponse(itemFind);
         } else {

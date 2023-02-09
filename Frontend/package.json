@@ -44,6 +44,7 @@
     "mosha-vue-toastify": "^1.0.23",
     "pinia": "^2.0.9",
     "pinia-plugin-persist": "^1.0.0",
+    "short-unique-id": "^4.4.4",
     "simplebar": "^5.3.6",
     "swiper": "^8.4.5",
     "tabulator-tables": "^4.9.3",

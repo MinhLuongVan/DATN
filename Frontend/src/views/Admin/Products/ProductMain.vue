@@ -34,10 +34,12 @@
             <tr>
               <th class="whitespace-nowrap">Hình ảnh</th>
               <th class="whitespace-nowrap">Tên sản phẩm</th>
+              <th class="text-center whitespace-nowrap">Mã sản phẩm</th>
               <th class="text-center whitespace-nowrap">Số lượng</th>
               <th class="text-center whitespace-nowrap">Giá</th>
               <th class="text-center whitespace-nowrap">Giảm giá</th>
               <th class="text-center whitespace-nowrap">Thể loại</th>
+              <th class="text-center whitespace-nowrap">Ngày tạo</th>
               <th class="text-center whitespace-nowrap">Hành động</th>
             </tr>
           </thead>
@@ -53,10 +55,14 @@
                 </div>
               </td>
               <td class="pt-4">{{ item.name }}</td>
+              <td class="text-center pt-4">{{ item.uuid }}</td>
               <td class="text-center pt-4">{{ item.amount }}</td>
               <td class="text-center pt-4">{{ item.price }}vnđ</td>
               <td class="text-center pt-4">{{ item.discount }}%</td>
               <td class="text-center pt-4">{{ item.category }}</td>
+              <td class="text-center pt-4">
+                {{ moment(item.createdAt).format("DD/MM/YYYY HH:mm") }}
+              </td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center pt-4">
                   <a
@@ -116,10 +122,13 @@
     <!-- BEGIN: Add,Edit Confirmation Modal -->
     <Modal :show="AddConfirmationModal" @hidden="AddConfirmationModal = false">
       <ModalBody class="p-0">
-        <div class="px-5 pt-3 text-center text-xl">
-          <h2>Thêm sản phẩm</h2>
+        <div v-if="!showButtonEdit" class="px-5 pt-3 text-center text-2xl">
+          <h2 class="text-lime-500">Thêm sản phẩm</h2>
         </div>
-        <div>
+        <div v-else class="px-5 pt-3 text-center text-2xl">
+          <h2 class="text-lime-500">Cập nhật sản phẩm</h2>
+        </div>
+        <div class="pt-5">
           <div class="px-5">
             <label class="text-base">Tên sản phẩm</label>
             <input
@@ -190,7 +199,7 @@
         <div class="pb-5 pt-2 text-center lg:pl-56 lg:pr-3">
           <button
             type="button"
-            @click="AddConfirmationModal = false"
+            @click="actionCloseModal() "
             class="btn btn-outline-secondary w-24 mr-1"
           >
             Trở lại
@@ -229,6 +238,8 @@ import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase.js";
 import { ref as fireBaseRef } from "firebase/storage";
 import { v1 as uuidv1 } from "uuid";
+import ShortUniqueId from "short-unique-id";
+import moment from "moment";
 export default defineComponent({
   name: "Products",
   setup() {
@@ -247,7 +258,7 @@ export default defineComponent({
     const discount = ref(0);
     const category = ref("");
     const chosenFile: any = ref(null);
-    const uuid = ref("");
+    const uuid = new ShortUniqueId({ length: 8 });
     const Category = [
       {
         name: "Cây văn phòng",
@@ -260,7 +271,7 @@ export default defineComponent({
       },
       {
         name: "Cây xương rồng",
-      }
+      },
     ];
 
     const uploadFiles = (file: any) => {
@@ -317,6 +328,15 @@ export default defineComponent({
         image.value = "";
       }
     }
+
+    const reloadData = () => {
+      name.value = "";
+      amount.value = 0;
+      discount.value = 0;
+      price.value = 0;
+      category.value = "";
+      image.value = "";
+    };
     // Get all product
     async function initGetAllProduct() {
       const data = {} as productInfor;
@@ -334,7 +354,7 @@ export default defineComponent({
     // Save product
     const actionSaveProduct = async () => {
       const data = {
-        uuid: uuidv1(),
+        uuid: uuid(),
         name: name.value,
         amount: amount.value,
         price: price.value,
@@ -348,6 +368,7 @@ export default defineComponent({
       const response = await productService.save(data, authStore.token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
+        reloadData();
         initGetAllProduct();
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
@@ -374,7 +395,7 @@ export default defineComponent({
 
     // lấy product by id
     async function actionInitEditProduct(item: productInfor) {
-      const itemFindId:any = { _id: item._id } as productInfor;
+      const itemFindId: any = { _id: item._id } as productInfor;
       const response = await productService.findOne(
         itemFindId,
         authStore.token
@@ -404,15 +425,23 @@ export default defineComponent({
       const response = await productService.update(dataUpdate, authStore.token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
+        showButtonEdit.value = false;
+        reloadData();
         initGetAllProduct();
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
     }
+    const actionCloseModal = () => {
+      AddConfirmationModal.value = false;
+      showButtonEdit.value = false;
+      reloadData();
+    }
 
     return {
       router,
       uuid,
+      moment,
       Category,
       image,
       idUpdate,
@@ -433,6 +462,7 @@ export default defineComponent({
       actionInitEditProduct,
       AddConfirmationModal,
       deleteConfirmationModal,
+      actionCloseModal
     };
   },
 });

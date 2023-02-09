@@ -68,7 +68,8 @@
               :key="index"
               class="intro-y mt-2"
             >
-              <div class="lg:border-y lg:px-2 mb-2">
+              <div class="lg:border-y lg:px-2 mb-2"
+              @click="router.push('/product/' +item._id)" >
                 <div class="p-2 flex">
                   <div
                     class="h-20 w-20 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
@@ -139,7 +140,8 @@
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
                       ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                      <EyeIcon class="w-5 h-5 hover:text-lime-500"
+                      @click="router.push('/product/' +item._id)" ></EyeIcon>
                     </div>
                   </div>
                 </div>

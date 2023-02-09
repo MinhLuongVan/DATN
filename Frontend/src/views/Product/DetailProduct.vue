@@ -14,20 +14,23 @@
         >
           Sản phẩm
         </h2>
-        <!-- <h2 class="text-lg ml-2 text-lime-500"></h2> -->
+        <span>--></span>
+        <h2 class="text-lg ml-2 text-lime-500">{{ listProduct.name }}</h2>
       </div>
       <div class="intro-y grid grid-cols-12 gap-6 mt-4">
         <div class="col-span-12 lg:col-span-9">
-          <div v-for="(item,index) in listProduct" :key="index" class="intro-y grid grid-cols-9 gap-4">
+          <div class="intro-y grid grid-cols-9 gap-4">
             <div class="col-span-9 h-80 lg:col-span-4 border">
               <img
-                :src="item.image"
+                :src="listProduct.image"
                 alt="/"
                 class="w-full h-full bg-contain"
               />
             </div>
             <div class="col-span-9 lg:col-span-5 px-4">
-              <h2 class="text-base font-bold lg:text-2xl">{{ item.name }}</h2>
+              <h2 class="text-base font-bold lg:text-2xl">
+                {{ listProduct.name }}
+              </h2>
               <ul class="mt-2 flex">
                 <li><StarIcon></StarIcon></li>
                 <li><StarIcon></StarIcon></li>
@@ -35,40 +38,69 @@
                 <li><StarIcon></StarIcon></li>
                 <li><StarIcon></StarIcon></li>
               </ul>
-              <p class="py-1.5 lg:text-base">Mã sản phẩm:{{ item._id }}</p>
+              <p class="py-1.5 lg:text-base">
+                Mã sản phẩm : <span class="text-orange-400">
+                  {{ listProduct.uuid }}
+                </span>
+              </p>
               <div class="flex">
                 <p class="py-1.5 lg:text-base">Tình trạng :</p>
-                <span v-if="item.amount > 0" class="py-1.5 text-orange-500 lg:text-base ml-2"
+                <span
+                  v-if="listProduct.amount > 0"
+                  class="py-1.5 text-orange-400 lg:text-base ml-2 "
                   >Còn hàng</span
                 >
-                <span v-else class="py-1.5 text-orange-500 lg:text-base ml-2"
+                <span v-else class="py-1.5 text-slate-400 lg:text-base ml-2"
                   >Hết hàng</span
                 >
               </div>
-              <p v-if="item.discount > 0" class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl">
-                {{ item.priceSale }}vnđ
+              <p
+                v-if="listProduct.discount > 0"
+                class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl"
+              >
+                {{ listProduct.priceSale }}vnđ
               </p>
-              <p v-else class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl">
-                {{ item.price }}vnđ
+              <p
+                v-else
+                class="pt-2 text-lg font-bold text-orange-400 lg:text-2xl"
+              >
+                {{ listProduct.price }}vnđ
               </p>
-              <div v-if="item.discount > 0" class="flex">
-                <p class="text-gray-400 lg:text-base"><del>{{ item.price }}vnđ</del></p>
-                <span class="text-orange-500 ml-2 lg:text-base">({{ item.discount }}%)</span>
+              <div v-if="listProduct.discount > 0" class="flex">
+                <p class="text-gray-400 lg:text-base">
+                  <del>{{ listProduct.price }}vnđ</del>
+                </p>
+                <span class="text-orange-500 ml-2 lg:text-base"
+                  >({{ listProduct.discount }}%)</span
+                >
               </div>
-              <div v-else class="flex">
-                <!-- <p class="text-gray-400 lg:text-base"><del>{{ item.price }}vnđ</del></p>
-                <span class="text-orange-500 ml-2 lg:text-base">({{ item.discount }}%)</span> -->
-                <p class="text-gray-400 lg:text-base">{{ item.price }}vnđ</p>
-              </div>
-              <p v-if="item.discount > 0" class="lg:text-base border-b pb-3">Giá sau thuế : {{ item.priceSale }}</p>
-              <p v-else class="lg:text-base border-b pb-3">Giá sau thuế : {{ item.price }}</p>
+              <p
+                v-if="listProduct.discount > 0"
+                class="lg:text-base border-b pb-3"
+              >
+                Giá sau thuế : <span class="text-orange-400">
+                  {{ listProduct.priceSale }}vnđ
+                </span>
+              </p>
+              <p v-else class="lg:text-base border-b pb-3">
+                Giá sau thuế : <span class="text-orange-400">
+                  {{ listProduct.priceSale }}vnđ
+                </span>
+              </p>
               <div class="mt-4 pt-3 border-t">
                 <span class="font-bold lg:text-base">Số lượng </span>
-                <button class="ml-3 border px-2.5 py-1 text-xl">-</button>
-                <button class="border-t border-b px-3 lg:px-4 py-1 text-xl">
-                  1
+                <button
+                  class="ml-3 border px-2.5 py-1 text-xl"
+                  @click="downAmount()"
+                >
+                  -
                 </button>
-                <button class="border px-2.5 py-1 text-xl">+</button>
+                <button class="border-t border-b px-3 lg:px-4 py-1 text-xl">
+                  {{ quantity }}
+                </button>
+                <button class="border px-2.5 py-1 text-xl" @click="upAmount()">
+                  +
+                </button>
                 <button
                   class="w-full lg:w-2/5 lg:ml-10 mt-3 text-base font-bold py-2 px-2 rounded-md text-white bg-lime-500 hover:bg-lime-600"
                 >
@@ -120,37 +152,39 @@
           <!-- END: mô tả -->
         </div>
         <div class="col-span-12 lg:col-span-3">
-          <div class="w-full border">
+          <div class="w-full border ">
             <button
-              class="w-full text-base font-medium text-white bg-lime-500 p-2"
+              class="w-full text-base border border-lime-500 font-medium text-white bg-lime-500 p-2"
             >
               SẢN PHẨM KHUYẾN MÃI
             </button>
             <div
-              v-for="(item, index) in Fake"
-              :key="index"
-              class="intro-y mt-4"
-            >
-              <div class="lg:border-y lg:px-2 mb-2">
-                <div class="p-2 flex">
-                  <div
-                    class="h-20 w-20 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
-                  >
-                    <img
-                      alt="Midone - HTML Admin Template"
-                      class=""
-                      :src="item.name"
-                    />
+            v-for="(item, index) in sales"
+            :key="index"
+            class="intro-y mt-4"
+          >
+            <div class="px-3 mb-2 hover:border border-lime-300">
+              <div class="p-2 flex">
+                <div
+                  class="h-24 w-24 image-fit o"
+                >
+                  <img
+                    alt="Midone - HTML Admin Template"
+                    class=""
+                    :src="item.image"
+                  />
+                </div>
+                <div class="text-slate-600 dark:text-slate-500 ml-3 py-5">
+                  <div class="flex items-center">
+                    {{ item.name }}
                   </div>
-                  <div class="text-slate-600 dark:text-slate-500 ml-3">
-                    <div class="flex items-center">Price: {{ 123 }}</div>
-                    <div class="flex items-center mt-2">
-                      Remaining Stock:{{}}
-                    </div>
+                  <div class="flex items-center mt-2">
+                    Giá: {{ item.priceSale }}vnđ
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
 
@@ -159,7 +193,7 @@
           <div class="flex lg:mt-5 mt-3 justify-center">
             <hr
               style="height: 3px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-4 bg-orange-600 hidden lg:block"
             />
             <button
               class="lg:w-1/5 w-3/5 lg:text-md font-bold text-white lg:rounded-full rounded-md py-2.5 px-4 bg-lime-600"
@@ -169,18 +203,18 @@
             <hr
               lg:block
               style="height: 3px"
-              class="w-2/5 mt-3 bg-orange-600 hidden lg:block"
+              class="w-2/5 mt-4 bg-orange-600 hidden lg:block"
             />
           </div>
         </div>
         <div class="col-span-12">
           <!-- Begin:slide -->
           <carousel :settings="settings" :breakpoints="breakpoints">
-            <slide v-for="(item, index) in Fake" :key="index">
+            <slide v-for="(item, index) in products" :key="index">
               <div class="carousel__item w-full h-auto border rounded-xl">
                 <div class="item-container">
                   <img
-                    :src="item.name"
+                    :src="item.image"
                     alt="/"
                     class="w-full h-60 rounded-t-xl"
                   />
@@ -202,9 +236,12 @@
                 >
                   <span>Cây cảnh</span>
                 </div>
-                <div class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">200.000đ</span>
-                  <span class="text-gray-300 px-3"><del>250.000đ</del></span>
+                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                </div>
+                <div v-else class="text-center mb-4 mt-4 text-base">
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                 </div>
               </div>
             </slide>
@@ -245,10 +282,12 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const authStore = useAuthStore();
-    const listProduct = ref<productInfor[]>([]);
+    const listProduct: any = ref<productInfor[]>([]);
     const isShowDescribe = ref(false);
     const isShowEvaluate = ref(false);
-
+    const quantity = ref(1);
+    const sales = ref<productInfor[]>([]);
+    const products = ref<productInfor[]>([]);
     function showDescribe() {
       isShowEvaluate.value = false;
     }
@@ -257,27 +296,71 @@ export default {
       isShowDescribe.value = false;
     }
 
+    function downAmount() {
+      if(quantity.value <= 1){
+        quantity.value
+      } else 
+      quantity.value--
+    }
+    function upAmount() {
+      if(quantity.value >= listProduct.value.amount){
+        quantity.value = listProduct.value.amount
+      } else 
+      quantity.value++
+    }
+
+    // get product by id
     async function actionGetProductById() {
-      const itemFind:any = {_id: route.params.id } as productInfor;
+      const itemFind: any = { _id: route.params.id } as productInfor;
       const response = await productService.findOne(itemFind, authStore.token);
-      listProduct.value = response.data.values;
       if (response.data.success) {
-        setNotificationToastMessage("Tải dữ liệu thành công", true);
+        listProduct.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
-    onMounted(async() => {
+
+    // Get all product by sale
+    async function initGetAllProductBySale() {
+      const data = {} as productInfor;
+      const response = await productService.findBySale(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        sales.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+     // Get all product by sp liên quan
+     async function initGetAllProductByRelate() {
+      const data = {} as productInfor;
+      const response = await productService.findByNew(data, authStore.token);
+      // products.value = response.data.values;
+      if (response.data.success) {
+        products.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+    onMounted(async () => {
       await actionGetProductById();
-    })
+      await initGetAllProductBySale();
+      await initGetAllProductByRelate();
+    });
     return {
       router,
       route,
+      sales,
       listProduct,
       showDescribe,
       isShowDescribe,
       isShowEvaluate,
       showEvaluate,
+      downAmount,
+      upAmount,
+      products,
+      quantity,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",
