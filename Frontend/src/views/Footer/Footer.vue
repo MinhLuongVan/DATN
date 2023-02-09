@@ -1,5 +1,5 @@
 <template>
-  <div class="footer  bg-gray-500 h-auto mt-10 ">
+  <div class="footer bg-gray-500 h-auto mt-10">
     <div class="intro-y grid grid-cols-12 lg:px-52">
       <div class="col-span-12 lg:col-span-6">
         <div class="lg:flex">
@@ -10,7 +10,9 @@
                 <a href="/introduce" class="hover:text-lime-500">Giới thiệu</a>
               </li>
               <li class="py-1.5">
-                <a href="/introduce/transport" class="hover:text-lime-500">Thông tin vận chuyển</a>
+                <a href="/introduce/transport" class="hover:text-lime-500"
+                  >Thông tin vận chuyển</a
+                >
               </li>
               <li class="py-1.5">
                 <a href="/introduce/condition" class="hover:text-lime-500"
@@ -18,7 +20,9 @@
                 >
               </li>
               <li class="py-1.5">
-                <a href="/introduce/security" class="hover:text-lime-500">Chính sách bảo mật</a>
+                <a href="/introduce/security" class="hover:text-lime-500"
+                  >Chính sách bảo mật</a
+                >
               </li>
             </ul>
           </div>
@@ -26,13 +30,28 @@
             <h1 class="text-white font-medium text-xl">CÂY XANH</h1>
             <ul class="text-white text-base mt-3">
               <li class="py-1.5">
-                <a href="" class="hover:text-lime-500">Cây xanh trong nhà</a>
+                <a
+                  href=""
+                  class="hover:text-lime-500"
+                  @click="router.push('/listproduct')"
+                  >Cây xương rồng</a
+                >
               </li>
               <li class="py-1.5">
-                <a href="" class="hover:text-lime-500">Cây văn phòng</a>
+                <a
+                  href=""
+                  class="hover:text-lime-500"
+                  @click="router.push('/listproduct')"
+                  >Cây văn phòng</a
+                >
               </li>
               <li class="py-1.5">
-                <a href="" class="hover:text-lime-500">Chậu cảnh</a>
+                <a
+                  href=""
+                  class="hover:text-lime-500"
+                  @click="router.push('/listproduct')"
+                  >Cây sen đá</a
+                >
               </li>
             </ul>
           </div>
@@ -57,8 +76,13 @@
           </div>
         </div>
       </div>
-      <div class="col-span-12 lg:col-span-6 ">
-        <a href="/"><img src="../../assets/images/freshgarden.png" alt="/" class="w-3/5 mt-5 lg:ml-28 cursor-pointer"></a>
+      <div class="col-span-12 lg:col-span-6">
+        <a href="/"
+          ><img
+            src="../../assets/images/freshgarden.png"
+            alt="/"
+            class="w-3/5 mt-5 lg:ml-28 cursor-pointer"
+        /></a>
         <p class="text-center text-white lg:text-base mt-3">
           Cây cảnh, từ trước đến nay vẫn được xem như vật trang trí, làm đẹp
           không gian sống cho con người. Cây để bàn, bonsai, terrarium, cây thuỷ
@@ -72,8 +96,15 @@
 </template>
 
 <script lang="ts">
+import { useRouter } from "vue-router";
 export default {
   name: "bottom",
+  setup() {
+    const router = useRouter();
+    return {
+      router,
+    };
+  },
 };
 </script>
 

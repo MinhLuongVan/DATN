@@ -103,7 +103,8 @@
                 </button>
                 <button
                   class="w-full lg:w-2/5 lg:ml-10 mt-3 text-base font-bold py-2 px-2 rounded-md text-white bg-lime-500 hover:bg-lime-600"
-                >
+                
+                @click="actionAddCart()"  >
                   Thêm vào giỏ hàng
                 </button>
               </div>
@@ -266,10 +267,13 @@ import bottom from "../../views/Footer/Footer.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import { onMounted, ref } from "vue";
-import { productInfor } from "../../types/productType";
+import { productInfor } from '../../types/productType';
 import productService from "../../services/productService";
 import { useAuthStore } from "../../stores/authStore";
 import { setNotificationToastMessage } from "../../utils/myFunction";
+import { cartInfor } from "../../types/cartType";
+import cartService from "../../services/cartService";
+import { error } from '../../../../Backend/notifications/message';
 export default {
   name: "DetailProduct",
   components: {
@@ -288,6 +292,7 @@ export default {
     const quantity = ref(1);
     const sales = ref<productInfor[]>([]);
     const products = ref<productInfor[]>([]);
+  
     function showDescribe() {
       isShowEvaluate.value = false;
     }
@@ -324,7 +329,6 @@ export default {
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
       const response = await productService.findBySale(data, authStore.token);
-      // products.value = response.data.values;
       if (response.data.success) {
         sales.value = response.data.values;
       } else {
@@ -336,17 +340,37 @@ export default {
      async function initGetAllProductByRelate() {
       const data = {} as productInfor;
       const response = await productService.findByNew(data, authStore.token);
-      // products.value = response.data.values;
       if (response.data.success) {
         products.value = response.data.values;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
+
+    // add product in cart 
+    async function actionAddCart() {
+      const data = {
+        userId: authStore.currentUser._id,
+        productName: listProduct.name,
+        productId: listProduct.uuid,
+        productPrice: listProduct.priceSale,
+        quantity: quantity.value 
+      } as cartInfor;
+      const response = await cartService.save(data, authStore.token);
+      console.log('data',response.data);
+      if (response.data.success) {
+       setNotificationToastMessage("Thêm vào giỏ hàng thành công",true)
+      } else {
+        
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+      }
+    }
+
     onMounted(async () => {
       await actionGetProductById();
       await initGetAllProductBySale();
       await initGetAllProductByRelate();
+   
     });
     return {
       router,
@@ -361,6 +385,7 @@ export default {
       upAmount,
       products,
       quantity,
+      actionAddCart,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

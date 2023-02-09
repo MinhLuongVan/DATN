@@ -328,7 +328,10 @@
             :key="index"
             class="intro-y mt-4"
           >
-            <div class="border-1 rounded-md mb-2 hover:border-lime-300">
+            <div
+              class="border-1 rounded-md mb-2 hover:border-lime-300"
+              @click="router.push('/product/' + item._id)"
+            >
               <div class="p-2 flex">
                 <div class="h-24 w-24 image-fit o">
                   <img

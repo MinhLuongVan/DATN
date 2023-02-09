@@ -45,7 +45,7 @@
           </thead>
           <tbody>
             <tr v-for="item in products" :key="item._id" class="intro-x">
-              <td class="w-40">
+              <td class="w-24">
                 <div class="w-10 h-10 image-fit zoom-in">
                   <img
                     alt="Midone Tailwind HTML Admin Template"
@@ -296,13 +296,6 @@ export default defineComponent({
         }
       );
     };
-
-    watch(
-      () => image.value,
-      (val) => {
-        console.log("val", val);
-      }
-    );
 
     async function uploadAvatar(event: any) {
       chosenFile.value = event.target.files[0];
