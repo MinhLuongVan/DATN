@@ -27,6 +27,7 @@ export const getAllContactService = async function () {
 export const createContactSevice = async function (data: IContact) {
     try {
         const itemAddContact = await new Contact({
+            userId: data.userId,
             name: data.name,
             email: data.email,
             note: data.note,

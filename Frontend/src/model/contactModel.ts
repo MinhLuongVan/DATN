@@ -3,5 +3,6 @@ export class ContactModel {
     name = '';
     email = '';
     note = '';
+    userId = '';
     createdAt ?: Date = new Date();
 }

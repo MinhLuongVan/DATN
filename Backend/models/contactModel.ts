@@ -4,7 +4,7 @@ interface ContactType extends Document {
     name: string;
     email: string;
     note: string;
-   // owner: mongoose.Schema.Types.ObjectId;
+    userId: string;
 }
  const ContactSchema = new Schema<ContactType>({
     name:{
@@ -15,6 +15,10 @@ interface ContactType extends Document {
     },
     note: {
         type: String,
+    },
+    userId: {
+        type: String,
+        ref: 'User'
     }
  },
     { timestamps: true}

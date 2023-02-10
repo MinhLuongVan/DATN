@@ -139,6 +139,7 @@ export default {
       const result = await v$.value.$validate();
       if (result) {
         const data = {
+          userId: authStore.currentUser._id,
           email: state.value.email,
           name: state.value.name,
           note: state.value.note,

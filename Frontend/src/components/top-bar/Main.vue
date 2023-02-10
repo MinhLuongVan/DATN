@@ -194,8 +194,10 @@
             </div>
             <div
               class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3"
+              @click="actionLogout()"
             >
-              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5" /> Đăng xuất
+              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5"
+               /> Đăng xuất
             </div>
           </DropdownMenu>
         </Dropdown>
@@ -255,7 +257,7 @@ export default defineComponent({
     const carts = ref<cartInfor[]>([]);
     const myCart: any = computed(() => myCartStore.carts) 
     const currentUser = computed(() => {
-      return authStore.currentUser;
+      return authStore.currentUser.userInfor;
     });
  
     const showSearchDropdown = () => {
@@ -266,7 +268,6 @@ export default defineComponent({
     };
 
  
-
     // Delete product
     async function actionDeleteProduct(item: cartInfor) {
       const itemDelete = new CartModel();

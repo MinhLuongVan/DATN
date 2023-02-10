@@ -14,7 +14,7 @@
       <div class="intro-y grid grid-cols-12">
         <div class="col-span-12">
           <h2 class="text-xl mt-4 lg:text-2xl">Giỏ hàng</h2>
-          <table class="mt-3 table table-bordered">
+          <table v-if="myCart.length > 0" class="mt-3 table table-bordered">
             <thead>
               <tr>
                 <th class="border text-center">Stt</th>
@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item,index) in carts" :key="index">
+              <tr v-for="(item,index) in myCart" :key="index">
                 <td class="border text-center">{{ index + 1 }}</td>
                 <td class="border text-center">{{ item.productId }}</td>
                 <td class="w-36 border">
@@ -48,6 +48,9 @@
               </tr>
             </tbody>
           </table>
+          <div v-else class="w-full text-center">
+            <span class="text-lg mt-2">Bạn chưa có sản phẩm nào trong giỏ hàng!</span>
+          </div>
             <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -80,7 +83,7 @@
           </ModalBody>
         </Modal>
         <!-- END: Delete Confirmation Modal -->
-          <table class="mt-5">
+          <table v-if="myCart.length > 0" class="mt-5">
             <tr>
             <th class="border px-8 py-2">Thành tiền</th>
             <th class="border px-8 py-2">Tổng tiền</th>
@@ -91,7 +94,7 @@
             </tr>
           </table>
          <div class="flex justify-between">
-          <div>
+          <div v-if="myCart.length > 0">
             <button class="mt-4 px-4 py-2 rounded-md text-white bg-lime-500 hover:bg-lime-600 ">Tiến hành thanh toán</button>
           </div>
           <div>
@@ -110,13 +113,13 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { cartInfor } from "../../types/cartType";
 import { useAuthStore } from "../../stores/authStore";
 import { setNotificationToastMessage } from "../../utils/myFunction";
 import cartService from "../../services/cartService";
 import { CartModel } from "../../model/cartModel";
-import { storeToRefs } from "pinia";
+import { useCartStore } from "../../stores/cartStore";
 export default {
   name: "Cart",
   components: {
@@ -126,19 +129,21 @@ export default {
     const router = useRouter();
     const authStore = useAuthStore();
     const carts = ref<cartInfor[]>([]);
+    const myCartStore = useCartStore();
+    const myCart: any = computed(() => myCartStore.carts) 
     const selectedCart = ref<CartModel>(new CartModel());
     const deleteConfirmationModal = ref(false);
 
      // Get all cart
-     async function initGetAllCart() {
-      const data = {} as cartInfor;
-      const response = await cartService.findAll(data, authStore.token);
-      if (response.data.success) {
-        carts.value = response.data.values;
-      } else {
-        setNotificationToastMessage("Tải dữ liệu thât bại", false);
-      }
-    }
+    //  async function initGetAllCart() {
+    //   const data = {} as cartInfor;
+    //   const response = await cartService.findAll(data, authStore.token);
+    //   if (response.data.success) {
+    //     carts.value = response.data.values;
+    //   } else {
+    //     setNotificationToastMessage("Tải dữ liệu thât bại", false);
+    //   }
+    // }
 
     // init id cart
     function actionInitDeleteCart(item: cartInfor) {
@@ -155,15 +160,16 @@ export default {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-        initGetAllCart();
+        myCartStore.getAllCart();
       }
     }
     onMounted( async () => {
-      await initGetAllCart();
+      await myCartStore.getAllCart();;
     })
     return {
       router,
       carts,
+      myCart,
       deleteConfirmationModal,
       actionDeleteProduct,
       actionInitDeleteCart
