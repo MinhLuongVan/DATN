@@ -373,6 +373,8 @@ import { onMounted, ref } from "vue";
 import { productInfor } from "../../types/productType";
 import productService from "../../services/productService";
 import { setNotificationToastMessage } from "../../utils/myFunction";
+import { cartInfor } from "../../types/cartType";
+import cartService from "../../services/cartService";
 export default {
   name: "Home",
   components: {

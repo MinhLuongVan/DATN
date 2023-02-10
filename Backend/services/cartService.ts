@@ -27,15 +27,13 @@ export const getAllCartServices = async function() {
 };
 
 
-
-
-
 // Add product
 export const addCartServices = async function (data: ICart) {
     try {
         const itemAddCart = await new Cart({
             userId: data.userId,
             productId: data.productId,
+            productImage: data.productImage,
             productName: data.productName,
             productPrice: data.productPrice,
             quantity: data.quantity,

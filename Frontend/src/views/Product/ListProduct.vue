@@ -69,7 +69,7 @@
               class="intro-y mt-2"
             >
               <div class="lg:border-y lg:px-2 mb-2"
-              @click="router.push('/product/' +item._id)" >
+              @click="router.push('/product/' +item._id)">
                 <div class="p-2 flex">
                   <div
                     class="h-20 w-20 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"

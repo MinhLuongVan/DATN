@@ -14,35 +14,72 @@
       <div class="intro-y grid grid-cols-12">
         <div class="col-span-12">
           <h2 class="text-xl mt-4 lg:text-2xl">Giỏ hàng</h2>
-          <table class="mt-3 table">
+          <table class="mt-3 table table-bordered">
             <thead>
               <tr>
-                <th class="border">Ảnh</th>
-                <th class="border">Sản phẩm</th>
-                <th class="border">Đơn giá</th>
-                <th class="border">Số lượng</th>
-                <th class="border">Tổng</th>
+                <th class="border text-center">Stt</th>
+                <th class="border text-center">Mã sản phẩm</th>
+                <th class="border text-center">Ảnh</th>
+                <th class="border text-center">Tên sản phẩm</th>
+                <th class="border text-center">Đơn giá</th>
+                <th class="border text-center">Số lượng</th>
+                <th class="border text-center">Tổng</th>
                 <th class="border text-center">Hành động</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="w-28 border">
-                  <img src="../../assets/images/tree1.jpg" alt="" />
+              <tr v-for="(item,index) in carts" :key="index">
+                <td class="border text-center">{{ index + 1 }}</td>
+                <td class="border text-center">{{ item.productId }}</td>
+                <td class="w-36 border">
+                  <img :src="item.productImage" alt="" />
                 </td>
-                <td class="border">Cây phong thủy</td>
-                <td class="border">50.000đ</td>
-                <td class="border">1</td>
-                <td class="border">50.000đ</td>
-                <td class="border">
+                <td class="border text-center">{{ item.productName }}</td>
+                <td class="border text-center">{{ item.productPrice }}vnđ</td>
+                <td class="border text-center">{{ item.quantity }}</td>
+                <td class="border text-center">{{ item.totalMoney }}vnđ</td>
+                <td class="border text-center">
                   <div class="flex justify-center text-red-500">
                     <TrashIcon class="w-5"></TrashIcon> 
-                    <p class="pl-1 pt-1">Xóa</p>
+                    <p class="pl-1 pt-1"
+                    @click="actionInitDeleteCart(item)">Xóa</p>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
+            <!-- BEGIN: Delete Confirmation Modal -->
+        <Modal
+          :show="deleteConfirmationModal"
+          @hidden="deleteConfirmationModal = false"
+        >
+          <ModalBody class="p-0">
+            <div class="p-5 text-center">
+              <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
+              <div class="text-3xl mt-5">Xóa sản phẩm</div>
+              <div class="text-slate-500 mt-2">
+                Bạn có chắc chắn muốn xóa sản phẩm này?
+              </div>
+            </div>
+            <div class="px-5 pb-8 text-center">
+              <button
+                type="button"
+                @click="deleteConfirmationModal = false"
+                class="btn btn-outline-secondary w-24 mr-1"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger w-24"
+                @click="actionDeleteProduct"
+              >
+                Delete
+              </button>
+            </div>
+          </ModalBody>
+        </Modal>
+        <!-- END: Delete Confirmation Modal -->
           <table class="mt-5">
             <tr>
             <th class="border px-8 py-2">Thành tiền</th>
@@ -73,6 +110,13 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
+import { onMounted, ref } from "vue";
+import { cartInfor } from "../../types/cartType";
+import { useAuthStore } from "../../stores/authStore";
+import { setNotificationToastMessage } from "../../utils/myFunction";
+import cartService from "../../services/cartService";
+import { CartModel } from "../../model/cartModel";
+import { storeToRefs } from "pinia";
 export default {
   name: "Cart",
   components: {
@@ -80,8 +124,49 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const authStore = useAuthStore();
+    const carts = ref<cartInfor[]>([]);
+    const selectedCart = ref<CartModel>(new CartModel());
+    const deleteConfirmationModal = ref(false);
+
+     // Get all cart
+     async function initGetAllCart() {
+      const data = {} as cartInfor;
+      const response = await cartService.findAll(data, authStore.token);
+      if (response.data.success) {
+        carts.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // init id cart
+    function actionInitDeleteCart(item: cartInfor) {
+      selectedCart.value._id = item._id;
+      deleteConfirmationModal.value = true;
+    }
+
+    // Delete product
+    async function actionDeleteProduct() {
+      const itemDelete = new CartModel();
+      itemDelete._id = selectedCart.value._id;
+      const response = await cartService.delete(itemDelete, authStore.token);
+      if (response.data.error) {
+        setNotificationToastMessage("Xóa dữ liệu thất bại", false);
+      } else {
+        deleteConfirmationModal.value = false;
+        initGetAllCart();
+      }
+    }
+    onMounted( async () => {
+      await initGetAllCart();
+    })
     return {
       router,
+      carts,
+      deleteConfirmationModal,
+      actionDeleteProduct,
+      actionInitDeleteCart
     };
   },
 };

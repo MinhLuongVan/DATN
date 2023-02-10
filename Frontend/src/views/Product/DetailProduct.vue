@@ -292,7 +292,6 @@ export default {
     const quantity = ref(1);
     const sales = ref<productInfor[]>([]);
     const products = ref<productInfor[]>([]);
-  
     function showDescribe() {
       isShowEvaluate.value = false;
     }
@@ -351,15 +350,15 @@ export default {
     async function actionAddCart() {
       const data = {
         userId: authStore.currentUser._id,
-        productName: listProduct.name,
-        productId: listProduct.uuid,
-        productPrice: listProduct.priceSale,
+        productImage: listProduct.value.image,
+        productName: listProduct.value.name,
+        productId: listProduct.value.uuid,
+        productPrice: listProduct.value.priceSale,
         quantity: quantity.value 
       } as cartInfor;
       const response = await cartService.save(data, authStore.token);
-      console.log('data',response.data);
       if (response.data.success) {
-       setNotificationToastMessage("Thêm vào giỏ hàng thành công",true)
+       router.push('/product/cart')
       } else {
         
         setNotificationToastMessage("Tải dữ liệu thất bại", false);

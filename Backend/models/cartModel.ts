@@ -3,6 +3,7 @@ import { Schema,Document } from 'mongoose';
 interface CartType extends Document {
     userId: string;
     productId: string;
+    productImage: string;
     productName: string;
     productPrice: number;
     totalMoney: number;
@@ -14,6 +15,10 @@ interface CartType extends Document {
         ref: 'User'
     },
     productId: {
+        type: String,
+        ref: 'Product'
+    },
+    productImage: {
         type: String,
         ref: 'Product'
     },

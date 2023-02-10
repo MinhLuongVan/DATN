@@ -5,7 +5,7 @@ import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 
 
-export const useAuthStore: StoreDefinition= defineStore({
+export const useAuthStore: StoreDefinition = defineStore({
     id:'auth',
     state: () => ({
         currentUser: {} as User | {},
@@ -44,7 +44,7 @@ export const useAuthStore: StoreDefinition= defineStore({
         enabled: true,
         strategies: [
           {
-            key: "Fresh-Garden",
+            key: "Totoro-Garden",
             storage: localStorage,
           },
         ],
