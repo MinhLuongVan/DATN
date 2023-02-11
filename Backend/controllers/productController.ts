@@ -119,7 +119,7 @@ export const getProductBySale = async function (req: Request, res: Response) {
 } 
 
 // Create Product 
-export const addProduct = async function (req: Request, res: Response) {
+export const saveProduct = async function (req: Request, res: Response) {
     try {
         const itemProduct = req.body as IProduct
         const itemAddProduct = await createProductSevice(itemProduct);
@@ -155,7 +155,7 @@ export const findIdProduct = async function (req:Request, res:Response) {
 
 // Update Product
 
-export const updatePost = async function (req: Request, res: Response) {
+export const updateProduct = async function (req: Request, res: Response) {
     try {
         // const authorization = req.headers['authorization'];
         // if(!authorization) {
@@ -180,7 +180,7 @@ export const updatePost = async function (req: Request, res: Response) {
 
 // Delete product
 
-export const deletePost = async function (req: Request, res: Response) {
+export const deleteProduct = async function (req: Request, res: Response) {
     try {
         // const authorization = req.headers['authorization'];
         // if(!authorization) {

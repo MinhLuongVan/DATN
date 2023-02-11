@@ -124,6 +124,13 @@ export default {
     const note = ref("");
     const authStore = useAuthStore();
 
+    //reset data
+    function resetData() {
+      email.value ='';
+      name.value = "";
+      note.value = "";
+    }
+
     const state = ref({
       email: "",
       name: "",
@@ -145,8 +152,8 @@ export default {
           note: state.value.note,
         } as contactInfor;
         const res = await ContactService.save(data, authStore.token);
-        console.log('data',res.data)
         if (res.data.success) {
+          resetData();
           setNotificationToastMessage("Gửi liên hệ thành công", true);
         } else {
           setNotificationToastMessage(res.data.message, false);

@@ -23,6 +23,14 @@
         </a>
         <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
+          @click="router.push('/admin/typeproduct')"
+          :class="`${routeMenu === '/admin/typeproduct' ? 'bg-[#4a4a4a]' : ''}`"
+        >
+          <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
+          <span class="pl-2 pt-0.5 hidden lg:block">Quản lý loại sản phẩm</span>
+        </a>
+        <a
+          class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
           @click="router.push('/admin/cart')"
           :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
         >

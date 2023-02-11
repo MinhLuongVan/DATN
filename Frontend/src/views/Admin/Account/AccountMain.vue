@@ -30,7 +30,7 @@
               
               <th class="whitespace-nowrap">Tên người dùng</th>
               <th class="whitespace-nowrap">Email</th>
-              <th class="whitespace-nowrap">Sđt</th>
+              <th class="whitespace-nowrap ">Sđt</th>
               <th class="text-center whitespace-nowrap">Trạng thái</th>
               <th class="text-center whitespace-nowrap">Hành động</th>
             </tr>
@@ -65,14 +65,14 @@
                 <div class="flex justify-center items-center pt-4">
                   <a class="flex items-center mr-3" href="javascript:;"
                   >
-                    <CheckSquareIcon class="w-4 h-4 mr-1" /> Edit
+                    <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
                   </a>
                   <a
                     class="flex items-center text-danger"
                     href="javascript:;"
                     @click="deleteConfirmationModal = true"
                   >
-                    <Trash2Icon class="w-4 h-4 mr-1" /> Delete
+                    <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
                   </a>
                 </div>
               </td>

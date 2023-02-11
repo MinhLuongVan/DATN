@@ -14,6 +14,7 @@ import Login from "../views/Login/Login.vue";
 import LoginAdmin from "../views/Admin/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
 import ProductMain from "../views/Admin/Products/ProductMain.vue";
+import TypeProduct from "../views/Admin/Products/TypeProduct.vue";
 import AccountMain from "../views/Admin/Account/AccountMain.vue";
 import CartMainVue from "../views/Admin/Cart/CartMain.vue";
 import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
@@ -137,6 +138,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'products',
         component: ProductMain
+      },
+      {
+        path: 'typeproduct',
+        component: TypeProduct
       },
       {
         path: 'accounts',
