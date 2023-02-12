@@ -62,7 +62,7 @@
                 </div>
               </td>
               <td class="table-report__action w-56">
-                <div class="flex justify-center items-center pt-4">
+                <div class="flex justify-center items-center">
                   <a class="flex items-center mr-3" href="javascript:;"
                   >
                     <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa

@@ -32,9 +32,9 @@
               <td class="text-center pt-4">{{ item.sale }}%</td>
               <td class="text-center pt-4">{{ item.total }}</td>
               <td class="table-report__action w-56">
-                <div class="flex justify-center items-center pt-4">
+                <div class="flex justify-center items-center">
                   <a class="flex items-center mr-3" href="javascript:;">
-                    <CheckSquareIcon class="w-4 h-4 mr-1" /> Edit
+                    <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
                   </a>
                   <a
                     class="flex items-center text-danger"
@@ -42,7 +42,7 @@
                     data-tw-toggle="modal"
                     data-tw-target="#delete-modal-preview"
                   >
-                    <Trash2Icon class="w-4 h-4 mr-1" /> Delete
+                    <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
                   </a>
                 </div>
               </td>
@@ -52,17 +52,16 @@
       </div>
       <!-- END: Data List -->
       <!-- BEGIN: Delete Confirmation Modal -->
-      <!-- <Modal
+      <Modal
           :show="deleteConfirmationModal"
           @hidden="deleteConfirmationModal = false"
         >
           <ModalBody class="p-0">
             <div class="p-5 text-center">
               <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
-              <div class="text-3xl mt-5">Are you sure?</div>
+              <div class="text-3xl mt-5">Xóa đơn hàng ?</div>
               <div class="text-slate-500 mt-2">
-                Do you really want to delete these records? <br />This process
-                cannot be undone.
+                Bạn có chắc muốn xóa đơn hàng này không?
               </div>
             </div>
             <div class="px-5 pb-8 text-center">
@@ -71,55 +70,14 @@
                 @click="deleteConfirmationModal = false"
                 class="btn btn-outline-secondary w-24 mr-1"
               >
-                Cancel
+                Trở lại
               </button>
-              <button type="button" class="btn btn-danger w-24">Delete</button>
+              <button type="button" class="btn btn-danger w-24">Xóa</button>
             </div>
           </ModalBody>
-        </Modal> -->
+        </Modal>
       <!-- END: Delete Confirmation Modal -->
 
-      <!-- BEGIN: Modal Toggle -->
-
-      <!-- END: Modal Toggle -->
-      <!-- BEGIN: Modal Content -->
-      <div
-        id="delete-modal-preview"
-        class="modal"
-        tabindex="-1"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body p-0">
-              <div class="p-5 text-center">
-                <i
-                  data-lucide="x-circle"
-                  class="w-16 h-16 text-danger mx-auto mt-3"
-                ></i>
-                <div class="text-3xl mt-5">Are you sure?</div>
-                <div class="text-slate-500 mt-2">
-                  Do you really want to delete these records? <br />This process
-                  cannot be undone.
-                </div>
-              </div>
-              <div class="px-5 pb-8 text-center">
-                <button
-                  type="button"
-                  data-tw-dismiss="modal"
-                  class="btn btn-outline-secondary w-24 mr-1"
-                >
-                  Cancel
-                </button>
-                <button type="button" class="btn btn-danger w-24">
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- END: Modal Content -->
   </div>
 </template>
 <script lang="ts">

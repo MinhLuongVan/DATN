@@ -64,7 +64,7 @@
                 {{ moment(item.createdAt).format("DD/MM/YYYY HH:mm") }}
               </td>
               <td class="table-report__action w-56">
-                <div class="flex justify-center items-center pt-4">
+                <div class="flex justify-center items-center ">
                   <a
                     class="flex items-center mr-3"
                     href="javascript:;"
@@ -92,7 +92,7 @@
           <ModalBody class="p-0">
             <div class="p-5 text-center">
               <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
-              <div class="text-3xl mt-5">Xóa sản phẩm</div>
+              <div class="text-3xl mt-5">Xóa sản phẩm ?</div>
               <div class="text-slate-500 mt-2">
                 Bạn có chắc chắn muốn xóa sản phẩm này?
               </div>
@@ -240,6 +240,7 @@ import { ref as fireBaseRef } from "firebase/storage";
 import { v1 as uuidv1 } from "uuid";
 import ShortUniqueId from "short-unique-id";
 import moment from "moment";
+import { useTypeProductStore } from "../../../stores/typeProductStore";
 export default defineComponent({
   name: "Products",
   setup() {
@@ -248,6 +249,7 @@ export default defineComponent({
     const AddConfirmationModal = ref(false);
     const showButtonEdit = ref(false);
     const authStore = useAuthStore();
+    const myTypeStore = useTypeProductStore();
     const idUpdate = ref("");
     const products = ref<productInfor[]>([]);
     const selectedProduct = ref<ProductModel>(new ProductModel());
@@ -259,20 +261,7 @@ export default defineComponent({
     const category = ref("");
     const chosenFile: any = ref(null);
     const uuid = new ShortUniqueId({ length: 8 });
-    const Category = [
-      {
-        name: "Cây văn phòng",
-      },
-      {
-        name: "Cây treo",
-      },
-      {
-        name: "Cây sen đá",
-      },
-      {
-        name: "Cây xương rồng",
-      },
-    ];
+    const Category: any = myTypeStore.typeProducts;
 
     const uploadFiles = (file: any) => {
       //

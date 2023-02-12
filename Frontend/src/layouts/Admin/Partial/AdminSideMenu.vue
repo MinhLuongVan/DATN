@@ -15,28 +15,44 @@
         </a>
         <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
-          @click="router.push('/admin/products')"
-          :class="`${routeMenu === '/admin/products' ? 'bg-[#4a4a4a]' : ''}`"
+          @click="actionShowDropdown"
+          :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
         >
-          <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
-          <span class="pl-2 pt-0.5 hidden lg:block">Quản lý sản phẩm</span>
+          <Shopping-bagIcon class="w-6 h-6 lg:w-5 lg:h-5"></Shopping-bagIcon>
+          <span class="pl-2 pt-0.5 hidden lg:pr-10 lg:block">Quản lý bán hàng</span>
+          <chevron-downIcon v-if="!showDropdown" class="w-5 h-5 hidden lg:block"></chevron-downIcon>
+          <chevron-upIcon v-else class="w-5 h-5 hidden lg:block"></chevron-upIcon>
         </a>
-        <a
-          class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
-          @click="router.push('/admin/typeproduct')"
-          :class="`${routeMenu === '/admin/typeproduct' ? 'bg-[#4a4a4a]' : ''}`"
-        >
-          <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
-          <span class="pl-2 pt-0.5 hidden lg:block">Quản lý loại sản phẩm</span>
-        </a>
-        <a
-          class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
+        <div v-if="showDropdown" class="">
+          <a
+            class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
+            @click="router.push('/admin/products')"
+            :class="`${routeMenu === '/admin/products' ? 'bg-[#4a4a4a]' : ''}`"
+          >
+            <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block">Sản phẩm</span>
+          </a>
+          <a
+            class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
+            @click="router.push('/admin/typeproduct')"
+            :class="`${
+              routeMenu === '/admin/typeproduct' ? 'bg-[#4a4a4a]' : ''
+            }`"
+          >
+            <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block"
+              >Loại sản phẩm</span
+            >
+          </a>
+          <a
+          class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
           @click="router.push('/admin/cart')"
           :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
         >
           <Shopping-bagIcon class="w-6 h-6 lg:w-5 lg:h-5"></Shopping-bagIcon>
-          <span class="pl-2 pt-0.5 hidden lg:block">Quản lý đơn hàng</span>
+          <span class="pl-2 pt-0.5 hidden lg:block">Đơn hàng</span>
         </a>
+        </div>
         <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
           @click="router.push('/admin/accounts')"
@@ -66,7 +82,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 export default defineComponent({
@@ -75,10 +91,17 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const routeMenu = computed(() => route.path);
+    const showDropdown = ref(false);
+
+    function actionShowDropdown () {
+      showDropdown.value = !showDropdown.value;
+    }
     return {
       route,
       router,
       routeMenu,
+      showDropdown,
+      actionShowDropdown
     };
   },
 });

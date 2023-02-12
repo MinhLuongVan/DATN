@@ -134,17 +134,6 @@ export default {
     const selectedCart = ref<CartModel>(new CartModel());
     const deleteConfirmationModal = ref(false);
 
-     // Get all cart
-    //  async function initGetAllCart() {
-    //   const data = {} as cartInfor;
-    //   const response = await cartService.findAll(data, authStore.token);
-    //   if (response.data.success) {
-    //     carts.value = response.data.values;
-    //   } else {
-    //     setNotificationToastMessage("Tải dữ liệu thât bại", false);
-    //   }
-    // }
-
     // init id cart
     function actionInitDeleteCart(item: cartInfor) {
       selectedCart.value._id = item._id;

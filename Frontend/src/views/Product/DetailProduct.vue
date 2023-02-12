@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div>
     <!-- BEGIN: Page Layout -->
     <div class="intro-y py-3 lg:px-52 mt-3 lg:mt-5">
       <div class="intro-y flex lg:mt-0 items-center">
@@ -273,7 +273,6 @@ import { useAuthStore } from "../../stores/authStore";
 import { setNotificationToastMessage } from "../../utils/myFunction";
 import { cartInfor } from "../../types/cartType";
 import cartService from "../../services/cartService";
-import { error } from '../../../../Backend/notifications/message';
 export default {
   name: "DetailProduct",
   components: {
@@ -358,7 +357,8 @@ export default {
       } as cartInfor;
       const response = await cartService.save(data, authStore.token);
       if (response.data.success) {
-       router.push('/product/cart')
+       //router.push('/product/cart')
+       setNotificationToastMessage("Thêm giỏ hàng thành công ", true);
       } else {
         
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
