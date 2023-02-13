@@ -266,10 +266,11 @@ import { useRoute } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { productInfor } from '../../types/productType';
 import productService from "../../services/productService";
 import { useAuthStore } from "../../stores/authStore";
+import { useCartStore } from "../../stores/cartStore";
 import { setNotificationToastMessage } from "../../utils/myFunction";
 import { cartInfor } from "../../types/cartType";
 import cartService from "../../services/cartService";
@@ -285,12 +286,15 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const authStore = useAuthStore();
+    const myCartStore = useCartStore();
     const listProduct: any = ref<productInfor[]>([]);
     const isShowDescribe = ref(false);
     const isShowEvaluate = ref(false);
     const quantity = ref(1);
     const sales = ref<productInfor[]>([]);
     const products = ref<productInfor[]>([]);
+    const currentUser = computed(() => authStore.currentUser);
+    const myCarts = computed(() => myCartStore.carts);
     function showDescribe() {
       isShowEvaluate.value = false;
     }
@@ -348,7 +352,7 @@ export default {
     // add product in cart 
     async function actionAddCart() {
       const data = {
-        userId: authStore.currentUser._id,
+        userId: currentUser.value._id,
         productImage: listProduct.value.image,
         productName: listProduct.value.name,
         productId: listProduct.value.uuid,
@@ -357,7 +361,8 @@ export default {
       } as cartInfor;
       const response = await cartService.save(data, authStore.token);
       if (response.data.success) {
-       //router.push('/product/cart')
+        myCartStore.getAllCart();
+      //  router.push('/product/cart')
        setNotificationToastMessage("Thêm giỏ hàng thành công ", true);
       } else {
         
@@ -384,6 +389,7 @@ export default {
       upAmount,
       products,
       quantity,
+      currentUser,
       actionAddCart,
       settings: {
         itemsToShow: 1,

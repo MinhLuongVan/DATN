@@ -39,7 +39,7 @@
                 <td class="border text-center">{{ item.quantity }}</td>
                 <td class="border text-center">{{ item.totalMoney }}vnđ</td>
                 <td class="border text-center">
-                  <div class="flex justify-center text-red-500">
+                  <div class="flex justify-center text-red-500 cursor-pointer">
                     <TrashIcon class="w-5"></TrashIcon> 
                     <p class="pl-1 pt-1"
                     @click="actionInitDeleteCart(item)">Xóa</p>
@@ -133,12 +133,13 @@ export default {
     const myCart: any = computed(() => myCartStore.carts) 
     const selectedCart = ref<CartModel>(new CartModel());
     const deleteConfirmationModal = ref(false);
-
     // init id cart
     function actionInitDeleteCart(item: cartInfor) {
       selectedCart.value._id = item._id;
       deleteConfirmationModal.value = true;
     }
+
+    
 
     // Delete product
     async function actionDeleteProduct() {
@@ -153,7 +154,7 @@ export default {
       }
     }
     onMounted( async () => {
-      await myCartStore.getAllCart();;
+      await myCartStore.getAllCart();
     })
     return {
       router,

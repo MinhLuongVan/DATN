@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory,RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import TopMenu from "../../src/layouts/top-menu/Main.vue";
 import PageHome from "../views/Home/Home.vue";
 import PageIntroduce from "../views/Introduce/Introduce.vue";
@@ -6,10 +6,11 @@ import PageProduct from "../views/Product/ListProduct.vue";
 import PageDetailProduct from "../views/Product/DetailProduct.vue";
 import PageCart from "../views/Product/Cart.vue";
 import PagePay from "../views/Product/Pay.vue";
+import PageNews from "../views/News/News.vue";
 import PageContact from "../views/Contact/Contact.vue";
 import PageTransport from "../views/Introduce/Transport.vue";
-import PageSecurity from "../views/Introduce/Security.vue"
-import PageConditions from "../views/Introduce/Conditions.vue"
+import PageSecurity from "../views/Introduce/Security.vue";
+import PageConditions from "../views/Introduce/Conditions.vue";
 import Login from "../views/Login/Login.vue";
 import LoginAdmin from "../views/Admin/Login/Login.vue";
 import Register from "../views/Register/Register.vue";
@@ -17,43 +18,29 @@ import ProductMain from "../views/Admin/Products/ProductMain.vue";
 import TypeProduct from "../views/Admin/Products/TypeProduct.vue";
 import AccountMain from "../views/Admin/Account/AccountMain.vue";
 import CartMainVue from "../views/Admin/Cart/CartMain.vue";
+import NewsAdmin from "../views/Admin/Contact/News.vue";
+import ContactAdmin from "../views/Admin/Contact/Contact.vue";
+import CommentAdmin from "../views/Admin/Contact/Comment.vue";
 import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
-import AdminDashboard from '../views/Admin/Dashbroad/Main.vue';
-import AdminSetting from '../views/Admin/Setting/Configuration.vue';
+import AdminDashboard from "../views/Admin/Dashbroad/Main.vue";
+import AdminSetting from "../views/Admin/Setting/Configuration.vue";
 import { useAuthStore } from "../stores/authStore";
 import Cookies from "js-cookie";
 import { env } from "../utils/myVariables";
 
-
-
 const routes: Array<RouteRecordRaw> = [
   {
-    path:"/login",
+    path: "/login",
     component: Login,
   },
   {
-    path:"/register",
-    component: Register
+    path: "/register",
+    component: Register,
   },
   {
     path: "/",
     component: TopMenu,
-     meta: {requiresAuth: true},
-    beforeEnter(to, _from, next){
-      const authStore = useAuthStore();
-     //  authStore.getToken();
-      authStore.getInforUser();
-     if (to.matched.some((record) => record.meta.requiresAuth)) {
-         if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
-             next();
-         } else {
-             next("/login");
-         }
-         
-     } else {
-         next();
-     }
-   },
+    meta: { requiresAuth: true },
     children: [
       {
         path: "/",
@@ -86,6 +73,11 @@ const routes: Array<RouteRecordRaw> = [
         component: PagePay,
       },
       {
+        path: "/news",
+        name: "side-menu-page-6",
+        component: PageNews,
+      },
+      {
         path: "/contact",
         name: "side-menu-page-7",
         component: PageContact,
@@ -93,92 +85,97 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/introduce/transport",
         name: "side-menu-page-8",
-        component:PageTransport ,
+        component: PageTransport,
       },
       {
         path: "/introduce/security",
         name: "side-menu-page-9",
-        component:PageSecurity ,
+        component: PageSecurity,
       },
       {
         path: "/introduce/condition",
         name: "side-menu-page-10",
-        component:PageConditions ,
+        component: PageConditions,
       },
     ],
   },
   {
-    path:"/admin/login",
+    path: "/admin/login",
     component: LoginAdmin,
   },
   {
-    path: '/admin',
+    path: "/admin",
     component: LayoutAdmin,
-    meta: {requiresAuth: true},
-    beforeEnter(to, _from, next){
-       const authStore = useAuthStore();
-       authStore.getToken();
-       authStore.getInforUser();
-      if (to.matched.some((record) => record.meta.requiresAuth)) {
-          if (Cookies.get(env.nameCookie) && authStore.isAuthenticated && authStore.currentUser.userInfor.isAdmin == true ) {
-              next();
-          } else {
-              next("/admin/login");
-          }
-          
-      } else {
-          next();
-      }
-    },
+    meta: { requiresAuth: true },
     children: [
       {
-        path: '',
-        component: AdminDashboard
+        path: "",
+        component: AdminDashboard,
       },
       {
-        path: 'products',
-        component: ProductMain
+        path: "products",
+        component: ProductMain,
       },
       {
-        path: 'typeproduct',
-        component: TypeProduct
+        path: "typeproduct",
+        component: TypeProduct,
       },
       {
-        path: 'accounts',
-        component:AccountMain,
+        path: "contact",
+        component: ContactAdmin,
       },
       {
-        path: 'cart',
-        component:CartMainVue,
+        path: "news",
+        component: NewsAdmin,
       },
       {
-        path: 'configuration',
-        component: AdminSetting
-      }
-    ]
-  }
-
+        path: "comment",
+        component: CommentAdmin,
+      },
+      {
+        path: "accounts",
+        component: AccountMain,
+      },
+      {
+        path: "cart",
+        component: CartMainVue,
+      },
+      {
+        path: "configuration",
+        component: AdminSetting,
+      },
+    ],
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-// router.beforeEach((to, _from, next) => {
-//   const authStore = useAuthStore();
-//    authStore.getToken();
-//    authStore.getInforUser();
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//       if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
-//           next();
-//       } else {
-//           next("/login");
-//       }
-      
-//   } else {
-//       next();
-//   }
-   
-// });
+router.beforeEach((to, _from, next) => {
+  const authStore = useAuthStore();
+  authStore.getToken();
+  authStore.getInforUser();
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
+      next();
+    } else {
+      next("/login");
+    }
+  } else {
+    next();
+  }
+  if (to.path && to.path.toString().includes("/admin")) {
+    if (
+      Cookies.get(env.nameCookie) &&
+      authStore.isAuthenticated &&
+      authStore.currentUser.userInfor.isAdmin == true
+    ) {
+      next();
+    } else {
+      next("/admin/login");
+    }
+  }
+});
 
 export default router;

@@ -16,12 +16,19 @@
         <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
           @click="actionShowDropdown"
-          :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
         >
           <Shopping-bagIcon class="w-6 h-6 lg:w-5 lg:h-5"></Shopping-bagIcon>
-          <span class="pl-2 pt-0.5 hidden lg:pr-10 lg:block">Quản lý bán hàng</span>
-          <chevron-downIcon v-if="!showDropdown" class="w-5 h-5 hidden lg:block"></chevron-downIcon>
-          <chevron-upIcon v-else class="w-5 h-5 hidden lg:block"></chevron-upIcon>
+          <span class="pl-2 pt-0.5 hidden lg:pr-10 lg:block"
+            >Quản lý bán hàng</span
+          >
+          <chevron-downIcon
+            v-if="!showDropdown"
+            class="w-5 h-5 hidden lg:block"
+          ></chevron-downIcon>
+          <chevron-upIcon
+            v-else
+            class="w-5 h-5 hidden lg:block"
+          ></chevron-upIcon>
         </a>
         <div v-if="showDropdown" class="">
           <a
@@ -29,7 +36,7 @@
             @click="router.push('/admin/products')"
             :class="`${routeMenu === '/admin/products' ? 'bg-[#4a4a4a]' : ''}`"
           >
-            <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
+            <PackageIcon class="w-6 h-6 lg:w-5 lg:h-5"></PackageIcon>
             <span class="pl-2 pt-0.5 hidden lg:block">Sản phẩm</span>
           </a>
           <a
@@ -39,19 +46,62 @@
               routeMenu === '/admin/typeproduct' ? 'bg-[#4a4a4a]' : ''
             }`"
           >
-            <TagIcon class="w-6 h-6 lg:w-5 lg:h-5"></TagIcon>
-            <span class="pl-2 pt-0.5 hidden lg:block"
-              >Loại sản phẩm</span
-            >
+            <X-squareIcon class="w-6 h-6 lg:w-5 lg:h-5"></X-squareIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block">Loại sản phẩm</span>
           </a>
           <a
-          class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
-          @click="router.push('/admin/cart')"
-          :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
+            class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
+            @click="router.push('/admin/cart')"
+            :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
+          >
+            <Shopping-cartIcon class="w-6 h-6 lg:w-5 lg:h-5"></Shopping-cartIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block">Đơn hàng</span>
+          </a>
+        </div>
+        <a
+          class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
+          @click="actionShowDropdownContent"
         >
-          <Shopping-bagIcon class="w-6 h-6 lg:w-5 lg:h-5"></Shopping-bagIcon>
-          <span class="pl-2 pt-0.5 hidden lg:block">Đơn hàng</span>
+          <AlbumIcon class="w-6 h-6 lg:w-5 lg:h-5"></AlbumIcon>
+          <span class="pl-2 pt-0.5 hidden lg:pr-10 lg:block"
+            >Quản lý nội dung</span
+          >
+          <chevron-downIcon
+            v-if="!showDropdownContent"
+            class="w-5 h-5 hidden lg:block"
+          ></chevron-downIcon>
+          <chevron-upIcon
+            v-else
+            class="w-5 h-5 hidden lg:block"
+          ></chevron-upIcon>
         </a>
+        <div v-if="showDropdownContent" class="">
+          <a
+            class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
+            @click="router.push('/admin/contact')"
+            :class="`${routeMenu === '/admin/contact' ? 'bg-[#4a4a4a]' : ''}`"
+          >
+            <ReplyIcon class="w-6 h-6 lg:w-5 lg:h-5"></ReplyIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block">Phản hồi</span>
+          </a>
+          <a
+            class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
+            @click="router.push('/admin/comment')"
+            :class="`${
+              routeMenu === '/admin/comment' ? 'bg-[#4a4a4a]' : ''
+            }`"
+          >
+            <Thumbs-upIcon class="w-6 h-6 lg:w-5 lg:h-5"></Thumbs-upIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block">Đánh giá</span>
+          </a>
+          <a
+            class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
+            @click="router.push('/admin/news')"
+            :class="`${routeMenu === '/admin/news' ? 'bg-[#4a4a4a]' : ''}`"
+          >
+            <Clipboard-listIcon class="w-6 h-6 lg:w-5 lg:h-5"></Clipboard-listIcon>
+            <span class="pl-2 pt-0.5 hidden lg:block">Tin tức</span>
+          </a>
         </div>
         <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
@@ -92,16 +142,23 @@ export default defineComponent({
     const router = useRouter();
     const routeMenu = computed(() => route.path);
     const showDropdown = ref(false);
+    const showDropdownContent = ref(false);
 
-    function actionShowDropdown () {
+    function actionShowDropdown() {
       showDropdown.value = !showDropdown.value;
+    }
+
+    function actionShowDropdownContent() {
+      showDropdownContent.value = !showDropdownContent.value;
     }
     return {
       route,
       router,
       routeMenu,
       showDropdown,
-      actionShowDropdown
+      showDropdownContent,
+      actionShowDropdown,
+      actionShowDropdownContent
     };
   },
 });

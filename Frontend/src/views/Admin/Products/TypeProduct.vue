@@ -152,7 +152,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, computed } from "vue";
 import { useAuthStore } from "../../../stores/authStore";
 import typeProductService from "../../../services/typeProductService";
 import { setNotificationToastMessage } from "../../../utils/myFunction";
@@ -176,7 +176,7 @@ export default defineComponent({
     const name = ref("");
     const uuid = new ShortUniqueId({ length: 8 });
     const myTypeStore = useTypeProductStore();
-    const typeProduct: any = myTypeStore.typeProducts;
+    const typeProduct: any = computed(() => myTypeStore.typeProducts);
     
     //reload data
     const reloadData = () => {

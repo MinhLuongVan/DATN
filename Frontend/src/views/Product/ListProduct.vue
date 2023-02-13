@@ -20,14 +20,16 @@
               DANH MỤC SẢN PHẨM
             </button>
             <ul class="text-base border">
-              <li v-if="textColor"
+              <li
+                v-if="textColor"
                 class="px-3 py-2 border-b hover:text-lime-500 flex cursor-pointer text-lime-500"
                 @click="showTree = 'XuongRong'"
                 :class="`${showTree === 'XuongRong' ? 'text-lime-500' : ''}`"
               >
                 Xương rồng
               </li>
-              <li v-else
+              <li
+                v-else
                 class="px-3 py-2 border-b hover:text-lime-500 flex cursor-pointer"
                 @click="showTree = 'XuongRong'"
                 :class="`${showTree === 'XuongRong' ? 'text-lime-500' : ''}`"
@@ -68,8 +70,10 @@
               :key="index"
               class="intro-y mt-2"
             >
-              <div class="lg:border-y lg:px-2 mb-2"
-              @click="router.push('/product/' +item._id)">
+              <div
+                class="lg:border-y lg:px-2 mb-2"
+                @click="router.push('/product/' + item._id)"
+              >
                 <div class="p-2 flex">
                   <div
                     class="h-20 w-20 image-fit overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10"
@@ -84,7 +88,10 @@
                     <div class="flex items-center">
                       {{ item.name }}
                     </div>
-                    <div v-if="item.discount > 0" class="flex items-center mt-2">
+                    <div
+                      v-if="item.discount > 0"
+                      class="flex items-center mt-2"
+                    >
                       Giá: {{ item.priceSale }}vnđ
                     </div>
                     <div v-else class="flex items-center mt-2">
@@ -99,8 +106,8 @@
         <div class="intro-y lg:col-span-8 col-span-12">
           <div class="flex border-b pb-4 justify-between">
             <div class="flex">
-              <GiftIcon></GiftIcon>
-              <ListIcon class="ml-5"></ListIcon>
+              <GiftIcon @click="showProductGift"></GiftIcon>
+              <ListIcon @click="showProductList" class="ml-5"></ListIcon>
             </div>
             <div class="flex">
               <p>Sắp xếp theo :</p>
@@ -117,7 +124,7 @@
             </div>
           </div>
           <!-- BEGIN: product -->
-          <div class="intro-y grid grid-cols-9 gap-6">
+          <div v-if="showProduct" class="intro-y grid grid-cols-9 gap-6">
             <div
               class="intro-y lg:col-span-3 col-span-9 mt-5"
               v-for="(item, index) in treeList"
@@ -140,8 +147,10 @@
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
                       ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"
-                      @click="router.push('/product/' +item._id)" ></EyeIcon>
+                      <EyeIcon
+                        class="w-5 h-5 hover:text-lime-500"
+                        @click="router.push('/product/' + item._id)"
+                      ></EyeIcon>
                     </div>
                   </div>
                 </div>
@@ -150,17 +159,85 @@
                 >
                   <span>{{ item.name }}</span>
                 </div>
-                <div v-if="item.discount > 0" class="text-center mb-4 mt-4 text-base">
+                <div
+                  v-if="item.discount > 0"
+                  class="text-center mb-4 mt-4 text-base"
+                >
                   <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
-                  <span class="text-gray-300 px-3"><del>{{ item.price }}vnđ</del></span>
+                  <span class="text-gray-300 px-3"
+                    ><del>{{ item.price }}vnđ</del></span
+                  >
                 </div>
                 <div v-else class="text-center mb-4 mt-4 text-base">
-                  <span class="text-orange-400">{{ item.price}}vnđ</span>
+                  <span class="text-orange-400">{{ item.price }}vnđ</span>
                 </div>
               </div>
             </div>
           </div>
           <!-- END: product -->
+
+          <!-- BEGIN: list-product -->
+          <div v-else class="intro-y grid grid-cols-9">
+            <div
+              class="intro-y col-span-9 mt-5"
+              v-for="(item, index) in treeList"
+              :key="index"
+            >
+              <div class="w-full flex h-auto border rounded-xl">
+                <div class="item-container">
+                  <img
+                    :src="item.image"
+                    alt="/"
+                    class="w-full h-44 rounded-md"
+                  />
+                  <span
+                    v-if="item.discount > 0"
+                    class="absolute top-0 bg-pending/80 text-white text-xs ml-3 mt-4 px-3 py-1 rounded z-10"
+                    >{{ item.discount }}%
+                  </span>
+                </div>
+                <div class="pl-10 py-5">
+                  <div
+                    class="w-full h-6 cursor-pointer mt-4 text-base hover:text-lime-400"
+                  >
+                    <span>{{ item.name }}</span>
+                  </div>
+                  <div v-if="item.discount > 0" class="mb-4 mt-4 text-base">
+                    <span class="text-orange-400">{{ item.priceSale }}vnđ</span>
+                    <span class="text-gray-300 px-3"
+                      ><del>{{ item.price }}vnđ</del></span
+                    >
+                  </div>
+                  <div v-else class="mb-4 mt-4 text-base">
+                    <span class="text-orange-400">{{ item.price }}vnđ</span>
+                  </div>
+                  <div class="flex">
+                    <div>
+                      <button
+                        class="btn bg-lime-500 text-slate-100 border-lime-500"
+                      >
+                        <Shopping-cartIcon
+                          class="w-5 h-5 mr-2"
+                        ></Shopping-cartIcon>
+                        Mua ngay
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        class="btn ml-3 text-white bg-slate-400 border-slate-400"
+                      >
+                        <EyeIcon
+                          class="w-5 h-5"
+                          @click="router.push('/product/' + item._id)"
+                        ></EyeIcon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END: list-product -->
         </div>
       </div>
     </div>
@@ -188,7 +265,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const treeList: any = ref([]);
     const textColor = ref(true);
-
+    const showProduct = ref(true);
     watch(
       () => showTree.value,
       (value) => {
@@ -203,6 +280,14 @@ export default defineComponent({
         }
       }
     );
+
+    function showProductGift() {
+      showProduct.value = true;
+    }
+
+    function showProductList() {
+      showProduct.value = false;
+    }
 
     // Get all product sale
     async function initGetAllProductBySale() {
@@ -240,7 +325,6 @@ export default defineComponent({
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
-      
     }
 
     // Get all product by category = sen đá
@@ -295,6 +379,9 @@ export default defineComponent({
       showTree,
       treeList,
       textColor,
+      showProduct,
+      showProductGift,
+      showProductList,
       initGetAllProductByOfficeTree,
       initGetAllProductByCastus,
       initGetAllProductByStoneLotus,

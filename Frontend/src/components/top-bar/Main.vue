@@ -161,6 +161,10 @@
                   @click="actionDeleteProduct(item)"
                 ></XIcon>
               </div>
+              <div class="mt-3">
+                <button class="btn text-slate-100 bg-lime-500 border-slime-500 mr-3">Giỏ hàng</button>
+                <button class="btn text-slate-100 bg-lime-500 border-slime-500">Thanh toán</button>
+              </div>
             </DropdownContent>
           </DropdownMenu>
         </Dropdown>
@@ -229,6 +233,9 @@
       >
       <a href="/listproduct" class="hover:text-lime-500 mr-6 text-base"
         >SẢN PHẨM</a
+      >
+      <a href="/news" class="hover:text-lime-500 mr-6 text-base"
+        >TIN TỨC</a
       >
       <a href="/contact" class="hover:text-lime-500 mr-6 text-base">LIÊN HỆ</a>
     </nav>

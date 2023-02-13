@@ -4,7 +4,6 @@ import {User, userInfor} from '../types/userType';
 import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 
-
 export const useAuthStore: StoreDefinition = defineStore({
     id:'auth',
     state: () => ({
