@@ -63,7 +63,7 @@
               />
               <div class="m-2">
                 <p class="text-base font-medium">Địa chỉ</p>
-                <p class="mt-1">A12, Đinh Tiên Hoàng, Q. Hoàn Kiếm, Hà Nội</p>
+                <p class="mt-1">Ngõ 113 Yên Hòa, Quận Cầu Giấy, Hà Nội</p>
               </div>
             </div>
             <div class="flex mt-4">
@@ -153,8 +153,8 @@ export default {
         } as contactInfor;
         const res = await ContactService.save(data, authStore.token);
         if (res.data.success) {
-          resetData();
           setNotificationToastMessage("Gửi liên hệ thành công", true);
+          resetData();
         } else {
           setNotificationToastMessage(res.data.message, false);
         }
@@ -170,6 +170,7 @@ export default {
       v$,
       state,
       submitContact,
+      resetData
     };
   },
 };

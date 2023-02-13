@@ -83,20 +83,17 @@ export const findAllUsers = async function ( req: Request, res: Response) {
 
 export const findOneUser = async function ( req: Request, res: Response) {
     try {
-        const authorization = req.headers["authorization"];
-        if (!authorization) {
-            return errJwtNotVerify(res);
-        }
+        // const authorization = req.headers["authorization"];
+        // if (!authorization) {
+        //     return errJwtNotVerify(res);
+        // }
 
-        const verify = await authorizationServices(authorization);
+        // const verify = await authorizationServices(authorization);
 
-        if (verify) {
-            // const item = req.body as IUser;
-            const itemService = await findOneUserServices(verify);
+        // if (verify) {
+            const item = req.body as IUser;
+            const itemService = await findOneUserServices(item);
             return res.json(itemService);
-        } else {
-            return errJwtNotVerify(res);
-        }
     } catch (e: unknown) {
         let err: string;
         if (e instanceof Error) {
@@ -112,20 +109,20 @@ export const findOneUser = async function ( req: Request, res: Response) {
 
 export const deleteUser = async function ( req: Request, res: Response) {
     try {
-        const authorization = req.headers["authorization"];
-        if (!authorization) {
-            return errJwtNotVerify(res);
-        }
+        // const authorization = req.headers["authorization"];
+        // if (!authorization) {
+        //     return errJwtNotVerify(res);
+        // }
 
-        const verify = await authorizationAdminServices(authorization);
+        // const verify = await authorizationAdminServices(authorization);
 
-        if (verify) {
+        // if (verify) {
             const item = req.body as IUser;
             const itemService = await deleteUserServices(item);
             return res.json(itemService);
-        } else {
-            return errJwtNotVerify(res);
-        }
+        // } else {
+        //     return errJwtNotVerify(res);
+        // }
     } catch (e: unknown) {
         let err: string;
         if (e instanceof Error) {
@@ -141,19 +138,19 @@ export const deleteUser = async function ( req: Request, res: Response) {
 
 export const updateUser = async function (req: Request, res: Response) {
     try {
-        const authorization = req.headers["authorization"];
-        if (!authorization) {
-            return errJwtNotVerify(res);
-        }
+        // const authorization = req.headers["authorization"];
+        // if (!authorization) {
+        //     return errJwtNotVerify(res);
+        // }
 
-        const verify = await authorizationAdminServices(authorization);
-        if (verify) {
+        // const verify = await authorizationAdminServices(authorization);
+        // if (verify) {
             const item = req.body as IUser;
             const itemService = await updateUserServices( item);
             return res.json(itemService);
-        } else {
-            return errJwtNotVerify(res);
-        }
+        // } else {
+        //     return errJwtNotVerify(res);
+        // }
     } catch (e: unknown) {
         let err: string;
         if (e instanceof Error) {

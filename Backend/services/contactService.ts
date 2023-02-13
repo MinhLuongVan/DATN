@@ -1,5 +1,6 @@
 import { IContact } from '../models/interface/contact';
-import {Contact} from '../models/contactModel';
+import mongoose from 'mongoose';
+import { Contact } from '../models/contactModel';
 import { errorUnknown } from '../utils/myVariables';
 import { okResponse,errResponse,dataNotFoundResponse } from '../notifications/message';
 
@@ -44,3 +45,49 @@ export const createContactSevice = async function (data: IContact) {
         return errResponse(err);
     }
 }
+
+// get id contact
+export const findOneContactServices = async function(data:IContact) {
+    try {
+        const itemFindIdContact = await Contact.findOne({
+            _id: new mongoose.Types.ObjectId(data._id)
+        });
+        if(itemFindIdContact) {
+            return okResponse(itemFindIdContact);
+        }else {
+            return dataNotFoundResponse();
+        }
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+}
+
+// delete contact
+export const deleteContactServices = async function(data: IContact) {
+    try {
+        const itemDeleteContact = await Contact.findByIdAndDelete({
+            _id: new mongoose.Types.ObjectId(data._id)
+        });
+        if(itemDeleteContact) {
+            return okResponse(itemDeleteContact);
+        }else {
+            return dataNotFoundResponse();
+        }
+    }catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+}
+
+

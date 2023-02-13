@@ -3,7 +3,7 @@ import { User } from '../models/userModel';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import {env,errorUnknown} from '../utils/myVariables';
-import {IUser} from '../models/interface/user';
+import { IUser } from '../models/interface/user';
 import { okResponse,errResponse,dataNotFoundResponse } from '../notifications/message';
 
 // Register 
@@ -61,11 +61,10 @@ export const findAllUsersServices = async function () {
 }
 
 // Get User
-
-export const findOneUserServices = async function (verify: string) {
+export const findOneUserServices = async function (data: IUser) {
     try {
         const itemFind = await User.findOne({
-            _id: new mongoose.Types.ObjectId(verify),
+            _id: new mongoose.Types.ObjectId(data._id),
         });
 
         if (itemFind) {

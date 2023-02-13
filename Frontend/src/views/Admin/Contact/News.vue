@@ -10,7 +10,7 @@
       </button>
     </div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số tin tức : {{}}</span>
+      <span class="lg:pt-2.5 text-slate-700">Tổng số tin tức : {{news.length}}</span>
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
