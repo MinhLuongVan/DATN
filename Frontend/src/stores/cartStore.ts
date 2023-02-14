@@ -15,7 +15,7 @@ export const useCartStore = defineStore({
         async getAllCart() {
                 const authStore = useAuthStore()
                 const data = {} as cartInfor;
-                const response =  await cartService.findAll(data, authStore.token)
+                const response =  await cartService.findAll(data, authStore.currentUser.Token)
                 if(response.data.success){
                     this.carts =  response.data.values;
                 } else {

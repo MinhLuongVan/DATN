@@ -15,7 +15,7 @@ export const useTypeProductStore = defineStore({
         async getAllTypeProduct() {
                 const authStore = useAuthStore()
                 const data = {} as typeProductInfor;
-                const response =  await typeProductService.findAll(data, authStore.token)
+                const response =  await typeProductService.findAll(data, authStore.currentUser.Token)
                 if(response.data.success){
                     this.typeProducts =  response.data.values;
                 } else {

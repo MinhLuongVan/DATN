@@ -1,19 +1,25 @@
 import mongoose from "mongoose";
 import { Schema,Document } from 'mongoose';
 interface FeedbackType extends Document {
-    name: string;
-    email: string;
-    note: string;
+    userId: string;
+    productId: string;
+    content: string;
+    rating: number;
 }
  const FeedbackSchema = new Schema<FeedbackType>({
-    name:{
+    userId: {
+        type: String,
+        ref: "User"
+    },
+    productId:{
+        type: String,
+        ref: "Product"
+    },
+    content: {
         type: String,
     },
-    email: {
-        type: String,
-    },
-    note: {
-        type: String,
+    rating: {
+        type: Number,
     }
  },
     { timestamps: true}

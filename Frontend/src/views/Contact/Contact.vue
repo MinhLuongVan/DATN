@@ -146,12 +146,12 @@ export default {
       const result = await v$.value.$validate();
       if (result) {
         const data = {
-          userId: authStore.currentUser._id,
+          userId: authStore.currentUser.userInfor._id,
           email: state.value.email,
           name: state.value.name,
           note: state.value.note,
         } as contactInfor;
-        const res = await ContactService.save(data, authStore.token);
+        const res = await ContactService.save(data,  authStore.currentUser.Token);
         if (res.data.success) {
           setNotificationToastMessage("Gửi liên hệ thành công", true);
           resetData();

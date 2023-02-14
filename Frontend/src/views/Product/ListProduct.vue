@@ -292,7 +292,7 @@ export default defineComponent({
     // Get all product sale
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
-      const response = await productService.findBySale(data, authStore.token);
+      const response = await productService.findBySale(data,  authStore.currentUser.Token);
       if (response.data.success) {
         sales.value = response.data.values;
       } else {
@@ -305,7 +305,7 @@ export default defineComponent({
       const data = {} as productInfor;
       const response = await productService.findByCategory(
         data,
-        authStore.token
+        authStore.currentUser.Token
       );
       if (response.data.success) {
         treeList.value = response.data.values;
@@ -319,7 +319,7 @@ export default defineComponent({
     async function initGetAllProductByCastus() {
       showTree.value == "Xương rồng";
       const data = {} as productInfor;
-      const response = await productService.findByCastus(data, authStore.token);
+      const response = await productService.findByCastus(data,  authStore.currentUser.Token);
       if (response.data.success) {
         treeList.value = response.data.values;
       } else {
@@ -333,7 +333,7 @@ export default defineComponent({
       const data = {} as productInfor;
       const response = await productService.findByStoneLotus(
         data,
-        authStore.token
+        authStore.currentUser.Token
       );
       if (response.data.success) {
         treeList.value = response.data.values;
@@ -348,7 +348,7 @@ export default defineComponent({
       const data = {} as productInfor;
       const response = await productService.findByHangingTree(
         data,
-        authStore.token
+        authStore.currentUser.Token
       );
       if (response.data.success) {
         treeList.value = response.data.values;
@@ -361,7 +361,7 @@ export default defineComponent({
     // Get all product by category = chậu cảnh
     async function initGetAllProductByPot() {
       const data = {} as productInfor;
-      const response = await productService.findByPot(data, authStore.token);
+      const response = await productService.findByPot(data,  authStore.currentUser.Token);
       if (response.data.success) {
         treeList.value = response.data.values;
       } else {

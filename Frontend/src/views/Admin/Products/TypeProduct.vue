@@ -29,7 +29,7 @@
     <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table class="table table-report -mt-2">
+        <table v-if="typeProduct.length > 0" class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap">Mã loại sản phẩm</th>
@@ -66,6 +66,9 @@
             </tr>
           </tbody>
         </table>
+        <div v-else class="text-center">
+          <span class="text-">Thật tiếc! Chưa có loại sản phẩm nào!</span>
+        </div> 
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -196,7 +199,7 @@ export default defineComponent({
       if (name.value === " ") {
         setNotificationToastMessage("Vui lòng thêm tên loại sản phẩm", false);
       } else {
-        const response = await typeProductService.save(data, authStore.token);
+        const response = await typeProductService.save(data,  authStore.currentUser.Token);
         if (response.data.success) {
           AddConfirmationModal.value = false;
           reloadData();
@@ -218,7 +221,7 @@ export default defineComponent({
       itemDelete._id = selectedTypeProduct.value._id;
       const response = await typeProductService.delete(
         itemDelete,
-        authStore.token
+        authStore.currentUser.Token
       );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
@@ -233,7 +236,7 @@ export default defineComponent({
       const itemFindId: any = { _id: item._id } as typeProductInfor;
       const response = await typeProductService.findOne(
         itemFindId,
-        authStore.token
+        authStore.currentUser.Token
       );
       idUpdate.value = response.data.values._id;
       name.value = response.data.values.name;
@@ -250,7 +253,7 @@ export default defineComponent({
       } as typeProductInfor;
       const response = await typeProductService.update(
         dataUpdate,
-        authStore.token
+        authStore.currentUser.Token
       );
       if (response.data.success) {
         AddConfirmationModal.value = false;

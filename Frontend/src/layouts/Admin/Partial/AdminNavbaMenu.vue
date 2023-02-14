@@ -47,9 +47,10 @@
               <LockIcon class="w-4 h-4 mr-2" /> Đổi mật khẩu
             </div>
             <div
-              class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3"
+              class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3 cursor-pointer"
+              @click="actionLogout()"
             >
-              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5" /> Đăng xuất
+              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5"/> Đăng xuất
             </div>
           </DropdownMenu>
         </Dropdown>
@@ -62,12 +63,23 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useRouter } from "vue-router";
+import Cookies from "js-cookie";
 
 export default defineComponent({
   name: "AdminNavbarMenu",
 
   setup() {
-    return {};
+    const router = useRouter();
+
+    // Logout
+    async function actionLogout () {
+      Cookies.remove("Authorization");
+      await router.push("/admin/login");
+    }
+    return {
+      actionLogout
+    };
   },
 });
 </script>

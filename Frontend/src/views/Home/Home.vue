@@ -105,9 +105,16 @@
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Mua ngay"
+                        
+                      >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
                       ></ShoppingCartIcon>
+                      </Tippy>
                       <EyeIcon
                         class="w-5 h-5 hover:text-lime-500"
                         @click="router.push('/product/' + item._id)"
@@ -373,8 +380,6 @@ import { onMounted, ref } from "vue";
 import { productInfor } from "../../types/productType";
 import productService from "../../services/productService";
 import { setNotificationToastMessage } from "../../utils/myFunction";
-import { cartInfor } from "../../types/cartType";
-import cartService from "../../services/cartService";
 export default {
   name: "Home",
   components: {
@@ -394,7 +399,7 @@ export default {
     // Get all product by new
     async function initGetAllProductByNew() {
       const data = {} as productInfor;
-      const response = await productService.findByNew(data, authStore.token);
+      const response = await productService.findByNew(data,  authStore.currentUser.Token);
       // products.value = response.data.values;
       if (response.data.success) {
         products.value = response.data.values;
@@ -408,7 +413,7 @@ export default {
       const data = {} as productInfor;
       const response = await productService.findByCategory(
         data,
-        authStore.token
+        authStore.currentUser.Token
       );
       // products.value = response.data.values;
       if (response.data.success) {
@@ -421,7 +426,7 @@ export default {
     // Get all product by sale
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
-      const response = await productService.findBySale(data, authStore.token);
+      const response = await productService.findBySale(data,  authStore.currentUser.Token);
       // products.value = response.data.values;
       if (response.data.success) {
         sales.value = response.data.values;

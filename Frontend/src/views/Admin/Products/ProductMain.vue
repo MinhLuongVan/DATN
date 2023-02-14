@@ -29,7 +29,7 @@
     <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table class="table table-report -mt-2">
+        <table v-if="products.length > 0" class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap">Hình ảnh</th>
@@ -84,6 +84,9 @@
             </tr>
           </tbody>
         </table>
+        <div v-else class="text-center">
+          <span class="text-">Thật tiếc! Chưa có sản phẩm nào!</span>
+        </div> 
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -322,7 +325,7 @@ export default defineComponent({
     // Get all product
     async function initGetAllProduct() {
       const data = {} as productInfor;
-      const response = await productService.findAll(data, authStore.token);
+      const response = await productService.findAll(data,  authStore.currentUser.Token);
       // products.value = response.data.values;
       if (response.data.success) {
         products.value = response.data.values;
@@ -347,7 +350,7 @@ export default defineComponent({
       // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
       //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
       // } else {
-      const response = await productService.save(data, authStore.token);
+      const response = await productService.save(data,  authStore.currentUser.Token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
         reloadData();
@@ -366,7 +369,7 @@ export default defineComponent({
     async function actionDeleteProduct() {
       const itemDelete = new ProductModel();
       itemDelete._id = selectedProduct.value._id;
-      const response = await productService.delete(itemDelete, authStore.token);
+      const response = await productService.delete(itemDelete,  authStore.currentUser.Token);
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
@@ -380,7 +383,7 @@ export default defineComponent({
       const itemFindId: any = { _id: item._id } as productInfor;
       const response = await productService.findOne(
         itemFindId,
-        authStore.token
+        authStore.currentUser.Token
       );
       idUpdate.value = response.data.values._id;
       name.value = response.data.values.name;
@@ -404,7 +407,7 @@ export default defineComponent({
         category: category.value,
         image: image.value,
       } as productInfor;
-      const response = await productService.update(dataUpdate, authStore.token);
+      const response = await productService.update(dataUpdate,  authStore.currentUser.Token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;

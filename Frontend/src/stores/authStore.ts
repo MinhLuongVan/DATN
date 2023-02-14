@@ -4,10 +4,10 @@ import {User, userInfor} from '../types/userType';
 import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 
-export const useAuthStore: StoreDefinition = defineStore({
+export const useAuthStore = defineStore({
     id:'auth',
     state: () => ({
-        currentUser: {} as User | {},
+        currentUser: {} as User,
         currentRegister: {} as User | {},
         isAuthenticated:false,
         activeUser: [] as string[],
@@ -27,9 +27,11 @@ export const useAuthStore: StoreDefinition = defineStore({
         getToken() {
             this.token = Cookies.get(env.nameCookie);
         },
-        async getInforUser() {
+        async getInforUser(currentUser: User) {
             if(this.token) {
-                const data = {} as userInfor;
+                const data = {
+                    _id: currentUser.userInfor._id,
+                } as userInfor;
                 const response =  await UserService.findOne(data,this.token)
                 this.currentUser =  response.data.values;
             }

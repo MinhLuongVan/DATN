@@ -1,7 +1,8 @@
-export interface IFeedback {
+export type feedbackInfor = {
     _id: string;
     userId: string;
     productId: string;
-    rating: number;
     content: string;
+    rating: number;
+    createdAt: Date;
 }

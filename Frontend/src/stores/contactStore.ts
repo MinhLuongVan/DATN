@@ -14,7 +14,7 @@ export const useContactStore = defineStore({
         async getAllContact() {
                 const authStore = useAuthStore()
                 const data = {} as contactInfor;
-                const response =  await contactService.findAll(data, authStore.token)
+                const response =  await contactService.findAll(data,authStore.currentUser.Token)
                 if(response.data.success){
                     this.contacts =  response.data.values;
                 } else {

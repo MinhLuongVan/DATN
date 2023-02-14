@@ -1,26 +1,26 @@
 import { StoreDefinition, defineStore} from "pinia";
 import { setNotificationToastMessage } from "../utils/myFunction";
 import { useAuthStore } from "../stores/authStore";
-import { newsInfor } from "../types/newsType";
-import newsService from "../services/newsService";
+import { feedbackInfor } from "../types/feedbackType";
+import feedbackService from "../services/feedbackService";
 
-export const useNewsStore = defineStore({
-    id:'myNews',
+export const useFeedbackStore = defineStore({
+    id:'myFeedback',
     state: () => ({
-        news: {} as newsInfor ,
+        feedbacks: {} as feedbackInfor ,
         
     }),
     getters: {},
     actions: {
-        async getAllNews() {
+        async getAllFeedback() {
                 const authStore = useAuthStore()
-                const data = {} as newsInfor;
-                const response =  await newsService.findAll(data, authStore.currentUser.Token)
+                const data = {} as feedbackInfor;
+                const response =  await feedbackService.findAll(data, authStore.currentUser.Token)
                 if(response.data.success){
-                    this.news =  response.data.values;
+                    this.feedbacks =  response.data.values;
                 } else {
                     setNotificationToastMessage('Tải dữ liệu thất bại',false)
                 }   
-        }
+        },
     },
 });

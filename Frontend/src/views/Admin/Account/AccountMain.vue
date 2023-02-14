@@ -283,7 +283,7 @@ export default defineComponent({
     // Get all user
     async function initGetAllUser() {
       const data = {} as userInfor;
-      const response = await userService.findAll(data, authStore.token);
+      const response = await userService.findAll(data,  authStore.currentUser.Token);
       if (response.data.success) {
         users.value = response.data.values;
       } else {
@@ -296,7 +296,7 @@ export default defineComponent({
       const itemFindId: any = { _id: item._id } as userInfor;
       const response = await userService.findOne(
         itemFindId,
-        authStore.token
+        authStore.currentUser.Token
       );
       idUpdate.value = response.data.values._id;
       state.value.username = response.data.values.username;
@@ -317,7 +317,7 @@ export default defineComponent({
     async function actionDeleteAccount() {
       const itemDelete = new UserModel();
       itemDelete._id = selectedUser.value._id;
-      const response = await userService.delete(itemDelete, authStore.token);
+      const response = await userService.delete(itemDelete,  authStore.currentUser.Token);
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
@@ -335,7 +335,7 @@ export default defineComponent({
         sdt: state.value.sdt,
         password: state.value.password,
       } as userInfor;
-      const response = await userService.update(dataUpdate, authStore.token);
+      const response = await userService.update(dataUpdate,  authStore.currentUser.Token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;

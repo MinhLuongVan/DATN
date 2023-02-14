@@ -27,7 +27,7 @@
     <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table class="table table-report -mt-2">
+        <table v-if="news.length > 0" class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap text-center">Hình ảnh</th>
@@ -73,6 +73,9 @@
             </tr>
           </tbody>
         </table>
+        <div v-else class="text-center">
+          <span class="text-">Thật tiếc! Chưa có tin tức nào!</span>
+        </div> 
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -270,7 +273,7 @@ export default defineComponent({
     // get all news
     async function actionGetAllNews() {
       const data = {} as newsInfor;
-      const response = await newsService.findAll(data, authStore.token);
+      const response = await newsService.findAll(data,  authStore.currentUser.Token);
       if (response.data.success) {
         news.value = response.data.values;
       } else {
@@ -288,7 +291,7 @@ export default defineComponent({
       // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
       //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
       // } else {
-      const response = await newsService.save(data, authStore.token);
+      const response = await newsService.save(data,  authStore.currentUser.Token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
         reloadData();
@@ -307,7 +310,7 @@ export default defineComponent({
     async function actionDeleteNews() {
       const itemDelete = new NewsModel();
       itemDelete._id = selectedNews.value._id;
-      const response = await newsService.delete(itemDelete, authStore.token);
+      const response = await newsService.delete(itemDelete,  authStore.currentUser.Token);
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
@@ -319,7 +322,7 @@ export default defineComponent({
     // lấy news by id
     async function actionInitEditNews(item: newsInfor) {
       const itemFindId: any = { _id: item._id } as newsInfor;
-      const response = await newsService.findOne(itemFindId, authStore.token);
+      const response = await newsService.findOne(itemFindId,  authStore.currentUser.Token);
       idUpdate.value = response.data.values._id;
       name.value = response.data.values.name;
       content.value = response.data.values.content;
@@ -336,7 +339,7 @@ export default defineComponent({
         content: content.value,
         image: image.value,
       } as newsInfor;
-      const response = await newsService.update(dataUpdate, authStore.token);
+      const response = await newsService.update(dataUpdate,  authStore.currentUser.Token);
       if (response.data.success) {
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;

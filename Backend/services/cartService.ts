@@ -6,7 +6,7 @@ import { okResponse,errResponse,dataNotFoundResponse } from '../notifications/me
 import { Cart } from '../models/cartModel';
 import { ICart } from '../models/interface/cart';
 
-//get all product
+//get all cart
 export const getAllCartServices = async function() {
     try {
         const itemFind = await Cart.find();
@@ -27,7 +27,7 @@ export const getAllCartServices = async function() {
 };
 
 
-// Add product
+// Add cart
 export const addCartServices = async function (data: ICart) {
     try {
         const itemAddCart = await new Cart({
@@ -52,7 +52,7 @@ export const addCartServices = async function (data: ICart) {
     }
 }
 
-// get id product
+// get id cart
 export const findOneCartServices = async function(data:ICart) {
     try {
         const itemFindIdCart = await Cart.findOne({
@@ -74,7 +74,7 @@ export const findOneCartServices = async function(data:ICart) {
     }
 }
 
-// update product
+// update cart
 export const updateCartSevices = async function (data: ICart) {
     try {
         const itemUpdateCart = await Cart.findOne({
@@ -98,7 +98,7 @@ export const updateCartSevices = async function (data: ICart) {
     }
 }
 
-// delete product 
+// delete cart 
 export const deleteCartServices = async function(data: ICart) {
     try {
         const itemDeleteCart = await Cart.findByIdAndDelete({

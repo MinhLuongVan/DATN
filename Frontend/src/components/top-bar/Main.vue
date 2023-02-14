@@ -263,7 +263,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const carts = ref<cartInfor[]>([]);
     const myCart: any = computed(() => myCartStore.carts) 
-    const currentUser = computed(() => {
+    const currentUser: any = computed(() => {
       return authStore.currentUser.userInfor;
     });
  
@@ -279,7 +279,7 @@ export default defineComponent({
     async function actionDeleteProduct(item: cartInfor) {
       const itemDelete = new CartModel();
       itemDelete._id = item._id;
-      const response = await cartService.delete(itemDelete, authStore.token);
+      const response = await cartService.delete(itemDelete,  authStore.currentUser.Token);
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {

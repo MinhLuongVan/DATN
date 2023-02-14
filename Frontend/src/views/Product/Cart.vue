@@ -139,13 +139,11 @@ export default {
       deleteConfirmationModal.value = true;
     }
 
-    
-
     // Delete product
     async function actionDeleteProduct() {
       const itemDelete = new CartModel();
       itemDelete._id = selectedCart.value._id;
-      const response = await cartService.delete(itemDelete, authStore.token);
+      const response = await cartService.delete(itemDelete,  authStore.currentUser.Token);
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {

@@ -18,7 +18,7 @@
     <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table class="table table-report -mt-2">
+        <table v-if="contacts.length > 0" class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap text-center">Họ tên</th>
@@ -53,6 +53,9 @@
             </tr>
           </tbody>
         </table>
+        <div v-else class="text-center">
+          <span class="text-">Thật tiếc! Chưa có phản hồi nào!</span>
+        </div> 
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -119,7 +122,7 @@ export default defineComponent({
     async function actionDeleteContact() {
       const itemDelete = new ContactModel();
       itemDelete._id = selectedContact.value._id;
-      const response = await contactService.delete(itemDelete, authStore.token);
+      const response = await contactService.delete(itemDelete,  authStore.currentUser.Token);
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {

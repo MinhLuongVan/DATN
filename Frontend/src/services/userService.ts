@@ -19,7 +19,7 @@ class UserService {
     delete(data: UserModel,token: string) {
         return apiClient(token).post("/user/delete",data)
     }
-    findOne(data: UserModel, token: string) {
+    findOne(data: userInfor , token: string) {
         return apiClient(token).post("/user/find-one",data)
     }
 
