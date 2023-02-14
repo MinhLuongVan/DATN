@@ -383,7 +383,7 @@ export default defineComponent({
       const itemFindId: any = { _id: item._id } as productInfor;
       const response = await productService.findOne(
         itemFindId,
-        authStore.currentUser.Token
+        authStore.Token
       );
       idUpdate.value = response.data.values._id;
       name.value = response.data.values.name;

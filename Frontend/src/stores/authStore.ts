@@ -1,17 +1,18 @@
 import { defineStore,StoreDefinition} from "pinia";
 import Cookies from 'js-cookie';
-import {User, userInfor} from '../types/userType';
+import { User, userInfor } from '../types/userType';
 import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 
-export const useAuthStore = defineStore({
+export const useAuthStore:StoreDefinition = defineStore({
     id:'auth',
     state: () => ({
         currentUser: {} as User,
         currentRegister: {} as User | {},
         isAuthenticated:false,
         activeUser: [] as string[],
-        token: "" as string | undefined
+        token: "" as string | undefined,
+        users: {} as userInfor
     }),
     getters: {},
     actions: {
@@ -27,13 +28,26 @@ export const useAuthStore = defineStore({
         getToken() {
             this.token = Cookies.get(env.nameCookie);
         },
-        async getInforUser(currentUser: User) {
+        async getInforUser() {
             if(this.token) {
                 const data = {
-                    _id: currentUser.userInfor._id,
+                   
                 } as userInfor;
                 const response =  await UserService.findOne(data,this.token)
                 this.currentUser =  response.data.values;
+            }
+        },
+
+         // Get all user
+        async initGetAllUser() {
+            if(this.token) {
+                const data = {} as userInfor;
+                const response = await UserService.findAll(data,  this.token);
+                    if (response.data.success) {
+                        this.users = response.data.values;
+                    } else {
+                        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+                }
             }
         },
         logoutUser() {

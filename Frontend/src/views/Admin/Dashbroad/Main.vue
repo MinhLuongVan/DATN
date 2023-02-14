@@ -68,13 +68,14 @@ export default defineComponent({
     const myAuthStore = useAuthStore();
     const myProductStore = useProductStore();
     const myTypeProductStore = useTypeProductStore();
-    const myAccount: any = computed(() => myAuthStore.currentRegister);
+    const myAccount: any = computed(() => myAuthStore.users);
     const myProduct: any = computed(() => myProductStore.products);
     const myTypeProduct: any = computed(() => myTypeProductStore.typeProducts);
 
     onMounted(() => {
       myProductStore.getAllProduct();
       myTypeProductStore.getAllTypeProduct();
+      myAuthStore.initGetAllUser();
     
     });
     return {

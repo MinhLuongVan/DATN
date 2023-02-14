@@ -230,7 +230,7 @@
               :key="index"
               class="intro-y mt-4"
             >
-              <div class="px-3 mb-2 hover:border border-lime-300">
+              <div class="px-3 mb-2 hover:border border-lime-300"  @click="router.push('/product/' + item._id)">
                 <div class="p-2 flex">
                   <div class="h-24 w-24 image-fit o">
                     <img
@@ -289,10 +289,26 @@
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Mua ngay"
+                        
+                      >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
                       ></ShoppingCartIcon>
-                      <EyeIcon class="w-5 h-5 hover:text-lime-500"></EyeIcon>
+                      </Tippy>
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Xem"
+                      >
+                      <EyeIcon
+                        class="w-5 h-5 hover:text-lime-500"
+                        @click="router.push('/product/' + item._id)"
+                      ></EyeIcon>
+                    </Tippy>
                     </div>
                   </div>
                 </div>

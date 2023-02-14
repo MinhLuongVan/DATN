@@ -1,13 +1,18 @@
 <template>
   <div>
     <div class="mb-3 bg-white rounded-md mt-12 lg:mt-0">
-      <button class="border rounded-md py-2 px-3 flex bg-lime-500 text-white" @click="AddConfirmationModal = true">
+      <button
+        class="border rounded-md py-2 px-3 flex bg-lime-500 text-white"
+        @click="AddConfirmationModal = true"
+      >
         <plus-squareIcon class="w-4 h-4 mr-2 mt-0.5"></plus-squareIcon>
         Thêm tài khoản
       </button>
     </div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số tài khoản : {{ users.length }}</span>
+      <span class="lg:pt-2.5 text-slate-700"
+        >Tổng số tài khoản : {{ myAccount.length }}</span
+      >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
@@ -35,7 +40,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in users" :key="index" class="intro-x">
+            <tr v-for="(item, index) in myAccount" :key="index" class="intro-x">
               <td>
                 <a href="" class="font-medium whitespace-nowrap">{{
                   item.username
@@ -60,10 +65,12 @@
               </td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
-                  <a class="flex items-center mr-3" href="javascript:;"
-                  @click="actionInitEditAccount(item)">
-                    <CheckSquareIcon class="w-4 h-4 mr-1"
-                     /> Chỉnh sửa
+                  <a
+                    class="flex items-center mr-3"
+                    href="javascript:;"
+                    @click="actionInitEditAccount(item)"
+                  >
+                    <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
                   </a>
                   <a
                     class="flex items-center text-danger"
@@ -148,7 +155,10 @@
                 placeholder="Mật khẩu"
                 class="form-control my-2"
               />
-              <small class="text-red-500 text-base" v-if="v$.passwordagain.$errors">
+              <small
+                class="text-red-500 text-base"
+                v-if="v$.passwordagain.$errors"
+              >
                 {{ v$.passwordagain.$errors[0]?.$message }}
               </small>
             </div>
@@ -202,8 +212,13 @@
             >
               Trở lại
             </button>
-            <button type="button" class="btn btn-danger w-24"
-            @click="actionDeleteAccount">Xóa</button>
+            <button
+              type="button"
+              class="btn btn-danger w-24"
+              @click="actionDeleteAccount"
+            >
+              Xóa
+            </button>
           </div>
         </ModalBody>
       </Modal>
@@ -212,14 +227,17 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../../stores/authStore";
 import { userInfor } from "../../../types/userType";
 import userService from "../../../services/userService";
 import useValidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
-import { setNotificationFailedWhenGetData, setNotificationToastMessage } from "../../../utils/myFunction";
+import {
+  setNotificationFailedWhenGetData,
+  setNotificationToastMessage,
+} from "../../../utils/myFunction";
 import { UserModel } from "../../../model/userModel";
 export default defineComponent({
   name: "Accounts",
@@ -238,6 +256,7 @@ export default defineComponent({
     const passwordagain = ref("");
     const idUpdate = ref("");
     const selectedUser = ref<UserModel>(new UserModel());
+    const myAccount: any = computed(() => authStore.users);
 
     const state = ref({
       email: "",
@@ -269,7 +288,7 @@ export default defineComponent({
           if (res.data.success) {
             authStore.registerUser(res.data.values);
             AddConfirmationModal.value = false;
-            initGetAllUser();
+            authStore.initGetAllUser();
           } else {
             setNotificationToastMessage(res.data.message, false);
           }
@@ -280,19 +299,22 @@ export default defineComponent({
         setNotificationFailedWhenGetData();
       }
     };
-    // Get all user
-    async function initGetAllUser() {
-      const data = {} as userInfor;
-      const response = await userService.findAll(data,  authStore.currentUser.Token);
-      if (response.data.success) {
-        users.value = response.data.values;
-      } else {
-        setNotificationToastMessage("Tải dữ liệu thât bại", false);
-      }
-    }
+    // // Get all user
+    // async function initGetAllUser() {
+    //   const data = {} as userInfor;
+    //   const response = await userService.findAll(
+    //     data,
+    //     authStore.currentUser.Token
+    //   );
+    //   if (response.data.success) {
+    //     users.value = response.data.values;
+    //   } else {
+    //     setNotificationToastMessage("Tải dữ liệu thât bại", false);
+    //   }
+    // }
 
-     // lấy user by id
-     async function actionInitEditAccount(item: userInfor) {
+    // lấy user by id
+    async function actionInitEditAccount(item: userInfor) {
       const itemFindId: any = { _id: item._id } as userInfor;
       const response = await userService.findOne(
         itemFindId,
@@ -317,17 +339,20 @@ export default defineComponent({
     async function actionDeleteAccount() {
       const itemDelete = new UserModel();
       itemDelete._id = selectedUser.value._id;
-      const response = await userService.delete(itemDelete,  authStore.currentUser.Token);
+      const response = await userService.delete(
+        itemDelete,
+        authStore.currentUser.Token
+      );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-        initGetAllUser();
+       authStore.initGetAllUser();
       }
     }
 
-     //edit user
-     async function actionEditAccount() {
+    //edit user
+    async function actionEditAccount() {
       const dataUpdate = {
         _id: idUpdate.value,
         username: state.value.username,
@@ -335,25 +360,27 @@ export default defineComponent({
         sdt: state.value.sdt,
         password: state.value.password,
       } as userInfor;
-      const response = await userService.update(dataUpdate,  authStore.currentUser.Token);
+      const response = await userService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
       if (response.data.success) {
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;
         reloadData();
-        initGetAllUser();
+        authStore.initGetAllUser();
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
-    
     }
 
     //reload data
     const reloadData = () => {
-      username.value ='',
-      email.value ='',
-      password.value ='',
-      passwordagain.value ='',
-      sdt.value = ''
+      (username.value = ""),
+        (email.value = ""),
+        (password.value = ""),
+        (passwordagain.value = ""),
+        (sdt.value = "");
     };
 
     const actionCloseModal = () => {
@@ -363,7 +390,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      initGetAllUser();
+      authStore.initGetAllUser();
     });
     return {
       router,
@@ -376,6 +403,7 @@ export default defineComponent({
       v$,
       users,
       idUpdate,
+      myAccount,
       showButtonEdit,
       deleteConfirmationModal,
       AddConfirmationModal,
@@ -384,7 +412,7 @@ export default defineComponent({
       actionInitEditAccount,
       actionDeleteAccount,
       actionInitDeleteAccount,
-      actionEditAccount
+      actionEditAccount,
     };
   },
 });

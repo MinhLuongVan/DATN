@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div><AdminNavbarMenu /></div>
     <div class="grid grid-cols-5 lg:grid-cols-6 gap-5">
       <!-- BEGIN: Side Menu -->
@@ -37,3 +37,4 @@ export default defineComponent({
   },
 });
 </script>
+

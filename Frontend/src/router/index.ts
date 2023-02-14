@@ -68,7 +68,7 @@ const routes: Array<RouteRecordRaw> = [
         component: PageCart,
       },
       {
-        path: "/product/pay",
+        path: "/checkout",
         name: "side-menu-page-6",
         component: PagePay,
       },

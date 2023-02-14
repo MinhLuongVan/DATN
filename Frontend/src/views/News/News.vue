@@ -11,20 +11,20 @@
       </div>
       <!-- BEGIN: Page Introduce -->
       <div class="intro-y py-5">
-        <div v-for="(item,index) in myNews" :key="index" class="border  rounded-xl py-2">
-          <div class="w-full flex h-auto py-2 px-2">
-            <div class="image w-full">
+        <div v-for="(item,index) in myNews" :key="index" class="border rounded-xl py-2 my-5">
+          <div class="grid grid-cols-4 gap-4 h-auto p-2">
+            <div class="col-span-4 lg:col-span-1 image">
               <img
                 :src="item.image"
                 alt="/"
                 class="w-full h-56 rounded-md"
               />
             </div>
-            <div class="px-10 py-2">
+            <div class="col-span-4 lg:col-span-3 px-2 lg:px-10 py-2">
               <div
-                class="w-full h-6 cursor-pointer  text-base hover:text-lime-400"
+                class="w-full h-6 cursor-pointer text-base"
               >
-                <span class="text-lg font-medium">{{ item.name }}</span>
+                <span class="text-lg font-medium hover:text-lime-500">{{ item.name }}</span>
                 <div class="flex py-2 ">
                   <div class="flex">
                     <CalendarIcon class="w-5 h-5 pt-0.5"></CalendarIcon>
@@ -60,14 +60,15 @@ export default {
     const router = useRouter();
     const myNewsStore = useNewsStore();
     const myNews: any = computed(() => myNewsStore.news);
-
+    const screen = ref(400);
     onMounted( async() => {
       myNewsStore.getAllNews();
     })
     return {
       router,
       moment,
-      myNews
+      myNews,
+      screen
     };
   },
 };

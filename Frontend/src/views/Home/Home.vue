@@ -109,16 +109,22 @@
                         tag="div"
                         class="cursor-pointer"
                         content="Mua ngay"
-                        
                       >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
+                       
                       ></ShoppingCartIcon>
                       </Tippy>
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Xem"
+                      >
                       <EyeIcon
                         class="w-5 h-5 hover:text-lime-500"
                         @click="router.push('/product/' + item._id)"
                       ></EyeIcon>
+                    </Tippy>
                     </div>
                   </div>
                 </div>
@@ -182,13 +188,26 @@
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Mua ngay"
+                        
+                      >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
                       ></ShoppingCartIcon>
+                      </Tippy>
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Xem"
+                      >
                       <EyeIcon
                         class="w-5 h-5 hover:text-lime-500"
                         @click="router.push('/product/' + item._id)"
                       ></EyeIcon>
+                    </Tippy>
                     </div>
                   </div>
                 </div>
@@ -282,13 +301,26 @@
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Mua ngay"
+                        
+                      >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
                       ></ShoppingCartIcon>
+                      </Tippy>
+                      <Tippy
+                        tag="div"
+                        class="cursor-pointer"
+                        content="Xem"
+                      >
                       <EyeIcon
                         class="w-5 h-5 hover:text-lime-500"
                         @click="router.push('/product/' + item._id)"
                       ></EyeIcon>
+                    </Tippy>
                     </div>
                   </div>
                 </div>
