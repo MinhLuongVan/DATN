@@ -455,7 +455,7 @@ export default {
     // add product in cart
     async function actionAddCart() {
       const data = {
-        userId: currentUser.value.userInfor._id,
+        userId: currentUser.value._id,
         productImage: listProduct.value.image,
         productName: listProduct.value.name,
         productId: listProduct.value.uuid,

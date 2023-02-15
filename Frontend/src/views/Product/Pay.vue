@@ -124,7 +124,7 @@
           </div>
           <!-- End: hình thức thanh toán -->
         </div>
-        <div class="col-span-12 lg:col-span-4">
+        <div v-if="routePath.includes('/checkout')" class="col-span-12 lg:col-span-4">
           <!-- Begin: Đơn hàng -->
           <div class="border rounded-md">
             <div
@@ -132,16 +132,19 @@
             >
               <Shopping-cartIcon class="w-4 mr-1 ml-3"></Shopping-cartIcon>
               <span class="text-base">Đơn hàng</span>
-              <span class="text-base pl-0.5">(1 sản phẩm)</span>
             </div>
             <div class="flex p-3">
-                <img src="../../assets/images/tree5.jpg" alt="/" class="w-24 h-24">
-                <div class="p-2.5">
-                <p>Tên cây</p>
-                <p>70.000đ</p>
+              <img
+                :src="listProduct.image"
+                alt="/"
+                class="w-24 h-24"
+              />
+              <div class="p-2.5">
+                <p class="font-medium pb-1">{{ listProduct.name }}</p>
+                <p>{{ listProduct.priceSale }}vnđ</p>
                 <span>x1</span>
-                <p>70.000đ</p>
-                </div>
+                <p>{{ listProduct.priceSale }}vnđ</p>
+              </div>
             </div>
           </div>
           <!-- End: Đơn hàng -->
@@ -155,32 +158,44 @@
               <span class="text-base">Vận chuyển</span>
             </div>
             <div class="p-3">
-                <h2 class="font-medium">Phí giao hàng tận nơi</h2>
-                <div class="flex py-3">
-                    <input type="checkbox" name="checked" id="checkbox" class="rounded-full" checked>
-                    <p class="px-2">Miễn phí giao hàng toàn quốc</p>
-                </div>
+              <h2 class="font-medium">Phí giao hàng tận nơi</h2>
+              <div class="flex py-3">
+                <input
+                  type="checkbox"
+                  name="checked"
+                  id="checkbox"
+                  class="rounded-full"
+                  checked
+                />
+                <p class="px-2">Miễn phí giao hàng toàn quốc</p>
+              </div>
             </div>
           </div>
           <!-- End: Vận chuyển-->
 
-           <!-- Begin: Thành tiền -->
-           <table class="mt-4">
+          <!-- Begin: Thành tiền -->
+          <table class="mt-4">
             <tr>
-            <th class="border px-8 py-2">Thành tiền</th>
-            <th class="border px-8 py-2">Phí vận chuyển</th>
-            <th class="border px-8 py-2">Tổng tiền</th>
+              <th class="border px-8 py-2">Thành tiền</th>
+              <th class="border px-8 py-2">Phí vận chuyển</th>
+              <th class="border px-8 py-2">Tổng tiền</th>
             </tr>
             <tr>
               <td class="border py-2 px-8">70.000đ</td>
               <td class="border text-center py-2 px-8">0đ</td>
               <td class="border text-red-500 py-2 px-8">70.000đ</td>
             </tr>
-           </table>
+          </table>
           <!-- End: Thành tiền-->
           <div class="mt-4 flex justify-between">
-            <button class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300">Quay lại giỏ hàng</button>
-            <button class="px-4 py-2 text-white rounded-md bg-lime-500 hover:bg-lime-600">Đặt hàng</button>
+            <button class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300">
+              Quay lại giỏ hàng
+            </button>
+            <button
+              class="px-4 py-2 text-white rounded-md bg-lime-500 hover:bg-lime-600"
+            >
+              Đặt hàng
+            </button>
           </div>
         </div>
       </div>
@@ -191,8 +206,15 @@
 </template>
 
 <script lang="ts">
+import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
+import { productInfor } from "../../types/productType";
+import productService from "../../services/productService";
+import { useAuthStore } from "../../stores/authStore";
 import bottom from "../../views/Footer/Footer.vue";
+import { computed, onMounted, ref } from "vue";
+import { setNotificationToastMessage } from "../../utils/myFunction";
+
 export default {
   name: "Pay",
   components: {
@@ -200,8 +222,34 @@ export default {
   },
   setup() {
     const router = useRouter();
+    const route = useRoute();
+    const authStore = useAuthStore();
+    const listProduct: any = ref<productInfor[]>([]);
+    const routePath = computed(() => route.path)
+   
+    // get product by id
+    async function actionGetProductById() {
+      const itemFind: any = { _id: route.params.id } as productInfor;
+      const response = await productService.findOne(
+        itemFind,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        listProduct.value = response.data.values;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+      }
+    }
+
+    onMounted(async () => {
+      await actionGetProductById();
+    });
     return {
+      route,
       router,
+      listProduct,
+      routePath
+    
     };
   },
 };

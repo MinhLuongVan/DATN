@@ -5,7 +5,7 @@ import PageIntroduce from "../views/Introduce/Introduce.vue";
 import PageProduct from "../views/Product/ListProduct.vue";
 import PageDetailProduct from "../views/Product/DetailProduct.vue";
 import PageCart from "../views/Product/Cart.vue";
-import PagePay from "../views/Product/Pay.vue";
+import Pay from "../views/Product/Pay.vue";
 import PageNews from "../views/News/News.vue";
 import PageContact from "../views/Contact/Contact.vue";
 import PageTransport from "../views/Introduce/Transport.vue";
@@ -28,7 +28,7 @@ import { useAuthStore } from "../stores/authStore";
 import Cookies from "js-cookie";
 import { env } from "../utils/myVariables";
 
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: "/login",
     component: Login,
@@ -68,9 +68,8 @@ const routes: Array<RouteRecordRaw> = [
         component: PageCart,
       },
       {
-        path: "/checkout",
-        name: "side-menu-page-6",
-        component: PagePay,
+        path: "/checkout/:id",
+        component: Pay,
       },
       {
         path: "/news",

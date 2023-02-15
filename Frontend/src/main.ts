@@ -5,10 +5,12 @@ import App from "./App.vue";
 import router from "./router/index";
 import globalComponents from "./global-components";
 import utils from "./utils/index";
+import VueApexCharts from 'vue3-apexcharts'
 import "./assets/css/app.css";
 const app = createApp(App)
 const pinia = createPinia();
 pinia.use(piniaPersist);
+app.use(VueApexCharts)
 
 app.use(router)
 app.use(pinia)

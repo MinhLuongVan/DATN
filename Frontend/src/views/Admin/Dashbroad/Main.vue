@@ -54,6 +54,9 @@
         </div>
       </div>
     </div>
+    <div>
+    <apexchart type="line" :options="chartOptions" :series="chartSeries" height="350"/>
+  </div>
   </div>
 </template>
 
@@ -64,18 +67,33 @@ import { useAuthStore } from "../../../stores/authStore";
 import { useProductStore } from "../../../stores/productStore";
 export default defineComponent({
   name: "AdminDashboard",
+  data() {
+    return {
+      chartOptions: {
+        chart: {
+          id: 'vue-chart',
+        },
+        xaxis: {
+          categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
+        }
+      },
+      chartSeries: [{
+        name: 'Doanh số',
+        data: [0, 150, 200, 250, 300, 350, 400]
+      }]
+    }
+  },
   setup() {
     const myAuthStore = useAuthStore();
     const myProductStore = useProductStore();
     const myTypeProductStore = useTypeProductStore();
-    const myAccount: any = computed(() => myAuthStore.users);
+    const myAccount: any = computed(() => myAuthStore.currentRegister);
     const myProduct: any = computed(() => myProductStore.products);
     const myTypeProduct: any = computed(() => myTypeProductStore.typeProducts);
 
     onMounted(() => {
       myProductStore.getAllProduct();
       myTypeProductStore.getAllTypeProduct();
-      myAuthStore.initGetAllUser();
     
     });
     return {
