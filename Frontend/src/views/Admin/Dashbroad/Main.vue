@@ -3,7 +3,7 @@
     <div class="grid grid-cols-12 gap-6 mt-5">
       <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
         <div class="">
-          <div class=" p-5 text-center border-2 rounded-lg">
+          <div class="p-5 text-center border-2 rounded-lg">
             <div class="flex justify-center">
               <ShoppingCartIcon class="report-box__icon text-primary" />
             </div>
@@ -54,35 +54,45 @@
         </div>
       </div>
     </div>
-    <div>
-    <apexchart type="line" :options="chartOptions" :series="chartSeries" class="mt-5 "  height="300"/>
-  </div>
+    <div class="lg:flex mt-5 lg:mt-10">
+      <div class="lg:w-1/2 border p-5">
+        <apexchart
+          class="w-full"
+          type="bar"
+          :options="chartOptions1"
+          :series="chartSeries1"
+        />
+        <div class="w-full text-center">
+          <span class="lg:text-lg font-medium">Biểu đồ quản lý nội dung</span>
+        </div>
+      </div>
+      <!-- <div class="lg:w-1/2 border p-5">
+        <apexchart
+          class="w-full"
+          type="line"
+          :options="chartOptions2"
+          :series="chartSeries2"
+          height="250px"
+        />
+        <div class="w-full text-center">
+          <span class="lg:text-lg font-medium"
+            >Biểu đồ quản lý loại sản phẩm</span
+          >
+        </div>
+      </div> -->
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useTypeProductStore } from "../../../stores/typeProductStore";
 import { useAuthStore } from "../../../stores/authStore";
 import { useProductStore } from "../../../stores/productStore";
+
+
 export default defineComponent({
   name: "AdminDashboard",
-  data() {
-    return {
-      chartOptions: {
-        chart: {
-          id: 'vue-chart',
-        },
-        xaxis: {
-          categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
-        }
-      },
-      chartSeries: [{
-        name: 'Sản phẩm',
-        data: [0, 150, 200, 250, 300, 350, 400]
-      }]
-    }
-  },
   setup() {
     const myAuthStore = useAuthStore();
     const myProductStore = useProductStore();
@@ -90,19 +100,83 @@ export default defineComponent({
     const myAccount: any = computed(() => myAuthStore.users);
     const myProduct: any = computed(() => myProductStore.products);
     const myTypeProduct: any = computed(() => myTypeProductStore.typeProducts);
-
+     const test: any = ref([]);
+     const abc = myProduct.value.map((item:any) => {test.value.push(item.name)})
+    console.log('data',myProduct);
+    
     onMounted(() => {
       myProductStore.getAllProduct();
       myTypeProductStore.getAllTypeProduct();
-    
     });
+
+    const chartOptions1 = {
+      chart: {
+        id: "vue-chart",
+      },
+      xaxis: {
+        categories: test.value,
+      },
+      colors: "#00ff00",
+      plotOptions: {
+        bar: {
+          columnWidth: "25%",
+          stroke: "#fff",
+          strokeWidth: 2,
+        },
+      },
+    };
+
+    const chartSeries1 = [
+      {
+        name: "Quản lý nội dung",
+        data: myProduct.value.map((item:any) => item.amount),
+      },
+    ];
     return {
       myAccount,
       myProduct,
       myTypeProduct,
+      chartOptions1,
+      chartSeries1,
+      abc
+      // chartOptions1: {
+      //   chart: {
+      //     id: "vue-chart",
+      //   },
+      //   xaxis: {
+      //     categories: ["Tin tức", "Đánh giá", "Liên hệ"],
+      //   },
+      //   colors: "#00ff00",
+      //   plotOptions: {
+      //     bar: {
+      //       columnWidth: "25%",
+      //       stroke: "#fff",
+      //       strokeWidth: 2,
+      //     },
+      //   },
+      // },
+      // chartSeries1: [
+      //   {
+      //     name: "Quản lý nội dung",
+      //     data: [4, 5, 11],
+      //   },
+      // ],
+      // chartOptions2: {
+      //   chart: {
+      //     id: "vuechart-example",
+      //   },
+      //   xaxis: {
+      //     categories: ["Xương rồng", "Sen đá", "Cây treo", "Cây văn phòng"],
+      //   },
+      // },
+      // chartSeries2: [
+      //   {
+      //     data: [20, 40, 35, 50],
+      //   },
+      // ],
     };
   },
 });
 </script>
 
-<style lang="scss"></style>
+<style></style>
