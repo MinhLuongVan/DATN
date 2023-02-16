@@ -63,23 +63,23 @@
           :series="chartSeries1"
         />
         <div class="w-full text-center">
-          <span class="lg:text-lg font-medium">Biểu đồ quản lý nội dung</span>
+          <span class="lg:text-lg font-medium">Biểu đồ quản lý sản phẩm</span>
         </div>
       </div>
-      <!-- <div class="lg:w-1/2 border p-5">
+      <div class="lg:w-1/2 border p-5">
         <apexchart
           class="w-full"
           type="line"
           :options="chartOptions2"
-          :series="chartSeries2"
-          height="250px"
+          :series="[ { name: 'Số lượng', data: chartData } ]"
+         
         />
         <div class="w-full text-center">
           <span class="lg:text-lg font-medium"
             >Biểu đồ quản lý loại sản phẩm</span
           >
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -90,7 +90,6 @@ import { useTypeProductStore } from "../../../stores/typeProductStore";
 import { useAuthStore } from "../../../stores/authStore";
 import { useProductStore } from "../../../stores/productStore";
 
-
 export default defineComponent({
   name: "AdminDashboard",
   setup() {
@@ -100,13 +99,25 @@ export default defineComponent({
     const myAccount: any = computed(() => myAuthStore.users);
     const myProduct: any = computed(() => myProductStore.products);
     const myTypeProduct: any = computed(() => myTypeProductStore.typeProducts);
-     const test: any = ref([]);
-     const abc = myProduct.value.map((item:any) => {test.value.push(item.name)})
-    console.log('data',myProduct);
-    
-    onMounted(() => {
-      myProductStore.getAllProduct();
+    const totalProducts = computed(() => myProduct.value.length)
+const totalTypeProducts = computed(() => myTypeProduct.value.length)
+    const nameProduct: any = ref([]);
+    const amountProduct: any = ref([]);
+    const productData = computed(() => {
+      return [
+        { x: "Số lượng sản phẩm", y: myProduct.value.length },
+        { x: "Số lượng loại sản phẩm", y: myTypeProduct.value.length },
+      ];
+    });
+    onMounted(async () => {
+      await myProductStore.getAllProduct();
       myTypeProductStore.getAllTypeProduct();
+      const itemNameProduct = myProduct.value.map((item: any) => {
+        nameProduct.value.push(item.name);
+      });
+      const itemAmountProduct = myProduct.value.map((item: any) => {
+        amountProduct.value.push(item.amount);
+      });
     });
 
     const chartOptions1 = {
@@ -114,12 +125,12 @@ export default defineComponent({
         id: "vue-chart",
       },
       xaxis: {
-        categories: test.value,
+        categories: nameProduct.value,
       },
       colors: "#00ff00",
       plotOptions: {
         bar: {
-          columnWidth: "25%",
+          columnWidth: "50%",
           stroke: "#fff",
           strokeWidth: 2,
         },
@@ -127,53 +138,35 @@ export default defineComponent({
     };
 
     const chartSeries1 = [
-      {
-        name: "Quản lý nội dung",
-        data: myProduct.value.map((item:any) => item.amount),
-      },
+      { name: "Quản lý sản phẩm", data: amountProduct.value },
     ];
+
+    const chartData = [  { x: 'Sản phẩm', y: totalProducts.value },  { x: 'Loại sản phẩm', y: totalTypeProducts.value },];
+
+const chartOptions2 = {
+  chart: {
+    id: "vue-chart",
+  },
+  xaxis: {
+    categories: ['Sản phẩm', 'Loại sản phẩm'],
+  },
+  colors: ["#00ff00"],
+  stroke: {
+    curve: "smooth",
+  },
+};
+
+
     return {
       myAccount,
       myProduct,
       myTypeProduct,
       chartOptions1,
       chartSeries1,
-      abc
-      // chartOptions1: {
-      //   chart: {
-      //     id: "vue-chart",
-      //   },
-      //   xaxis: {
-      //     categories: ["Tin tức", "Đánh giá", "Liên hệ"],
-      //   },
-      //   colors: "#00ff00",
-      //   plotOptions: {
-      //     bar: {
-      //       columnWidth: "25%",
-      //       stroke: "#fff",
-      //       strokeWidth: 2,
-      //     },
-      //   },
-      // },
-      // chartSeries1: [
-      //   {
-      //     name: "Quản lý nội dung",
-      //     data: [4, 5, 11],
-      //   },
-      // ],
-      // chartOptions2: {
-      //   chart: {
-      //     id: "vuechart-example",
-      //   },
-      //   xaxis: {
-      //     categories: ["Xương rồng", "Sen đá", "Cây treo", "Cây văn phòng"],
-      //   },
-      // },
-      // chartSeries2: [
-      //   {
-      //     data: [20, 40, 35, 50],
-      //   },
-      // ],
+      chartOptions2,
+      chartData,
+      totalProducts,
+      totalTypeProducts
     };
   },
 });
