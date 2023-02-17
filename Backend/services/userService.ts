@@ -61,10 +61,10 @@ export const findAllUsersServices = async function () {
 }
 
 // Get User
-export const findOneUserServices = async function (data: IUser) {
+export const findOneUserServices = async function (verify: string) {
     try {
         const itemFind = await User.findOne({
-            _id: new mongoose.Types.ObjectId(data._id),
+            _id: new mongoose.Types.ObjectId(verify),
         });
 
         if (itemFind) {

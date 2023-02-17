@@ -81,7 +81,8 @@ export const updateCartSevices = async function (data: ICart) {
             _id: new mongoose.Types.ObjectId(data._id),
         });
         if(itemUpdateCart) {            
-            itemUpdateCart.quantity = data.quantity,          
+            itemUpdateCart.quantity = data.quantity, 
+            itemUpdateCart.totalMoney = Number(itemUpdateCart.productPrice)*Number(data.quantity),
             await itemUpdateCart.save();
             return okResponse(itemUpdateCart);  
         } else {

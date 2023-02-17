@@ -29,28 +29,48 @@
                 placeholder="Họ và tên"
               />
             </div>
-            <div class="mt-3 px-3">
-              <span class="text-base font-medium">Email</span>
-              <input
-                type="text"
-                class="w-full rounded-md mt-2"
-                placeholder="Email"
-              />
+            <div class="grid grid-cols-2 intro-y gap-3 ">
+              <div class="col-span-2 lg:col-span-1 mt-3 px-3">
+                <span class="text-base font-medium">Email</span>
+                <input
+                  type="text"
+                  class="w-full rounded-md mt-2 "
+                  placeholder="Email"
+                />
+              </div>
+              <div class="col-span-2 lg:col-span-1 mt-3 px-3">
+                <span class="text-base font-medium">Điện thoại</span>
+                <input
+                  type="text"
+                  class="rounded-md mt-2 w-full"
+                  placeholder="SĐT"
+                />
+              </div>
             </div>
-            <div class="mt-3 px-3">
-              <span class="text-base font-medium">Điện thoại</span>
-              <input
-                type="text"
-                class="w-full rounded-md mt-2"
-                placeholder="SĐT"
-              />
+            <div class="grid grid-cols-2 intro-y gap-3 ">
+              <div class="col-span-2 lg:col-span-1 mt-3 px-3">
+                <span class="text-base font-medium">Tỉnh/Thành phố</span>
+                <input
+                  type="text"
+                  class="w-full rounded-md mt-2 "
+                  placeholder="Vd: Bắc Giang"
+                />
+              </div>
+              <div class="col-span-2 lg:col-span-1 mt-3 px-3">
+                <span class="text-base font-medium">Quận/Huyện</span>
+                <input
+                  type="text"
+                  class="rounded-md mt-2 w-full"
+                  placeholder="Vd: Yên Dũng"
+                />
+              </div>
             </div>
             <div class="mt-3 px-3">
               <span class="text-base font-medium">Địa chỉ chi tiết</span>
               <input
                 type="text"
                 class="w-full rounded-md mt-2"
-                placeholder="Địa chỉ"
+                placeholder="Vd: Thôn Tân Mỹ- Xã Lãng Sơn"
               />
             </div>
             <div class="mt-3 px-3">
@@ -59,7 +79,8 @@
                 name=""
                 id=""
                 class="w-full rounded-md mt-2 mb-4"
-                rows="3"
+                rows="2"
+                placeholder="Vd: Chuyển hàng tong giờ hành chính từ thứ 2 đến thứ 6"
               ></textarea>
             </div>
           </div>
@@ -133,17 +154,13 @@
               <Shopping-cartIcon class="w-4 mr-1 ml-3"></Shopping-cartIcon>
               <span class="text-base">Đơn hàng</span>
             </div>
-            <div class="flex p-3">
-              <img
-                :src="listProduct.image"
-                alt="/"
-                class="w-24 h-24"
-              />
+            <div v-for="(item, index) in myCarts" :key="index" class="flex p-3">
+              <img :src="item.productImage" alt="/" class="w-24 h-24" />
               <div class="p-2.5">
-                <p class="font-medium pb-1">{{ listProduct.name }}</p>
-                <p>{{ listProduct.priceSale }}vnđ</p>
+                <p class="font-medium pb-1">{{ item.productName }}</p>
+                <p>{{ item.productPrice }}vnđ</p>
                 <span>x1</span>
-                <p>{{ listProduct.priceSale }}vnđ</p>
+                <p>{{ item.productPrice }}vnđ</p>
               </div>
             </div>
           </div>
@@ -181,15 +198,16 @@
               <th class="border px-8 py-2">Tổng tiền</th>
             </tr>
             <tr>
-              <td class="border py-2 px-8">{{ listProduct.priceSale }}vnđ</td>
-              <td class="border text-center py-2 px-8">0vnđ</td>
-              <td class="border text-red-500 py-2 px-8">{{ listProduct.priceSale }}vnđ</td>
+              <td class="border text-center py-2">{{ totalPrice }}vnđ</td>
+              <td class="border text-center py-2">0vnđ</td>
+              <td class="border text-center text-red-500 py-2">
+                {{ totalPrice }}vnđ
+              </td>
             </tr>
           </table>
           <!-- End: Thành tiền-->
           <div class="mt-4 flex justify-between">
-            <button class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
-            @click="router.push('/product/cart')">
+            <button class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300">
               Quay lại giỏ hàng
             </button>
             <button
@@ -210,45 +228,41 @@
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import { productInfor } from "../../types/productType";
-import productService from "../../services/productService";
-import { useAuthStore } from "../../stores/authStore";
 import bottom from "../../views/Footer/Footer.vue";
 import { computed, onMounted, ref } from "vue";
-import { setNotificationToastMessage } from "../../utils/myFunction";
+import { useCartStore } from "../../stores/cartStore";
 
 export default {
-  name: "Pay",
+  name: "Checkout",
   components: {
     bottom,
   },
   setup() {
     const router = useRouter();
     const route = useRoute();
-    const authStore = useAuthStore();
+    const myCartStore = useCartStore();
     const listProduct: any = ref<productInfor[]>([]);
-
-    // get product by id
-    async function actionGetProductById() {
-      const itemFind: any = { _id: route.params.id } as productInfor;
-      const response = await productService.findOne(
-        itemFind,
-        authStore.currentUser.Token
-      );
-      if (response.data.success) {
-        listProduct.value = response.data.values;
-      } else {
-        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+    const myCarts: any = computed(() => myCartStore.carts);
+    const totalPrice = computed(() => {
+      let total = 0;
+      const carts = myCarts.value;
+      if (Array.isArray(carts)) {
+        carts.forEach((item: any) => {
+          total += item.productPrice * item.quantity;
+        });
       }
-    }
+      return total;
+    });
 
     onMounted(async () => {
-      await actionGetProductById();
+      await myCartStore.getAllCart();
     });
     return {
       route,
       router,
+      myCarts,
       listProduct,
-    
+      totalPrice,
     };
   },
 };

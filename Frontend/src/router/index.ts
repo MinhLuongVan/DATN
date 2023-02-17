@@ -6,6 +6,7 @@ import PageProduct from "../views/Product/ListProduct.vue";
 import PageDetailProduct from "../views/Product/DetailProduct.vue";
 import PageCart from "../views/Product/Cart.vue";
 import Pay from "../views/Product/Pay.vue";
+import Checkout from "../views/Product/CheckoutAll.vue";
 import PageNews from "../views/News/News.vue";
 import PageContact from "../views/Contact/Contact.vue";
 import PageTransport from "../views/Introduce/Transport.vue";
@@ -68,8 +69,12 @@ const routes = [
         component: PageCart,
       },
       {
-        path: "/checkout/:id",
+        path: "/pay/:id",
         component: Pay,
+      },
+      {
+        path: "/checkout",
+        component: Checkout,
       },
       {
         path: "/news",

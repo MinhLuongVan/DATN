@@ -12,14 +12,15 @@ export const useFeedbackStore = defineStore({
     }),
     getters: {},
     actions: {
-        async getAllFeedback() {
+        async getAllFeedback(productId: any) {
                 const authStore = useAuthStore()
-                const data = {} as feedbackInfor;
+                const data = {productId: productId.values} as feedbackInfor;
                 const response =  await feedbackService.findAll(data, authStore.currentUser.Token)
+                console.log('data',response.data);
                 if(response.data.success){
-                    this.feedbacks =  response.data.values;
+                    this.feedbacks =  response.data.values; 
                 } else {
-                    setNotificationToastMessage('Tải dữ liệu thất bại',false)
+                setNotificationToastMessage('Tải dữ liệu thất bại',false)
                 }   
         },
     },

@@ -149,7 +149,7 @@ watch(
 );
 
 onMounted(() => {
-  new SimpleBar(dom(".mobile-menu .scrollable")[0]);
+  //new SimpleBar(dom(".mobile-menu .scrollable")[0]);
   formattedMenu.value = $h.toRaw(mobileMenu.value);
 });
 </script>

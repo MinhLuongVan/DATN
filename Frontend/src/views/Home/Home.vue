@@ -112,7 +112,7 @@
                       >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
-                       @click="router.push('/checkout/'+ item._id)"
+                       @click="router.push('/pay/'+ item._id)"
                       ></ShoppingCartIcon>
                       </Tippy>
                       <Tippy
@@ -458,7 +458,7 @@ export default {
     // Get all product by sale
     async function initGetAllProductBySale() {
       const data = {} as productInfor;
-      const response = await productService.findBySale(data,  authStore.currentUser.Token);
+      const response = await productService.findBySale(data, authStore.currentUser.Token);
       // products.value = response.data.values;
       if (response.data.success) {
         sales.value = response.data.values;

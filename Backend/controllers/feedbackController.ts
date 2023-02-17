@@ -4,11 +4,11 @@ import * as response from "../notifications/message";
 import { addFeedBackServices, deleteFeedBackServices, findOneFeedBackServices, getAllFeedBackServices, updateFeedBackSevices } from "../services/feedbackService";
 import { IFeedback } from "../models/interface/feedback";
 
-
 //get all feedback
 export const getAllFeedBack = async function (req: Request, res: Response) {
     try {
-        const itemFind = await getAllFeedBackServices();
+        const productId = req.body;
+        const itemFind = await getAllFeedBackServices(productId);
         return res.json(itemFind);
     } catch (e: unknown) {
         let err: string;

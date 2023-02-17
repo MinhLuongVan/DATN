@@ -111,7 +111,7 @@
             class="px-1.5 py-0.5 bg-lime-500 border-lime-500 text-white rounded-full ml-3"
             >{{ myCart.length }}</span
           >
-          
+
           <DropdownToggle
             tag="div"
             role="button"
@@ -123,8 +123,13 @@
           </DropdownToggle>
           <DropdownMenu class="notification-content pt-2">
             <DropdownContent tag="div" class="notification-content__box">
-              <span v-if="carts.length <= 0 " class="text-center">Giỏ hàng của bạn đang trống!</span>
-              <div v-else class="notification-content__title text-lg text-orange-400">
+              <span v-if="myCart.length <= 0" class="text-center"
+                >Giỏ hàng của bạn đang trống!</span
+              >
+              <div
+                v-else
+                class="notification-content__title text-lg text-orange-400"
+              >
                 Giỏ hàng
               </div>
               <div
@@ -161,9 +166,19 @@
                   @click="actionDeleteProduct(item)"
                 ></XIcon>
               </div>
-              <div class="mt-3">
-                <button class="btn text-slate-100 bg-lime-500 border-slime-500 mr-3">Giỏ hàng</button>
-                <button class="btn text-slate-100 bg-lime-500 border-slime-500">Thanh toán</button>
+              <div v-if="myCart.length > 0" class="mt-3">
+                <button
+                  class="btn text-slate-100 bg-lime-500 border-slime-500 mr-3"
+                  @click="router.push('/product/cart')"
+                >
+                  Giỏ hàng
+                </button>
+                <button
+                  class="btn text-slate-100 bg-lime-500 border-slime-500"
+                  @click="router.push('/checkout')"
+                >
+                  Thanh toán
+                </button>
               </div>
             </DropdownContent>
           </DropdownMenu>
@@ -200,8 +215,7 @@
               class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3"
               @click="actionLogout()"
             >
-              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5"
-               /> Đăng xuất
+              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5" /> Đăng xuất
             </div>
           </DropdownMenu>
         </Dropdown>
@@ -211,16 +225,18 @@
       <!-- BEGIN: Login-Register -->
 
       <div v-else>
-        <nav  class="-intro-x h-[55px] mb-2 pt-2">
-        <div class="text-black hidden lg:block">
-          <a class="hover:text-red-500 lg:text-base" href="/register"
-            >Đăng ký</a
-          >
-        </div>
-        <div class="text-black hidden lg:block">
-          <a class="hover:text-red-500 lg:text-base" href="/login">Đăng nhập</a>
-        </div>
-      </nav>
+        <nav class="-intro-x h-[55px] mb-2 pt-2">
+          <div class="text-black hidden lg:block">
+            <a class="hover:text-red-500 lg:text-base" href="/register"
+              >Đăng ký</a
+            >
+          </div>
+          <div class="text-black hidden lg:block">
+            <a class="hover:text-red-500 lg:text-base" href="/login"
+              >Đăng nhập</a
+            >
+          </div>
+        </nav>
       </div>
       <!-- END: Login-Register -->
     </div>
@@ -234,9 +250,7 @@
       <a href="/listproduct" class="hover:text-lime-500 mr-6 text-base"
         >SẢN PHẨM</a
       >
-      <a href="/news" class="hover:text-lime-500 mr-6 text-base"
-        >TIN TỨC</a
-      >
+      <a href="/news" class="hover:text-lime-500 mr-6 text-base">TIN TỨC</a>
       <a href="/contact" class="hover:text-lime-500 mr-6 text-base">LIÊN HỆ</a>
     </nav>
   </div>
@@ -253,7 +267,7 @@ import { setNotificationToastMessage } from "../../utils/myFunction";
 import cartService from "../../services/cartService";
 import { cartInfor } from "../../types/cartType";
 import { CartModel } from "../../model/cartModel";
-import {useCartStore} from "../../stores/cartStore";
+import { useCartStore } from "../../stores/cartStore";
 export default defineComponent({
   name: "top-bar",
   setup() {
@@ -262,11 +276,11 @@ export default defineComponent({
     const myCartStore = useCartStore();
     const authStore = useAuthStore();
     const carts = ref<cartInfor[]>([]);
-    const myCart: any = computed(() => myCartStore.carts) 
-    const currentUser: any = computed(() => {
-      return authStore.currentUser.userInfor;
+    const myCart: any = computed(() => myCartStore.carts);
+    const currentUser:any = computed(() => {
+      return authStore.currentUser;
     });
- 
+   
     const showSearchDropdown = () => {
       searchDropdown.value = true;
     };
@@ -274,12 +288,14 @@ export default defineComponent({
       searchDropdown.value = false;
     };
 
- 
     // Delete product
     async function actionDeleteProduct(item: cartInfor) {
       const itemDelete = new CartModel();
       itemDelete._id = item._id;
-      const response = await cartService.delete(itemDelete,  authStore.currentUser.Token);
+      const response = await cartService.delete(
+        itemDelete,
+        authStore.currentUser.Token
+      );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {

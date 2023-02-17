@@ -383,7 +383,10 @@ export default {
     const quantity = ref(1);
     const sales = ref<productInfor[]>([]);
     const products = ref<productInfor[]>([]);
-    const currentUser = computed(() => authStore.currentUser);
+    //const currentUser = computed(() => authStore.currentUser);
+    const currentUser:any = computed(() => {
+      return authStore.currentUser;
+    });
     const myCarts = computed(() => myCartStore.carts);
     const myFeedback: any = computed(() => myFeedbackStore.feedbacks);
     const selectedFeedback = ref<FeedBackModel>(new FeedBackModel());
@@ -468,7 +471,7 @@ export default {
       );
       if (response.data.success) {
         myCartStore.getAllCart();
-        //  router.push('/product/cart')
+        //router.push('/product/cart')
         setNotificationToastMessage("Thêm giỏ hàng thành công ", true);
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
@@ -478,8 +481,8 @@ export default {
     // feedback product
     async function actionFeedback() {
       const data = {
-        userId: currentUser.value.userInfor.username,
-        productId: listProduct.value.image,
+        userId: currentUser.value.username,
+        productId: listProduct.value._id,
         content: content.value,
         rating: rating.value,
       } as feedbackInfor;

@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item,index) in myCart" :key="index">
+              <tr v-for="(item, index) in myCart" :key="index">
                 <td class="border text-center">{{ index + 1 }}</td>
                 <td class="border text-center">{{ item.productId }}</td>
                 <td class="w-36 border">
@@ -39,69 +39,120 @@
                 <td class="border text-center">{{ item.quantity }}</td>
                 <td class="border text-center">{{ item.totalMoney }}vnđ</td>
                 <td class="border text-center">
-                  <div class="flex justify-center text-red-500 cursor-pointer">
-                    <TrashIcon class="w-5"></TrashIcon> 
-                    <p class="pl-1 pt-1"
-                    @click="actionInitDeleteCart(item)">Xóa</p>
+                  <div class="flex justify-center cursor-pointer">
+                    <a
+                      class="flex items-center mr-3"
+                      href="javascript:;"
+                      @click="actionInitEditCart(item)"
+                    >
+                      <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
+                    </a>
+                    <a
+                      class="flex items-center text-danger"
+                      href="javascript:;"
+                      @click="actionInitDeleteCart(item)"
+                    >
+                      <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
+                    </a>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
           <div v-else class="w-full text-center">
-            <span class="text-lg mt-2">Bạn chưa có sản phẩm nào trong giỏ hàng!</span>
+            <span class="text-lg mt-2"
+              >Bạn chưa có sản phẩm nào trong giỏ hàng!</span
+            >
           </div>
-            <!-- BEGIN: Delete Confirmation Modal -->
-        <Modal
-          :show="deleteConfirmationModal"
-          @hidden="deleteConfirmationModal = false"
-        >
-          <ModalBody class="p-0">
-            <div class="p-5 text-center">
-              <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
-              <div class="text-3xl mt-5">Xóa sản phẩm</div>
-              <div class="text-slate-500 mt-2">
-                Bạn có chắc chắn muốn xóa sản phẩm này?
+          <!-- BEGIN: Delete Confirmation Modal -->
+          <Modal
+            :show="deleteConfirmationModal"
+            @hidden="deleteConfirmationModal = false"
+          >
+            <ModalBody v-if="!showInput" class="p-0">
+              <div class="p-5 text-center">
+                <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
+                <div class="text-3xl mt-5">Xóa giỏ hàng</div>
+                <div class="text-slate-500 mt-2">
+                  Bạn có chắc chắn muốn xóa sản phẩm này trong giỏ hàng?
+                </div>
               </div>
-            </div>
-            <div class="px-5 pb-8 text-center">
-              <button
-                type="button"
-                @click="deleteConfirmationModal = false"
-                class="btn btn-outline-secondary w-24 mr-1"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger w-24"
-                @click="actionDeleteProduct"
-              >
-                Delete
-              </button>
-            </div>
-          </ModalBody>
-        </Modal>
-        <!-- END: Delete Confirmation Modal -->
+              <div class="px-5 pb-8 text-center">
+                <button
+                  type="button"
+                  @click="deleteConfirmationModal = false"
+                  class="btn btn-outline-secondary w-24 mr-1"
+                >
+                  Trở lại
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger w-24"
+                  @click="actionDeleteProduct"
+                >
+                  Xóa
+                </button>
+              </div>
+            </ModalBody>
+            <ModalBody v-else class="p-0">
+              <div class="p-5 text-center">
+                <div class="text-lime-500 mt-5 text-2xl">Cập nhật giỏ hàng</div>
+              </div>
+              <div class="px-10">
+                <label class="text-base">Số lượng</label>
+                <input
+                  class="w-full mt-2 rounded-md"
+                  type="number"
+                  min="1"
+                  v-model="quantityChange"
+                />
+              </div>
+              <div class="py-5 text-center lg:pl-56 lg:pr-3">
+                <button
+                  type="button"
+                  @click="deleteConfirmationModal = false"
+                  class="btn btn-outline-secondary w-20 mr-1"
+                >
+                  Trở lại
+                </button>
+                <button
+                  type="button"
+                  class="btn text-white bg-lime-500"
+                  @click="actionEditCart()"
+                >
+                  Cập nhật
+                </button>
+              </div>
+            </ModalBody>
+          </Modal>
+          <!-- END: Delete Confirmation Modal -->
           <table v-if="myCart.length > 0" class="mt-5">
             <tr>
-            <th class="border px-8 py-2">Thành tiền</th>
-            <th class="border px-8 py-2">Tổng tiền</th>
+              <th class="border px-8 py-2">Thành tiền</th>
+              <th class="border px-8 py-2">Tổng tiền</th>
             </tr>
             <tr>
-              <td class="border py-2 px-8">70.000đ </td>
-              <td class="border py-2 px-8">70.000đ</td>
+              <td class="border py-2 px-8">{{ totalPrice }}vnđ</td>
+              <td class="border py-2 px-8">{{ totalPrice }}vnđ</td>
             </tr>
           </table>
-         <div class="flex justify-between">
-          <div v-if="myCart.length > 0">
-            <button class="mt-4 px-4 py-2 rounded-md text-white bg-lime-500 hover:bg-lime-600 ">Tiến hành thanh toán</button>
+          <div class="flex justify-between">
+            <div v-if="myCart.length > 0">
+              <button
+                class="mt-4 px-4 py-2 rounded-md text-white bg-lime-500 hover:bg-lime-600"
+              >
+                Tiến hành thanh toán
+              </button>
+            </div>
+            <div>
+              <button
+                class="mt-4 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+                @click="router.push('/')"
+              >
+                Tiếp tục mua hàng
+              </button>
+            </div>
           </div>
-          <div>
-            <button class="mt-4 px-4 py-2 rounded-md  bg-gray-200 hover:bg-gray-300 "
-            @click="router.push('/')">Tiếp tục mua hàng</button>
-          </div>
-         </div>
         </div>
       </div>
       <!-- END : GIỎ HÀNG -->
@@ -130,9 +181,49 @@ export default {
     const authStore = useAuthStore();
     const carts = ref<cartInfor[]>([]);
     const myCartStore = useCartStore();
-    const myCart: any = computed(() => myCartStore.carts) 
+    const myCart: any = computed(() => myCartStore.carts);
     const selectedCart = ref<CartModel>(new CartModel());
     const deleteConfirmationModal = ref(false);
+    const quantityChange = ref(1);
+    const showInput = ref(false);
+    const idUpdate = ref("");
+    const totalPrice = computed(() => {
+      let total = 0;
+      myCart.value.forEach((item: any) => {
+        total += item.productPrice * item.quantity;
+      });
+      return total;
+    });
+
+    //init value by id cart
+    async function actionInitEditCart(item: cartInfor) {
+      const itemFindId: any = { _id: item._id } as cartInfor;
+      const response = await cartService.findOne(itemFindId, authStore.Token);
+      idUpdate.value = response.data.values._id;
+      quantityChange.value = response.data.values.quantity;
+      deleteConfirmationModal.value = true;
+      showInput.value = true;
+    }
+
+    //edit cart
+    async function actionEditCart() {
+      const dataUpdate = {
+        _id: idUpdate.value,
+        quantity: Number(quantityChange.value),
+      } as cartInfor;
+      const response = await cartService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        deleteConfirmationModal.value = false;
+        showInput.value = false;
+        myCartStore.getAllCart();
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+
     // init id cart
     function actionInitDeleteCart(item: cartInfor) {
       selectedCart.value._id = item._id;
@@ -143,24 +234,34 @@ export default {
     async function actionDeleteProduct() {
       const itemDelete = new CartModel();
       itemDelete._id = selectedCart.value._id;
-      const response = await cartService.delete(itemDelete,  authStore.currentUser.Token);
+      const response = await cartService.delete(
+        itemDelete,
+        authStore.currentUser.Token
+      );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
+        showInput.value = true;
         myCartStore.getAllCart();
       }
     }
-    onMounted( async () => {
+    onMounted(async () => {
       await myCartStore.getAllCart();
-    })
+    });
     return {
       router,
       carts,
       myCart,
+      showInput,
+      totalPrice,
+      idUpdate,
+      quantityChange,
       deleteConfirmationModal,
       actionDeleteProduct,
-      actionInitDeleteCart
+      actionInitDeleteCart,
+      actionInitEditCart,
+      actionEditCart,
     };
   },
 };

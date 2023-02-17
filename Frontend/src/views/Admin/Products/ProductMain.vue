@@ -314,6 +314,7 @@ export default defineComponent({
       }
     }
 
+    //reload data
     const reloadData = () => {
       name.value = "";
       amount.value = 0;
@@ -383,7 +384,7 @@ export default defineComponent({
       const itemFindId: any = { _id: item._id } as productInfor;
       const response = await productService.findOne(
         itemFindId,
-        authStore.Token
+        authStore.currentUser.Token
       );
       idUpdate.value = response.data.values._id;
       name.value = response.data.values.name;

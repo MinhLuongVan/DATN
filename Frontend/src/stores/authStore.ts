@@ -4,7 +4,7 @@ import { User, userInfor } from '../types/userType';
 import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 
-export const useAuthStore:StoreDefinition = defineStore({
+export const useAuthStore = defineStore({
     id:'auth',
     state: () => ({
         currentUser: {} as User,
@@ -30,9 +30,7 @@ export const useAuthStore:StoreDefinition = defineStore({
         },
         async getInforUser() {
             if(this.token) {
-                const data = {
-                   
-                } as userInfor;
+                const data = {} as userInfor;
                 const response =  await UserService.findOne(data,this.token)
                 this.currentUser =  response.data.values;
             }
@@ -65,3 +63,7 @@ export const useAuthStore:StoreDefinition = defineStore({
         ],
       },
 });
+
+function setNotificationToastMessage(arg0: string, arg1: boolean) {
+    throw new Error("Function not implemented.");
+}

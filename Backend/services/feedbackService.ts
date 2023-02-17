@@ -4,10 +4,11 @@ import { okResponse,errResponse,dataNotFoundResponse } from '../notifications/me
 import { Feedback } from '../models/feedbackModel';
 import { IFeedback } from '../models/interface/feedback';
 
+
 //get all FeedBack
-export const getAllFeedBackServices = async function() {
+export const getAllFeedBackServices = async function(productId: any) {
     try {
-        const itemFind = await Feedback.find();
+        const itemFind = await Feedback.find({productId: productId.productId});
         if(itemFind) {
             return okResponse(itemFind);
         } else {
