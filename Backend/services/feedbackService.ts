@@ -6,7 +6,27 @@ import { IFeedback } from '../models/interface/feedback';
 
 
 //get all FeedBack
-export const getAllFeedBackServices = async function(productId: any) {
+export const getAllFeedBackServices = async function() {
+    try {
+        const itemFind = await Feedback.find();
+        if(itemFind) {
+            return okResponse(itemFind);
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+//get all FeedBackByid
+export const getAllFeedBackByIdServices = async function(productId: any) {
     try {
         const itemFind = await Feedback.find({productId: productId.productId});
         if(itemFind) {
@@ -32,6 +52,7 @@ export const addFeedBackServices = async function (data: IFeedback) {
         const itemAdd = await new Feedback({
             userId: data.userId,
             productId: data.productId,
+            productImage: data.productImage,
             content: data.content,
             rating: data.rating,
         });

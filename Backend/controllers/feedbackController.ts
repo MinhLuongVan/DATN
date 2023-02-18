@@ -1,14 +1,30 @@
 import { errorUnknown } from "../utils/myVariables";
 import {Request, Response} from 'express';
 import * as response from "../notifications/message";
-import { addFeedBackServices, deleteFeedBackServices, findOneFeedBackServices, getAllFeedBackServices, updateFeedBackSevices } from "../services/feedbackService";
+import { addFeedBackServices, deleteFeedBackServices, findOneFeedBackServices,getAllFeedBackByIdServices, getAllFeedBackServices, updateFeedBackSevices } from "../services/feedbackService";
 import { IFeedback } from "../models/interface/feedback";
 
-//get all feedback
+// get all feedback by id
 export const getAllFeedBack = async function (req: Request, res: Response) {
     try {
+        const itemFind = await getAllFeedBackServices();
+        return res.json(itemFind);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+}
+
+//get all feedback
+export const getAllFeedBackById = async function (req: Request, res: Response) {
+    try {
         const productId = req.body;
-        const itemFind = await getAllFeedBackServices(productId);
+        const itemFind = await getAllFeedBackByIdServices(productId);
         return res.json(itemFind);
     } catch (e: unknown) {
         let err: string;

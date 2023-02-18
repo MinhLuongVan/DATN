@@ -6,6 +6,9 @@ class FeedBackService {
     findAll(data: feedbackInfor, token: string) {
         return apiClient(token).post("/feedback",data)
     }
+    findById(data: feedbackInfor, token: string) {
+        return apiClient(token).post("/feedback/find-id",data)
+    }
     save(data: feedbackInfor, token: string) {
         return apiClient(token).post("/feedback/save",data)
     }

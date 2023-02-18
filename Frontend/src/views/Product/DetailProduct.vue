@@ -31,8 +31,7 @@
               <h2 class="text-base font-bold lg:text-2xl">
                 {{ listProduct.name }}
               </h2>
-
-              <div v-for="item in myFeedback" class="flex">
+              <div v-for="(item,index) in myFeedback" :key="index" class="flex">
                 <ul v-if="item.rating > 0" class="mt-2 flex">
                   <li>
                     <StarIcon
@@ -150,7 +149,7 @@
           <div v-if="isShowEvaluate" class="mt-4 border p-3">
             <div v-if="showComment">
               <span class="text-xl lg:text-2xl">Viết đánh giá</span>
-              <p class="text-base mt-2">Số sao</p>
+              <p class="text-base mt-2">Số sao (1-5)</p>
               <StarIcon class="text-orange-500 fill-orange-400"></StarIcon>
               <input
                 class="w-full mt-2 rounded-md"
@@ -477,12 +476,13 @@ export default {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
-
+    
     // feedback product
     async function actionFeedback() {
       const data = {
         userId: currentUser.value.username,
         productId: listProduct.value._id,
+        productImage: listProduct.value.image,
         content: content.value,
         rating: rating.value,
       } as feedbackInfor;
@@ -494,7 +494,7 @@ export default {
           authStore.currentUser.Token
         );
         if (response.data.success) {
-          myFeedbackStore.getAllFeedback();
+          myFeedbackStore.getAllFeedbackById(listProduct.value._id);
           showComment.value = false;
           setNotificationToastMessage("Đánh giá sản phẩm thành công ", true);
         } else {
@@ -507,7 +507,7 @@ export default {
       await actionGetProductById();
       await initGetAllProductBySale();
       await initGetAllProductByRelate();
-      myFeedbackStore.getAllFeedback();
+      myFeedbackStore.getAllFeedbackById(listProduct.value._id);
     });
     return {
       router,

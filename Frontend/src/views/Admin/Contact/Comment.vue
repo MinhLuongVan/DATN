@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số đánh giá : {{myFeedbacks.length}}</span>
+      <span class="lg:pt-2.5 text-slate-700"
+        >Tổng số đánh giá : {{ myFeedbacks.length }}</span
+      >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
@@ -37,17 +39,19 @@
                   <img
                     alt="Midone Tailwind HTML Admin Template"
                     class="rounded-full"
-                    :src="item.productId"
+                    :src="item.productImage"
                   />
                 </div>
               </td>
               <td class="text-center pt-4">
-               
                 <span class="flex justify-center">
                   {{ item.rating }}
-                  <StarIcon v-if="item.rating > 0" class="w-4 h-4 ml-1 text-orange-500 fill-orange-400"></StarIcon>
+                  <StarIcon
+                    v-if="item.rating > 0"
+                    class="w-4 h-4 ml-1 text-orange-500 fill-orange-400"
+                  ></StarIcon>
                 </span>
-            </td>
+              </td>
               <td v-if="item.content.length > 100" class="text-center pt-4">
                 {{ item.content.slice(0, 99) }}...
               </td>
@@ -71,7 +75,7 @@
         </table>
         <div v-else class="text-center">
           <span class="text-">Thật tiếc! Chưa có đánh giá nào!</span>
-        </div> 
+        </div>
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -127,7 +131,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const feedbackStore = useFeedbackStore();
     const selectedFeedback = ref<FeedBackModel>(new FeedBackModel());
-    const myFeedbacks: any = computed(() => feedbackStore.feedbacks);
+    const myFeedbacks: any = computed(() => feedbackStore.feedbackAll);
 
     function actionInitDeleteFeedback(item: feedbackInfor) {
       selectedFeedback.value._id = item._id;

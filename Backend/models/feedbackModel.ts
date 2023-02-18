@@ -3,6 +3,7 @@ import { Schema,Document } from 'mongoose';
 interface FeedbackType extends Document {
     userId: string;
     productId: string;
+    productImage: string;
     content: string;
     rating: number;
 }
@@ -12,6 +13,10 @@ interface FeedbackType extends Document {
         ref: "User"
     },
     productId:{
+        type: String,
+        ref: "Product"
+    },
+    productImage:{
         type: String,
         ref: "Product"
     },
