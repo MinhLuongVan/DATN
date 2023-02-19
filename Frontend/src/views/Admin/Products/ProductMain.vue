@@ -230,7 +230,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { useAuthStore } from "../../../stores/authStore";
 import { productInfor } from "../../../types/productType";
 import productService from "../../../services/productService";

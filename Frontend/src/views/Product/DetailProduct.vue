@@ -191,14 +191,14 @@
                   <span class="font-medium">{{ item.userId }}</span>
                   <p class="pt-1">{{ item.content }}</p>
                 </div>
-                <!-- <div class="flex">
-                  <a class="flex pt-1 mr-3" href="javascript:;" @click="">
+                <div class="flex">
+                  <a class="flex pt-1 mr-3">
                     <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
                   </a>
-                  <a href="" class="flex pt-1 text-danger">
+                  <a class="flex pt-1 text-danger">
                     <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
                   </a>
-                </div> -->
+                </div>
               </div>
             </div>
             <span

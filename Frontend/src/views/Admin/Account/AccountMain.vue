@@ -299,20 +299,7 @@ export default defineComponent({
         setNotificationFailedWhenGetData();
       }
     };
-    // // Get all user
-    // async function initGetAllUser() {
-    //   const data = {} as userInfor;
-    //   const response = await userService.findAll(
-    //     data,
-    //     authStore.currentUser.Token
-    //   );
-    //   if (response.data.success) {
-    //     users.value = response.data.values;
-    //   } else {
-    //     setNotificationToastMessage("Tải dữ liệu thât bại", false);
-    //   }
-    // }
-
+    
     // lấy user by id
     async function actionInitEditAccount(item: userInfor) {
       const itemFindId: any = { _id: item._id } as userInfor;

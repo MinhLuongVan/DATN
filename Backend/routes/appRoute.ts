@@ -6,6 +6,8 @@ import {cartRoute } from './cartRoute';
 import {typeProductRoute} from './typeProductRoute';
 import { newsRoute } from './newsRoute';
 import { feedbackRoute } from './feedbackRoute';
+import { orderRoute } from './orderRoute';
+
 export const useRoute = function (app: express.Application) {
     userRoute(app);
     productRoute(app);
@@ -14,4 +16,5 @@ export const useRoute = function (app: express.Application) {
     typeProductRoute(app);
     newsRoute(app);
     feedbackRoute(app);
+    orderRoute(app);
 }

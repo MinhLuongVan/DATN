@@ -140,6 +140,7 @@
             <div v-if="myCart.length > 0">
               <button
                 class="mt-4 px-4 py-2 rounded-md text-white bg-lime-500 hover:bg-lime-600"
+                @click="router.push('/checkout')"
               >
                 Tiến hành thanh toán
               </button>

@@ -21,63 +21,77 @@
               <Map-pinIcon class="w-4 mr-1 ml-3"></Map-pinIcon>
               <span class="text-base">Địa chỉ nhận hàng</span>
             </div>
-            <div class="mt-3 px-3">
-              <span class="text-base font-medium">Tên đầy đủ</span>
-              <input
-                type="text"
-                class="w-full rounded-md mt-2"
-                placeholder="Họ và tên"
-              />
-            </div>
-            <div class="grid grid-cols-2 intro-y gap-3 ">
+            <div class="grid grid-cols-2 intro-y gap-3">
               <div class="col-span-2 lg:col-span-1 mt-3 px-3">
-                <span class="text-base font-medium">Email</span>
+                <span class="text-base font-medium">Họ tên</span>
                 <input
                   type="text"
-                  class="w-full rounded-md mt-2 "
-                  placeholder="Email"
+                  v-model="state.name"
+                  class="w-full rounded-md mt-2"
+                  placeholder="Họ và tên"
                 />
+                <small class="text-red-500 text-base" v-if="v$.name.$errors">
+                  {{ v$.name.$errors[0]?.$message }}
+                </small>
               </div>
               <div class="col-span-2 lg:col-span-1 mt-3 px-3">
                 <span class="text-base font-medium">Điện thoại</span>
                 <input
                   type="text"
+                  v-model="state.sđt"
                   class="rounded-md mt-2 w-full"
                   placeholder="SĐT"
                 />
+                <small class="text-red-500 text-base" v-if="v$.sđt.$errors">
+                  {{ v$.sđt.$errors[0]?.$message }}
+                </small>
               </div>
             </div>
-            <div class="grid grid-cols-2 intro-y gap-3 ">
+            <div class="grid grid-cols-2 intro-y gap-3">
               <div class="col-span-2 lg:col-span-1 mt-3 px-3">
                 <span class="text-base font-medium">Tỉnh/Thành phố</span>
                 <input
                   type="text"
-                  class="w-full rounded-md mt-2 "
+                  v-model="state.city"
+                  class="w-full rounded-md mt-2"
                   placeholder="Vd: Bắc Giang"
                 />
+                <small class="text-red-500 text-base" v-if="v$.city.$errors">
+                  {{ v$.city.$errors[0]?.$message }}
+                </small>
               </div>
               <div class="col-span-2 lg:col-span-1 mt-3 px-3">
                 <span class="text-base font-medium">Quận/Huyện</span>
                 <input
                   type="text"
+                  v-model="state.district"
                   class="rounded-md mt-2 w-full"
                   placeholder="Vd: Yên Dũng"
                 />
+                <small
+                  class="text-red-500 text-base"
+                  v-if="v$.district.$errors"
+                >
+                  {{ v$.district.$errors[0]?.$message }}
+                </small>
               </div>
             </div>
             <div class="mt-3 px-3">
               <span class="text-base font-medium">Địa chỉ chi tiết</span>
               <input
                 type="text"
+                v-model="state.details"
                 class="w-full rounded-md mt-2"
                 placeholder="Vd: Thôn Tân Mỹ- Xã Lãng Sơn"
               />
+              <small class="text-red-500 text-base" v-if="v$.details.$errors">
+                {{ v$.details.$errors[0]?.$message }}
+              </small>
             </div>
             <div class="mt-3 px-3">
               <span class="text-base font-medium">Ghi chú</span>
               <textarea
-                name=""
-                id=""
+                v-model="note"
                 class="w-full rounded-md mt-2 mb-4"
                 rows="2"
                 placeholder="Vd: Chuyển hàng tong giờ hành chính từ thứ 2 đến thứ 6"
@@ -207,11 +221,15 @@
           </table>
           <!-- End: Thành tiền-->
           <div class="mt-4 flex justify-between">
-            <button class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300">
+            <button
+              class="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+              @click="router.push('/product/cart')"
+            >
               Quay lại giỏ hàng
             </button>
             <button
               class="px-4 py-2 text-white rounded-md bg-lime-500 hover:bg-lime-600"
+              @click="actionOrder"
             >
               Đặt hàng
             </button>
@@ -231,7 +249,13 @@ import { productInfor } from "../../types/productType";
 import bottom from "../../views/Footer/Footer.vue";
 import { computed, onMounted, ref } from "vue";
 import { useCartStore } from "../../stores/cartStore";
-
+import useValidate from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import { orderInfor } from "../../types/orderType";
+import { useAuthStore } from "../../stores/authStore";
+import { setNotificationToastMessage } from "../../utils/myFunction";
+import OrderService from "../../services/orderService";
+import ShortUniqueId from "short-unique-id";
 export default {
   name: "Checkout",
   components: {
@@ -240,9 +264,11 @@ export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const authStore = useAuthStore();
     const myCartStore = useCartStore();
     const listProduct: any = ref<productInfor[]>([]);
     const myCarts: any = computed(() => myCartStore.carts);
+    const uuid = new ShortUniqueId({ length: 8 });
     const totalPrice = computed(() => {
       let total = 0;
       const carts = myCarts.value;
@@ -253,6 +279,70 @@ export default {
       }
       return total;
     });
+    const currentUser: any = computed(() => {
+      return authStore.currentUser;
+    });
+    const name = ref("");
+    const sđt = ref("");
+    const city = ref("");
+    const district = ref("");
+    const details = ref("");
+    const note = ref("");
+    const status = ref("");
+    const payments = ref("");
+
+    const state = ref({
+      name: "",
+      city: "",
+      district: "",
+      sđt: "",
+      details: "",
+    });
+    const rules = {
+      name: { required },
+      city: { required },
+      sđt: { required },
+      district: { required },
+      details: { required },
+    };
+    const v$ = useValidate(rules, state);
+    //Order
+    const actionOrder = async () => {
+      const result = await v$.value.$validate();
+      if (result) {
+        const data = {
+          userId: currentUser.value._id,
+          uuid: uuid(),
+          name: state.value.name,
+          sđt: state.value.sđt,
+          city: state.value.city,
+          district: state.value.district,
+          details: state.value.details,
+          note: note.value,
+          status: "Đang xử lý",
+          payments: "Thanh toán khi nhận hàng",
+          totalMoney: totalPrice.value,
+        } as orderInfor;
+        const response = await OrderService.save(
+          data,
+          authStore.currentUser.Token
+        );
+        if (response.data.success) {
+          setNotificationToastMessage("Đặt hàng thành công ", true);
+          reloadData();
+        } else {
+          setNotificationToastMessage("Đặt hàng thất bại", false);
+        }
+      }
+    };
+
+    function reloadData() {
+      name.value = '';
+      sđt.value = '';
+      city.value = '';
+      district.value = '';
+      details.value = '';
+    }
 
     onMounted(async () => {
       await myCartStore.getAllCart();
@@ -263,6 +353,19 @@ export default {
       myCarts,
       listProduct,
       totalPrice,
+      v$,
+      state,
+      uuid,
+      name,
+      city,
+      sđt,
+      district,
+      details,
+      note,
+      status,
+      payments,
+      currentUser,
+      actionOrder,
     };
   },
 };
