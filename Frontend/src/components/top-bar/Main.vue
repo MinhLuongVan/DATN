@@ -7,7 +7,7 @@
       <!-- BEGIN: Logo -->
       <p class="logo -intro-x md:flex xl:w-[180px] block">
         <img
-          class="logo__image h-20 w-full lg:h-auto lg:w-2/5 lg:mb-0 -lg:ml-0 lg:mt-6 cursor-pointer"
+          class="logo__image h-20 w-full lg:h-auto lg:w-4/5 lg:mb-0 -lg:ml-0 lg:mt-6 cursor-pointer"
           src="../../assets/images/rsz_logo-01.png"
           @click="router.push('/')"
         />

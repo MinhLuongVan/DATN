@@ -7,7 +7,7 @@
       <!-- BEGIN: Logo -->
       <a href="" class="logo -intro-x md:flex xl:w-[180px] block">
         <img
-          src="../../../assets/images/logoAdmin.jfif"
+          src="../../../assets/images/images.jfif"
           alt=""
           class="h-[45px] mx-1"
           height="35"

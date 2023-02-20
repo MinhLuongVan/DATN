@@ -111,12 +111,12 @@
           <UsersIcon class="w-6 h-6 lg:w-5 lg:h-5"></UsersIcon>
           <span class="pl-2 pt-0.5 hidden lg:block">Quản lý tài khoản</span>
         </a>
-        <a
+        <!-- <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
         >
           <CalendarIcon class="w-6 h-6 lg:w-5 lg:h-5"></CalendarIcon>
           <span class="pl-2 pt-0.5 hidden lg:block">Báo cáo thống kê</span>
-        </a>
+        </a> -->
         <a
           class="flex h-12 mb-2 px-6 lg:px-5 items-center text-white cursor-pointer"
           @click="router.push('/admin/configuration')"

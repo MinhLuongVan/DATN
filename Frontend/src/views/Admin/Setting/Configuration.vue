@@ -29,7 +29,7 @@
       </div>
       </div>
     </fieldset>
-    <fieldset class="border border-slate-300 my-2 p-3 w-full">
+    <!-- <fieldset class="border border-slate-300 my-2 p-3 w-full">
       <legend class="text-base px-2">Favicon</legend>
       <div class="flex items-center justify-between">
         <img src="../../../assets/images/logoAdmin.jfif" alt=""
@@ -43,7 +43,7 @@
         </button>
       </div>
       </div>
-    </fieldset>
+    </fieldset> -->
     <fieldset class="border border-slate-300 my-2 p-3 w-full mt-5">
       <legend class="text-base px-2">Logo giao diện người dùng</legend>
       <div class="flex items-center justify-between">
@@ -62,7 +62,7 @@
     <fieldset class="border border-slate-300 my-2 p-3 w-full mt-5">
       <legend class="text-base px-2">Logo giao diện quản trị</legend>
       <div class="flex items-center justify-between">
-      <img src="../../../assets/images/logoadmin.svg" alt=""
+      <img src="../../../assets/images/images.jfif" alt=""
       class="img-logo w-1/2 h-28 lg:w-2/3 lg:h-32">
       <div>
         <button class="border border-slate-300 text-slate-500 rounded-full p-2 mr-2 hover:text-slate-700">
