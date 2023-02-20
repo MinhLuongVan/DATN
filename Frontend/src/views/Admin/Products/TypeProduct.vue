@@ -264,6 +264,7 @@ export default defineComponent({
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
     }
+    
     const actionCloseModal = () => {
       AddConfirmationModal.value = false;
       showButtonEdit.value = false;

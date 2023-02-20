@@ -4,7 +4,21 @@
     <fieldset class="border border-slate-300 my-2 p-3 w-full">
       <legend class="text-base px-2">Tên website</legend>
       <div class="flex items-center justify-between">
-        <b class="grow truncate">Fresh-Garden</b>
+       <p class="w-4/5 border bg-white py-2 px-2 ">Totoro-Garden</p>
+      <div>
+        <button class="border border-slate-300 text-slate-500 rounded-full p-2 mr-2 hover:text-slate-700">
+          <EditIcon class="w-4 h-4"/>
+        </button>
+        <button class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700">
+          <TrashIcon class="w-4 h-4"/>
+        </button>
+      </div>
+      </div>
+    </fieldset>
+    <fieldset class="border border-slate-300 my-2 p-3 w-full">
+      <legend class="text-base px-2">Từ khóa</legend>
+      <div class="flex w-full items-center justify-between ">
+        <p class="w-4/5 border bg-white py-2 px-2 ">Abc,xyz</p>
       <div>
         <button class="border border-slate-300 text-slate-500 rounded-full p-2 mr-2 hover:text-slate-700">
           <EditIcon class="w-4 h-4"/>
@@ -31,10 +45,25 @@
       </div>
     </fieldset>
     <fieldset class="border border-slate-300 my-2 p-3 w-full mt-5">
-      <legend class="text-base px-2">Logo website</legend>
+      <legend class="text-base px-2">Logo giao diện người dùng</legend>
       <div class="flex items-center justify-between">
-      <img src="../../../assets/images/logosvg.png" alt=""
-      class="img-logo w-1/2 h-28 lg:w-2/3 lg:h-44">
+      <img src="../../../assets/images/rsz_logo-01.png" alt=""
+      class="img-logo w-1/2 h-28 lg:w-2/3 lg:h-32">
+      <div>
+        <button class="border border-slate-300 text-slate-500 rounded-full p-2 mr-2 hover:text-slate-700">
+          <EditIcon class="w-4 h-4"/>
+        </button>
+        <button class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700">
+          <TrashIcon class="w-4 h-4"/>
+        </button>
+      </div>
+      </div>
+    </fieldset>
+    <fieldset class="border border-slate-300 my-2 p-3 w-full mt-5">
+      <legend class="text-base px-2">Logo giao diện quản trị</legend>
+      <div class="flex items-center justify-between">
+      <img src="../../../assets/images/logoadmin.svg" alt=""
+      class="img-logo w-1/2 h-28 lg:w-2/3 lg:h-32">
       <div>
         <button class="border border-slate-300 text-slate-500 rounded-full p-2 mr-2 hover:text-slate-700">
           <EditIcon class="w-4 h-4"/>

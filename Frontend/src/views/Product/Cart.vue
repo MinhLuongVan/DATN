@@ -59,7 +59,7 @@
               </tr>
             </tbody>
           </table>
-          <div v-else class="w-full text-center">
+          <div v-else class="w-full pb-48 text-center">
             <span class="text-lg mt-2"
               >Bạn chưa có sản phẩm nào trong giỏ hàng!</span
             >
@@ -147,7 +147,7 @@
             </div>
             <div>
               <button
-                class="mt-4 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
+                class="mt-3 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
                 @click="router.push('/')"
               >
                 Tiếp tục mua hàng

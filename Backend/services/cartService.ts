@@ -121,6 +121,26 @@ export const deleteCartServices = async function(data: ICart) {
     }
 }
 
+//delete all cart
+export const deleteAllCartServices = async function() {
+    try {
+        const itemFind = await Cart.deleteMany();
+        if(itemFind) {
+            return okResponse(itemFind);
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+}
+
 //search
 export const searchProductServices = async function(data: IProduct) {
     try {

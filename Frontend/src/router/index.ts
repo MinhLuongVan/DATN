@@ -141,7 +141,7 @@ const routes = [
         component: AccountMain,
       },
       {
-        path: "cart",
+        path: "order",
         component: CartMainVue,
       },
       {

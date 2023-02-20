@@ -19,7 +19,7 @@
         <!-- BEGIN: Breadcrumb -->
         <div class="w-full h-full py-2 flex">
           <span class="border-slate-600 border-r pl-10 hidden lg:block"></span>
-          <span class="text-slate-300 text-lg pl-3 pt-2 hidden lg:block">Trang chủ</span>
+          <span class="text-slate-300 text-lg pl-3 pt-2 hidden lg:block"></span>
         </div>
         <!-- END: Breadcrumb -->
         <!-- BEGIN: Account Menu -->

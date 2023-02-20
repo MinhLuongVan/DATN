@@ -51,8 +51,8 @@
           </a>
           <a
             class="flex h-12 mb-2 px-6 lg:px-12 items-center text-white cursor-pointer"
-            @click="router.push('/admin/cart')"
-            :class="`${routeMenu === '/admin/cart' ? 'bg-[#4a4a4a]' : ''}`"
+            @click="router.push('/admin/order')"
+            :class="`${routeMenu === '/admin/order' ? 'bg-[#4a4a4a]' : ''}`"
           >
             <Shopping-cartIcon class="w-6 h-6 lg:w-5 lg:h-5"></Shopping-cartIcon>
             <span class="pl-2 pt-0.5 hidden lg:block">Đơn hàng</span>

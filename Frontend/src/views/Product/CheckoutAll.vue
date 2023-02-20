@@ -291,6 +291,15 @@ export default {
     const status = ref("");
     const payments = ref("");
 
+    // reload data
+    const reloadData = () => {
+      name.value = "";
+      sđt.value = "";
+      city.value = "";
+      district.value = "";
+      details.value = "";
+    }
+
     const state = ref({
       name: "",
       city: "",
@@ -328,21 +337,14 @@ export default {
           authStore.currentUser.Token
         );
         if (response.data.success) {
-          setNotificationToastMessage("Đặt hàng thành công ", true);
           reloadData();
+          myCartStore.deleteAllCart();
+          setNotificationToastMessage("Đặt hàng thành công ", true);
         } else {
           setNotificationToastMessage("Đặt hàng thất bại", false);
         }
       }
     };
-
-    function reloadData() {
-      name.value = '';
-      sđt.value = '';
-      city.value = '';
-      district.value = '';
-      details.value = '';
-    }
 
     onMounted(async () => {
       await myCartStore.getAllCart();

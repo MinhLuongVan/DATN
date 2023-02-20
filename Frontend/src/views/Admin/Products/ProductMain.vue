@@ -240,7 +240,6 @@ import { ProductModel } from "../../../model/productModel";
 import { getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase.js";
 import { ref as fireBaseRef } from "firebase/storage";
-import { v1 as uuidv1 } from "uuid";
 import ShortUniqueId from "short-unique-id";
 import moment from "moment";
 import { useTypeProductStore } from "../../../stores/typeProductStore";

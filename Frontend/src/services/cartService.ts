@@ -17,5 +17,8 @@ class CartService {
     delete(data: CartModel, token: string) {
         return apiClient(token).post("/cart/delete",data)
     }
+    deleteAll(data: cartInfor, token: string) {
+        return apiClient(token).post("/cart/delete-all",data)
+    }
 }
 export default new CartService();

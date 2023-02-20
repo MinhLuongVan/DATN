@@ -3,9 +3,8 @@ import { setNotificationToastMessage } from "../utils/myFunction";
 import { useAuthStore } from "../stores/authStore";
 import { feedbackInfor } from "../types/feedbackType";
 import feedbackService from "../services/feedbackService";
-import { feedbackRoute } from '../../../Backend/routes/feedbackRoute';
 
-export const useFeedbackStore:StoreDefinition = defineStore({
+export const useFeedbackStore: StoreDefinition = defineStore({
     id:'myFeedback',
     state: () => ({
         feedbacks: {} as feedbackInfor ,

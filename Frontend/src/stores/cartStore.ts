@@ -21,6 +21,18 @@ export const useCartStore = defineStore({
                 } else {
                     setNotificationToastMessage('Tải dữ liệu thất bại',false)
                 }   
-        }
+        },
+
+        async deleteAllCart() {
+            const authStore = useAuthStore()
+            const data = {} as cartInfor;
+            const response =  await cartService.deleteAll(data, authStore.currentUser.Token)
+            if(response.data.success){
+                this.getAllCart();
+            } else {
+                setNotificationToastMessage('Xóa tất cả giỏ hàng thất bại',false)
+            }   
+    }
+
     },
 });

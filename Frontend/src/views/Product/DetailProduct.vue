@@ -31,8 +31,13 @@
               <h2 class="text-base font-bold lg:text-2xl">
                 {{ listProduct.name }}
               </h2>
-              <div v-for="(item,index) in myFeedback" :key="index" class="flex">
-                <ul v-if="item.rating > 0" class="mt-2 flex">
+              <div
+                v-for="(item, index) in myFeedback"
+                :key="index"
+                class="flex"
+                v-if="rating > 0"
+              >
+                <ul class="mt-2 flex">
                   <li>
                     <StarIcon
                       class="w-4 h-4 ml-1 text-orange-500 fill-orange-400"
@@ -40,13 +45,15 @@
                   </li>
                   <span class="ml-2">({{ item.rating }})</span>
                 </ul>
-                <ul v-else class="mt-2 flex">
+              </div>
+              <div v-else>
+                <ul class="mt-2 flex">
                   <li>
                     <StarIcon
                       class="w-4 h-4 ml-1 text-orange-500 fill-orange-400"
                     ></StarIcon>
                   </li>
-                  <span class=" ml-2">(0)</span>
+                  <span class="ml-2">(0)</span>
                 </ul>
               </div>
               <p class="py-1.5 lg:text-base">
@@ -167,10 +174,18 @@
                 v-model="content"
               ></textarea>
               <button
+                v-if="!showBtnEdit"
                 class="border mt-3 py-2 px-4 rounded-md text-base text-white bg-lime-500 hover:bg-lime-600"
                 @click="actionFeedback()"
               >
                 Gửi đi
+              </button>
+              <button
+                v-else
+                class="border mt-3 py-2 px-4 rounded-md text-base text-white bg-lime-500 hover:bg-lime-600"
+                @click="actionEditFeedback()"
+              >
+                Cập nhật
               </button>
             </div>
             <div
@@ -192,10 +207,16 @@
                   <p class="pt-1">{{ item.content }}</p>
                 </div>
                 <div class="flex">
-                  <a class="flex pt-1 mr-3">
+                  <a
+                    class="flex pt-1 mr-3 cursor-pointer"
+                    @click="actionInitdata(item)"
+                  >
                     <CheckSquareIcon class="w-4 h-4 mr-1" /> Chỉnh sửa
                   </a>
-                  <a class="flex pt-1 text-danger">
+                  <a
+                    class="flex pt-1 text-danger cursor-pointer"
+                    @click="actionDeleteFeedback(item)"
+                  >
                     <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
                   </a>
                 </div>
@@ -229,7 +250,10 @@
               :key="index"
               class="intro-y mt-4"
             >
-              <div class="px-3 mb-2 hover:border border-lime-300"  @click="router.push('/product/' + item._id)">
+              <div
+                class="px-3 mb-2 hover:border border-lime-300"
+                @click="router.push('/product/' + item._id)"
+              >
                 <div class="p-2 flex">
                   <div class="h-24 w-24 image-fit o">
                     <img
@@ -283,8 +307,9 @@
                     class="w-full h-60 rounded-t-xl"
                   />
                   <span
+                    v-if="item.discount > 0"
                     class="absolute top-0 bg-pending/80 text-white text-xs -ml-28 mt-4 px-3 py-1 rounded z-10"
-                    >-20%
+                    >{{ item.discount }}%
                   </span>
                   <div class="overlay">
                     <div class="flex justify-center">
@@ -292,22 +317,17 @@
                         tag="div"
                         class="cursor-pointer"
                         content="Mua ngay"
-                        
                       >
-                      <ShoppingCartIcon
-                        class="w-5 h-5 mx-3 hover:text-lime-500"
-                      ></ShoppingCartIcon>
+                        <ShoppingCartIcon
+                          class="w-5 h-5 mx-3 hover:text-lime-500"
+                        ></ShoppingCartIcon>
                       </Tippy>
-                      <Tippy
-                        tag="div"
-                        class="cursor-pointer"
-                        content="Xem"
-                      >
-                      <EyeIcon
-                        class="w-5 h-5 hover:text-lime-500"
-                        @click="router.push('/product/' + item._id)"
-                      ></EyeIcon>
-                    </Tippy>
+                      <Tippy tag="div" class="cursor-pointer" content="Xem">
+                        <EyeIcon
+                          class="w-5 h-5 hover:text-lime-500"
+                          @click="router.push('/product/' + item._id)"
+                        ></EyeIcon>
+                      </Tippy>
                     </div>
                   </div>
                 </div>
@@ -361,7 +381,7 @@ import { cartInfor } from "../../types/cartType";
 import cartService from "../../services/cartService";
 import feedbackService from "../../services/feedbackService";
 import { feedbackInfor } from "../../types/feedbackType";
-import { FeedBackModel } from "../../model/feedbackModel";
+
 export default {
   name: "DetailProduct",
   components: {
@@ -382,17 +402,16 @@ export default {
     const quantity = ref(1);
     const sales = ref<productInfor[]>([]);
     const products = ref<productInfor[]>([]);
-    //const currentUser = computed(() => authStore.currentUser);
-    const currentUser:any = computed(() => {
+    const currentUser: any = computed(() => {
       return authStore.currentUser;
     });
     const myCarts = computed(() => myCartStore.carts);
     const myFeedback: any = computed(() => myFeedbackStore.feedbacks);
-    const selectedFeedback = ref<FeedBackModel>(new FeedBackModel());
     const content = ref("");
     const rating = ref(0);
-    const deleteConfirmationModal = ref(false);
     const showComment = ref(false);
+    const idUpdate = ref(false);
+    const showBtnEdit = ref(false);
     function showDescribe() {
       isShowEvaluate.value = false;
     }
@@ -476,7 +495,7 @@ export default {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
-    
+
     // feedback product
     async function actionFeedback() {
       const data = {
@@ -503,6 +522,54 @@ export default {
       }
     }
 
+    // delete feedback product
+    async function actionDeleteFeedback(item: feedbackInfor) {
+      const itemFind: any = { _id: item._id } as feedbackInfor;
+      const response = await feedbackService.delete(
+        itemFind,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        myFeedbackStore.getAllFeedbackById(listProduct.value._id);
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+      }
+    }
+
+    //init value by id feedback
+    async function actionInitdata(item: feedbackInfor) {
+      const itemFindId: any = { _id: item._id } as feedbackInfor;
+      const response = await feedbackService.findOne(
+        itemFindId,
+        authStore.Token
+      );
+      idUpdate.value = response.data.values._id;
+      rating.value = response.data.values.rating;
+      content.value = response.data.values.content;
+      showBtnEdit.value = true;
+      showComment.value = true;
+    }
+
+    // edit feedback
+    async function actionEditFeedback() {
+      const dataUpdate = {
+        _id: idUpdate.value,
+        rating: rating.value,
+        content: content.value,
+      } as unknown as feedbackInfor;
+      const response = await feedbackService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        showBtnEdit.value = false;
+        showComment.value = false;
+        myFeedbackStore.getAllFeedbackById(listProduct.value._id);
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+
     onMounted(async () => {
       await actionGetProductById();
       await initGetAllProductBySale();
@@ -523,6 +590,8 @@ export default {
       isShowDescribe,
       isShowEvaluate,
       showEvaluate,
+      showBtnEdit,
+      idUpdate,
       downAmount,
       upAmount,
       products,
@@ -530,6 +599,9 @@ export default {
       currentUser,
       actionAddCart,
       actionFeedback,
+      actionDeleteFeedback,
+      actionInitdata,
+      actionEditFeedback,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",
