@@ -58,6 +58,7 @@
     "vue-router": "^4",
     "vue3-apexcharts": "^1.4.1",
     "vue3-carousel": "^0.2.5",
+    "vuejs-paginate-next": "^1.0.2",
     "xlsx": "^0.16.9",
     "zoom-vanilla.js": "^2.0.6"
   },

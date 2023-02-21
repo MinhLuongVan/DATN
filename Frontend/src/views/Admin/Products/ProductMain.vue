@@ -64,7 +64,7 @@
                 {{ moment(item.createdAt).format("DD/MM/YYYY HH:mm") }}
               </td>
               <td class="table-report__action w-56">
-                <div class="flex justify-center items-center ">
+                <div class="flex justify-center items-center">
                   <a
                     class="flex items-center mr-3"
                     href="javascript:;"
@@ -86,7 +86,7 @@
         </table>
         <div v-else class="text-center">
           <span class="text-">Thật tiếc! Chưa có sản phẩm nào!</span>
-        </div> 
+        </div>
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -202,7 +202,7 @@
         <div class="pb-5 pt-2 text-center lg:pl-56 lg:pr-3">
           <button
             type="button"
-            @click="actionCloseModal() "
+            @click="actionCloseModal()"
             class="btn btn-outline-secondary w-24 mr-1"
           >
             Trở lại
@@ -227,6 +227,22 @@
       </ModalBody>
     </Modal>
     <!-- END: Delete Confirmation Modal -->
+    <div
+      class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+    >
+      <nav class="w-full sm:w-auto sm:mr-auto items-center mx-auto">
+        <Paginate
+          :page-count="5"
+          :page-range="3"
+          :margin-pages="2"
+          :prev-text="'<<'"
+          :next-text="'>>'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+        >
+        </Paginate>
+      </nav>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -243,8 +259,10 @@ import { ref as fireBaseRef } from "firebase/storage";
 import ShortUniqueId from "short-unique-id";
 import moment from "moment";
 import { useTypeProductStore } from "../../../stores/typeProductStore";
+import Paginate from "vuejs-paginate-next";
 export default defineComponent({
   name: "Products",
+  components: { Paginate },
   setup() {
     const router = useRouter();
     const deleteConfirmationModal = ref(false);
@@ -266,7 +284,6 @@ export default defineComponent({
     const Category: any = myTypeStore.typeProducts;
 
     const uploadFiles = (file: any) => {
-      //
       if (!file) return;
       const sotrageRef = fireBaseRef(storage, `files/${file.name}`);
       const uploadTask = uploadBytesResumable(sotrageRef, file);
@@ -278,7 +295,7 @@ export default defineComponent({
           );
         },
         (error) => {
-          setNotificationToastMessage("Can't upload an avatar", false);
+          setNotificationToastMessage("Không thể tải ảnh lên", false);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -325,7 +342,10 @@ export default defineComponent({
     // Get all product
     async function initGetAllProduct() {
       const data = {} as productInfor;
-      const response = await productService.findAll(data,  authStore.currentUser.Token);
+      const response = await productService.findAll(
+        data,
+        authStore.currentUser.Token
+      );
       // products.value = response.data.values;
       if (response.data.success) {
         products.value = response.data.values;
@@ -350,7 +370,10 @@ export default defineComponent({
       // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
       //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
       // } else {
-      const response = await productService.save(data,  authStore.currentUser.Token);
+      const response = await productService.save(
+        data,
+        authStore.currentUser.Token
+      );
       if (response.data.success) {
         AddConfirmationModal.value = false;
         reloadData();
@@ -369,7 +392,10 @@ export default defineComponent({
     async function actionDeleteProduct() {
       const itemDelete = new ProductModel();
       itemDelete._id = selectedProduct.value._id;
-      const response = await productService.delete(itemDelete,  authStore.currentUser.Token);
+      const response = await productService.delete(
+        itemDelete,
+        authStore.currentUser.Token
+      );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
@@ -407,7 +433,10 @@ export default defineComponent({
         category: category.value,
         image: image.value,
       } as productInfor;
-      const response = await productService.update(dataUpdate,  authStore.currentUser.Token);
+      const response = await productService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
       if (response.data.success) {
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;
@@ -421,7 +450,7 @@ export default defineComponent({
       AddConfirmationModal.value = false;
       showButtonEdit.value = false;
       reloadData();
-    }
+    };
 
     return {
       router,
@@ -447,8 +476,11 @@ export default defineComponent({
       actionInitEditProduct,
       AddConfirmationModal,
       deleteConfirmationModal,
-      actionCloseModal
+      actionCloseModal,
     };
   },
 });
 </script>
+<style>
+
+</style>

@@ -156,29 +156,26 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-router.beforeEach((to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const authStore = useAuthStore();
-  authStore.getToken();
-  authStore.getInforUser();
+  await authStore.getToken();
+  await authStore.getInforUser();
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
       next();
     } else {
       next("/login");
     }
-  } else {
-    next();
-  }
-  if (to.path && to.path.toString().includes("/admin")) {
-    if (
-      Cookies.get(env.nameCookie) &&
-      authStore.isAuthenticated &&
-      authStore.currentUser.userInfor.isAdmin == true
-    ) {
+  } else if (to.path && to.path.startsWith("/admin") && to.path !== '/admin/login') {
+    if (Cookies.get(env.nameCookie) && authStore.isAuthenticated && authStore.currentUser &&
+    authStore.currentUser.isAdmin) {
       next();
     } else {
       next("/admin/login");
     }
+  } else {
+    next();
   }
 });
 

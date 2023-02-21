@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { User, userInfor } from '../types/userType';
 import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
+import { setNotificationToastMessage } from "../utils/myFunction";
 
 export const useAuthStore:StoreDefinition = defineStore({
     id:'auth',
@@ -64,6 +65,3 @@ export const useAuthStore:StoreDefinition = defineStore({
       },
 });
 
-function setNotificationToastMessage(arg0: string, arg1: boolean) {
-    throw new Error("Function not implemented.");
-}

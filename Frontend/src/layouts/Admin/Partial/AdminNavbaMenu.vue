@@ -36,9 +36,9 @@
           </DropdownToggle>
           <DropdownMenu class="w-44 lg:w-56 bg-[#28334e] rounded-md">
             <div class="text-white p-3 border-b border-white/[0.08]">
-              <div class="font-medium">minhlv@gmail.com</div>
+              <div class="font-medium">{{ myAuth.currentUser.email }}</div>
               <div class="text-xs text-white mt-0.5 dark:text-slate-500">
-                minhlv
+                {{ myAuth.currentUser.username }}
               </div>
             </div>
             <div
@@ -65,20 +65,22 @@
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
-
+import { useAuthStore } from "../../../stores/authStore";
 export default defineComponent({
   name: "AdminNavbarMenu",
 
   setup() {
     const router = useRouter();
-
+    const myAuth = useAuthStore();
     // Logout
     async function actionLogout () {
       Cookies.remove("Authorization");
       await router.push("/admin/login");
     }
     return {
-      actionLogout
+      actionLogout,
+      myAuth,
+      router
     };
   },
 });

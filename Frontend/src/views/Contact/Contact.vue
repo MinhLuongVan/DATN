@@ -124,8 +124,8 @@ export default {
     const note = ref("");
     const authStore = useAuthStore();
 
-    //reset data
-    function resetData() {
+    //reload data
+    const reloadData = () => {
       email.value ='';
       name.value = "";
       note.value = "";
@@ -153,7 +153,7 @@ export default {
         } as contactInfor;
         const res = await ContactService.save(data,  authStore.currentUser.Token);
         if (res.data.success) {
-          resetData();
+          reloadData();
           setNotificationToastMessage("Gửi liên hệ thành công", true);
         } else {
           setNotificationToastMessage(res.data.message, false);
@@ -170,7 +170,6 @@ export default {
       v$,
       state,
       submitContact,
-      resetData
     };
   },
 };
