@@ -111,7 +111,6 @@ import { useTypeProductStore } from "../../../stores/typeProductStore";
 import { useAuthStore } from "../../../stores/authStore";
 import { useProductStore } from "../../../stores/productStore";
 import { useOrderStore } from "../../../stores/orderStore";
-import router from "../../../router";
 import { useRouter } from "vue-router";
 export default defineComponent({
   name: "AdminDashboard",

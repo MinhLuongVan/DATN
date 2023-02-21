@@ -19,6 +19,7 @@ import ProductMain from "../views/Admin/Products/ProductMain.vue";
 import TypeProduct from "../views/Admin/Products/TypeProduct.vue";
 import AccountMain from "../views/Admin/Account/AccountMain.vue";
 import CartMainVue from "../views/Admin/Cart/CartMain.vue";
+import DetailOrder from "../views/Admin/Cart/DetailOrder.vue";
 import NewsAdmin from "../views/Admin/Contact/News.vue";
 import ContactAdmin from "../views/Admin/Contact/Contact.vue";
 import CommentAdmin from "../views/Admin/Contact/Comment.vue";
@@ -143,6 +144,10 @@ const routes = [
       {
         path: "order",
         component: CartMainVue,
+      },
+      {
+        path: "order/:id",
+        component: DetailOrder,
       },
       {
         path: "configuration",

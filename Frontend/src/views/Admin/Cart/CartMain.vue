@@ -50,7 +50,10 @@
               <td class="text-center pt-4">{{ item.totalMoney }}vnđ</td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
-                  <a class="flex items-center mr-3" href="javascript:;">
+                  <a
+                    class="flex items-center mr-3 cursor-pointer"
+                    @click="router.push('/admin/order/' + item._id)"
+                  >
                     <EyeIcon class="w-4 h-4 mr-1" /> Xem
                   </a>
                   <a
@@ -66,7 +69,7 @@
         </table>
         <div v-else class="text-center">
           <span class="text-">Thật tiếc! Chưa có đơn hàng nào!</span>
-        </div> 
+        </div>
       </div>
       <!-- END: Data List -->
       <!-- BEGIN: Delete Confirmation Modal -->
@@ -115,7 +118,7 @@ import orderService from "../../../services/orderService";
 import { setNotificationToastMessage } from "../../../utils/myFunction";
 import { useAuthStore } from "../../../stores/authStore";
 export default defineComponent({
-  name: "Accounts",
+  name: "Orders",
   setup() {
     const router = useRouter();
     const myOrderStore = useOrderStore();

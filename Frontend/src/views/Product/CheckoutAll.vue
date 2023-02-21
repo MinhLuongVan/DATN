@@ -94,7 +94,7 @@
                 v-model="note"
                 class="w-full rounded-md mt-2 mb-4"
                 rows="2"
-                placeholder="Vd: Chuyển hàng tong giờ hành chính từ thứ 2 đến thứ 6"
+                placeholder="Vd: Chuyển hàng trong giờ hành chính từ thứ 2 đến thứ 6"
               ></textarea>
             </div>
           </div>

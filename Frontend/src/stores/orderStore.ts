@@ -3,7 +3,7 @@ import { setNotificationToastMessage } from "../utils/myFunction";
 import { useAuthStore } from "../stores/authStore";
 import { orderInfor } from "../types/orderType";
 import OrderService from "../services/orderService";
-export const useOrderStore = defineStore({
+export const useOrderStore: StoreDefinition = defineStore({
   id: "myOrder",
   state: () => ({
     orders: {} as orderInfor,
