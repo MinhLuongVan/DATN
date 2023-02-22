@@ -11,7 +11,7 @@
     </div>
     <div class="block lg:flex justify-between">
       <span class="lg:pt-2.5 text-slate-700"
-        >Tổng số sản phẩm : {{ products.length }}</span
+        >Tổng số sản phẩm : {{ totalProduct }}</span
       >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
@@ -239,6 +239,7 @@
           :next-text="'>>'"
           :container-class="'pagination'"
           :page-class="'page-item'"
+          :click-handler="initGetAllProduct"
         >
         </Paginate>
       </nav>
@@ -279,10 +280,11 @@ export default defineComponent({
     const amount = ref(0);
     const discount = ref(0);
     const category = ref("");
+    const totalProduct = ref(0)
     const chosenFile: any = ref(null);
     const uuid = new ShortUniqueId({ length: 8 });
     const Category: any = myTypeStore.typeProducts;
-
+    const currentPage = ref(1);
     const uploadFiles = (file: any) => {
       if (!file) return;
       const sotrageRef = fireBaseRef(storage, `files/${file.name}`);
@@ -340,21 +342,25 @@ export default defineComponent({
       image.value = "";
     };
     // Get all product
-    async function initGetAllProduct() {
-      const data = {} as productInfor;
-      const response = await productService.findAll(
+    async function initGetAllProduct(page: number) {
+      currentPage.value = page;
+      const data = {
+        page: currentPage.value
+      } as any;
+      const response = await productService.findByPage(
         data,
         authStore.currentUser.Token
       );
       // products.value = response.data.values;
       if (response.data.success) {
-        products.value = response.data.values;
+        products.value = response.data.values.data;
+        totalProduct.value = response.data.values.total;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
     onMounted(() => {
-      initGetAllProduct();
+      initGetAllProduct(1);
     });
     // Save product
     const actionSaveProduct = async () => {
@@ -377,7 +383,7 @@ export default defineComponent({
       if (response.data.success) {
         AddConfirmationModal.value = false;
         reloadData();
-        initGetAllProduct();
+        initGetAllProduct(1);
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
@@ -400,7 +406,7 @@ export default defineComponent({
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-        initGetAllProduct();
+        initGetAllProduct(1);
       }
     }
 
@@ -441,7 +447,7 @@ export default defineComponent({
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;
         reloadData();
-        initGetAllProduct();
+        initGetAllProduct(1);
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
@@ -467,6 +473,7 @@ export default defineComponent({
       category,
       chosenFile,
       showButtonEdit,
+      totalProduct,
       uploadAvatar,
       uploadFiles,
       actionSaveProduct,
@@ -477,6 +484,7 @@ export default defineComponent({
       AddConfirmationModal,
       deleteConfirmationModal,
       actionCloseModal,
+      initGetAllProduct
     };
   },
 });

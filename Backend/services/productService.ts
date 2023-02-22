@@ -248,3 +248,29 @@ export const deleteProductServices = async function(data: IProduct) {
         return errResponse(err);
     }
 }
+
+// findBy page product
+export const findByPageService = async function(data: any) {
+    try {
+        const perPage = 6; // số lượng sản phẩm xuất hiện trên 1 page
+        const page = data.page;
+        const total = await Product.count()
+  
+    const itemFind = await Product.find().sort({createdAt: -1})
+      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+      .limit(perPage)
+        if(itemFind) {
+            return okResponse({data: itemFind, total: total});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};

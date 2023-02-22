@@ -8,7 +8,6 @@ export const useProductStore = defineStore({
     id:'myProduct',
     state: () => ({
         products: {} as productInfor ,
-        
     }),
     getters: {},
     actions: {
