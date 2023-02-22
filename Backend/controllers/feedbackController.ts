@@ -1,7 +1,7 @@
 import { errorUnknown } from "../utils/myVariables";
 import {Request, Response} from 'express';
 import * as response from "../notifications/message";
-import { addFeedBackServices, deleteFeedBackServices, findOneFeedBackServices,getAllFeedBackByIdServices, getAllFeedBackServices, updateFeedBackSevices } from "../services/feedbackService";
+import { addFeedBackServices, deleteFeedBackServices, findOneFeedBackServices,getAllFeedBackByIdServices, getAllFeedBackServices, updateFeedBackSevices,findByPageService } from "../services/feedbackService";
 import { IFeedback } from "../models/interface/feedback";
 
 // get all feedback by id
@@ -107,3 +107,20 @@ export const deleteFeedBack = async function (req: Request, res: Response) {
         return response.error(err, res);
     }
 }
+
+// Findby page feedback
+export const findByPage = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemFeedback = await findByPageService(item);
+        return res.json(itemFeedback);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 

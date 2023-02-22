@@ -98,3 +98,30 @@ export const deleteOrderServices = async function(data: IOrder) {
         return errResponse(err);
     }
 }
+
+// findBy page order
+export const findByPageService = async function(data: any) {
+    try {
+        const perPage = 6; // số lượng sản phẩm xuất hiện trên 1 page
+        const page = data.page;
+        const total = await Order.count();
+        const totalPage = Math.ceil(total / perPage)
+  
+    const itemFind = await Order.find().sort({createdAt: -1})
+      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+      .limit(perPage)
+        if(itemFind) {
+            return okResponse({data: itemFind, total: total,totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};

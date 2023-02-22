@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số liên hệ : {{contacts.length}}</span>
+      <span class="lg:pt-2.5 text-slate-700"
+        >Tổng số liên hệ : {{ totalContact }}</span
+      >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
@@ -18,7 +20,7 @@
     <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table v-if="contacts.length > 0" class="table table-report -mt-2">
+        <table v-if="myContact.length > 0" class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap text-center">Họ tên</th>
@@ -29,9 +31,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in contacts " :key="item._id" class="intro-x">
-                <td class="text-center pt-4">{{ item.name }}</td>
-                <td class="text-center pt-4">{{ item.email }}</td>
+            <tr v-for="item in myContact" :key="item._id" class="intro-x">
+              <td class="text-center pt-4">{{ item.name }}</td>
+              <td class="text-center pt-4">{{ item.email }}</td>
               <td v-if="item.note.length > 100" class="text-center pt-4">
                 {{ item.note.slice(0, 99) }}...
               </td>
@@ -55,7 +57,7 @@
         </table>
         <div v-else class="text-center">
           <span class="text-">Thật tiếc! Chưa có phản hồi nào!</span>
-        </div> 
+        </div>
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -89,6 +91,25 @@
         </Modal>
         <!-- END: Delete Confirmation Modal -->
       </div>
+      <div v-if="myContact.length > 0"
+        class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+      >
+        <nav
+          class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
+        >
+          <Paginate
+            :page-count="totalPages"
+            :page-range="3"
+            :margin-pages="2"
+            :prev-text="'<<'"
+            :next-text="'>>'"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+            :click-handler="initGetAllContact"
+          >
+          </Paginate>
+        </nav>
+      </div>
       <!-- END: Data List -->
     </div>
   </div>
@@ -102,17 +123,44 @@ import moment from "moment";
 import { ContactModel } from "../../../model/contactModel";
 import { contactInfor } from "../../../types/contactType";
 import contactService from "../../../services/contactService";
-import {useContactStore} from "../../../stores/contactStore";
+import { useContactStore } from "../../../stores/contactStore";
+import Paginate from "vuejs-paginate-next";
 export default defineComponent({
   name: "Contact",
+  components: { Paginate },
   setup() {
     const router = useRouter();
     const deleteConfirmationModal = ref(false);
     const authStore = useAuthStore();
-    const contactStore = useContactStore()
+    const contactStore = useContactStore();
+    const myContact = ref<contactInfor[]>([]);
     const selectedContact = ref<ContactModel>(new ContactModel());
-    const contacts: any = computed(() => contactStore.contacts)
-  
+    const contacts: any = computed(() => contactStore.contacts);
+    const currentPage = ref(1);
+    const totalPages = ref(1);
+    const totalContact = ref(0);
+
+    // Get all contact
+    async function initGetAllContact(page: number) {
+      currentPage.value = page;
+      const data = {
+        page: currentPage.value,
+      } as any;
+      const response = await contactService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      // products.value = response.data.values;
+      if (response.data.success) {
+        myContact.value = response.data.values.data;
+        totalContact.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // init id delete
     function actionInitDeleteContact(item: contactInfor) {
       selectedContact.value._id = item._id;
       deleteConfirmationModal.value = true;
@@ -122,23 +170,31 @@ export default defineComponent({
     async function actionDeleteContact() {
       const itemDelete = new ContactModel();
       itemDelete._id = selectedContact.value._id;
-      const response = await contactService.delete(itemDelete,  authStore.currentUser.Token);
+      const response = await contactService.delete(
+        itemDelete,
+        authStore.currentUser.Token
+      );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-        contactStore.getAllContact();
+        initGetAllContact(1);
       }
     }
 
     onMounted(() => {
-        contactStore.getAllContact();
+      initGetAllContact(1);
+      //contactStore.getAllContact();
     });
 
     return {
       router,
       moment,
       contacts,
+      totalContact,
+      totalPages,
+      myContact,
+      initGetAllContact,
       actionDeleteContact,
       actionInitDeleteContact,
       deleteConfirmationModal,

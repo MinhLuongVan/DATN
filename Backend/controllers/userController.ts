@@ -1,5 +1,5 @@
 import {Response,Request} from "express";
-import {registerUserServices,loginUserServices, findAllUsersServices, deleteUserServices, findOneUserServices, updateUserServices} from '../services/userService';
+import {registerUserServices,loginUserServices, findAllUsersServices, deleteUserServices, findOneUserServices, updateUserServices,findByPageService} from '../services/userService';
 import {env,errorUnknown} from '../utils/myVariables';
 import {IUser} from '../models/interface/user';
 import * as response from "../notifications/message";
@@ -164,3 +164,20 @@ export const updateUser = async function (req: Request, res: Response) {
         return response.error(err, res);
     }
 };
+
+// Findby page user
+export const findByPage = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemUser = await findByPageService(item);
+        return res.json(itemUser);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 

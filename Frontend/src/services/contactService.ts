@@ -15,5 +15,8 @@ class ContactService {
     delete(data: ContactModel, token: string) {
         return apiClient(token).post("/contact/delete",data)
     }
+    findByPage(data: any, token: string) {
+        return apiClient(token).post("/contact/find-by-page",data)
+    }
 }
 export default new ContactService();

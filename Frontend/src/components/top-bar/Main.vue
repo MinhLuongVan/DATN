@@ -5,10 +5,14 @@
   >
     <div class="h-full lg:px-40 lg:flex items-center">
       <!-- BEGIN: Logo -->
-      <p class="logo -intro-x md:flex xl:w-[180px] block">
+      <p
+        v-for="item in mySetting"
+        :key="item"
+        class="logo -intro-x md:flex xl:w-[180px] block"
+      >
         <img
           class="logo__image h-20 w-full lg:h-auto lg:w-4/5 lg:mb-0 -lg:ml-0 lg:mt-6 cursor-pointer"
-          src="../../assets/images/rsz_logo-01.png"
+          :src="item.logoUser"
           @click="router.push('/')"
         />
       </p>
@@ -268,6 +272,7 @@ import cartService from "../../services/cartService";
 import { cartInfor } from "../../types/cartType";
 import { CartModel } from "../../model/cartModel";
 import { useCartStore } from "../../stores/cartStore";
+import { useSettingStore } from "../../stores/settingStore";
 export default defineComponent({
   name: "top-bar",
   setup() {
@@ -277,10 +282,12 @@ export default defineComponent({
     const authStore = useAuthStore();
     const carts = ref<cartInfor[]>([]);
     const myCart: any = computed(() => myCartStore.carts);
-    const currentUser:any = computed(() => {
+    const settingStore = useSettingStore();
+    const mySetting: any = computed(() => settingStore.settings);
+    const currentUser: any = computed(() => {
       return authStore.currentUser;
     });
-   
+
     const showSearchDropdown = () => {
       searchDropdown.value = true;
     };
@@ -309,6 +316,7 @@ export default defineComponent({
     }
     onMounted(() => {
       myCartStore.getAllCart();
+      settingStore.getAllSetting();
     });
 
     return {
@@ -316,6 +324,7 @@ export default defineComponent({
       carts,
       myCart,
       currentUser,
+      mySetting,
       searchDropdown,
       showSearchDropdown,
       hideSearchDropdown,

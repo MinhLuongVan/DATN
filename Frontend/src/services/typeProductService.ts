@@ -18,5 +18,8 @@ class TypeProductService {
     delete(data: TypeProductModel, token: string) {
         return apiClient(token).post("/typeproduct/delete",data)
     }
+    findByPage(data: any, token: string) {
+        return apiClient(token).post("/typeproduct/find-by-page",data)
+    }
 }
 export default new TypeProductService();

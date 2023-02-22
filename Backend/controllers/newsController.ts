@@ -2,7 +2,7 @@ import { INews } from '../models/interface/news';
 import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { errorUnknown } from '../utils/myVariables';
-import { addNewServices, deleteNewServices, findOneNewServices, getAllNewsServices, updateNewSevices } from '../services/newsService';
+import { addNewServices, deleteNewServices, findOneNewServices, getAllNewsServices, updateNewSevices,findByPageService } from '../services/newsService';
 
 
 //Get All news
@@ -92,4 +92,21 @@ export const deleteNews = async function (req: Request, res: Response) {
         return response.error(err, res);
     }
 }
+
+// Findby page news
+export const findByPage = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemNews = await findByPageService(item);
+        return res.json(itemNews);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
 

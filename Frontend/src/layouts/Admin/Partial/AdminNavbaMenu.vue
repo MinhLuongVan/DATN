@@ -3,16 +3,16 @@
   <div
     class="bg-[#1e293b] h-[70px] md:h-[65px] z-[51] border-b border-white/[0.08] md:mt-0 md:-mx-0 px-3 md:border-b-0 lg:fixed md:inset-x-0 sm:top-0 lg:top-0 fixed w-full sm:px-8 md:px-10 md:pt-2"
   >
-    <div class="h-full flex items-center">
+    <div v-for="item in mySetting" :key="item" class="h-full flex items-center">
       <!-- BEGIN: Logo -->
       <a href="" class="logo -intro-x md:flex xl:w-[180px] block">
         <img
-          src="../../../assets/images/images.jfif"
+          :src="item.logoAdmin"
           alt=""
           class="h-[45px] mx-1"
           height="35"
         />
-        <span class="pl-2 text-white mt-2.5 hidden lg:block">Admin</span>
+        <span class="pl-2 text-white mt-2.5 hidden lg:block">{{ item.name }}</span>
       </a>
       <!-- END: Logo -->
       <div class="w-full h-full flex justify-between">
@@ -62,16 +62,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import { useAuthStore } from "../../../stores/authStore";
+import { useSettingStore } from "../../../stores/settingStore";
 export default defineComponent({
   name: "AdminNavbarMenu",
 
   setup() {
     const router = useRouter();
     const myAuth = useAuthStore();
+    const settingStore = useSettingStore();
+    const mySetting: any = computed(() =>settingStore.settings);
+
+    onMounted(() => {
+      settingStore.getAllSetting();
+    })
     // Logout
     async function actionLogout () {
       Cookies.remove("Authorization");
@@ -80,7 +87,8 @@ export default defineComponent({
     return {
       actionLogout,
       myAuth,
-      router
+      router,
+      mySetting
     };
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div class="border rounded-lg h-auto w-2/5 mx-auto">
-      <h2 class="text-xl text-center pt-6 pb-3 font-medium">
+      <h2 class="text-xl text-center pt-6 pb-3 font-medium text-lime-500">
         Chi tiết đơn hàng
       </h2>
       <div class="px-12 w-full pb-5">

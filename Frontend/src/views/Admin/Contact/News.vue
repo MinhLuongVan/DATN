@@ -10,7 +10,7 @@
       </button>
     </div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số tin tức : {{news.length}}</span>
+      <span class="lg:pt-2.5 text-slate-700">Tổng số tin tức : {{totalNews}}</span>
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
@@ -186,6 +186,25 @@
       </ModalBody>
     </Modal>
     <!-- END: Delete Confirmation Modal -->
+    <div v-if="news.length > 0"
+        class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+      >
+        <nav
+          class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
+        >
+          <Paginate
+            :page-count="totalPages"
+            :page-range="3"
+            :margin-pages="2"
+            :prev-text="'<<'"
+            :next-text="'>>'"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+            :click-handler="actionGetAllNews"
+          >
+          </Paginate>
+        </nav>
+      </div>
   </div>
 </template>
 <script lang="ts">
@@ -200,8 +219,10 @@ import { ref as fireBaseRef } from "firebase/storage";
 import { newsInfor } from "../../../types/newsType";
 import { NewsModel } from "../../../model/newsModel";
 import newsService from "../../../services/newsService";
+import Paginate from "vuejs-paginate-next";
 export default defineComponent({
   name: "News",
+  components: { Paginate },
   setup() {
     const router = useRouter();
     const deleteConfirmationModal = ref(false);
@@ -213,6 +234,9 @@ export default defineComponent({
     const name = ref("");
     const content = ref("");
     const image = ref("");
+    const currentPage = ref(1);
+    const totalPages = ref(1);
+    const totalNews = ref(0);
     const news = ref<newsInfor[]>([]);
     const chosenFile: any = ref(null);
 
@@ -271,11 +295,16 @@ export default defineComponent({
     };
 
     // get all news
-    async function actionGetAllNews() {
-      const data = {} as newsInfor;
-      const response = await newsService.findAll(data,  authStore.currentUser.Token);
+    async function actionGetAllNews(page: number) {
+      currentPage.value = page;
+      const data = {
+        page: currentPage.value,
+      } as any;
+      const response = await newsService.findByPage(data,  authStore.currentUser.Token);
       if (response.data.success) {
-        news.value = response.data.values;
+        news.value = response.data.values.data;
+        totalNews.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
@@ -295,7 +324,7 @@ export default defineComponent({
       if (response.data.success) {
         AddConfirmationModal.value = false;
         reloadData();
-        actionGetAllNews();
+        actionGetAllNews(1);
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
@@ -315,7 +344,7 @@ export default defineComponent({
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-        actionGetAllNews();
+        actionGetAllNews(1);
       }
     }
 
@@ -344,7 +373,7 @@ export default defineComponent({
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;
         reloadData();
-        actionGetAllNews();
+        actionGetAllNews(1);
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
@@ -356,7 +385,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      actionGetAllNews();
+      actionGetAllNews(1);
     });
 
     return {
@@ -369,6 +398,8 @@ export default defineComponent({
       chosenFile,
       content,
       showButtonEdit,
+      totalNews,
+      totalPages,
       uploadImage,
       uploadFiles,
       actionInitEditNews,
@@ -376,6 +407,7 @@ export default defineComponent({
       actionEditNews,
       actionInitDeleteNews,
       actionDeleteNews,
+      actionGetAllNews,
       AddConfirmationModal,
       deleteConfirmationModal,
       actionCloseModal,

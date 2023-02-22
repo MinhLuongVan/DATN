@@ -3,7 +3,8 @@ import {errorUnknown} from '../utils/myVariables';
 import { okResponse,errResponse,dataNotFoundResponse } from '../notifications/message';
 import { TypeProduct } from '../models/typeProductModel';
 import {ITypeProduct} from '../models/interface/typeProduct'
-//get all product
+
+//get all typeproduct
 export const getAllTypeProductService = async function() {
     try {
         const itemFind = await TypeProduct.find();
@@ -112,3 +113,30 @@ export const deleteTypeProductServices = async function(data: ITypeProduct) {
         return errResponse(err);
     }
 }
+
+// findBy page typeproduct
+export const findByPageService = async function(data: any) {
+    try {
+        const perPage = 6; // số lượng sản phẩm xuất hiện trên 1 page
+        const page = data.page;
+        const total = await TypeProduct.count();
+        const totalPage = Math.ceil(total / perPage)
+  
+    const itemFind = await TypeProduct.find().sort({createdAt: -1})
+      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+      .limit(perPage)
+        if(itemFind) {
+            return okResponse({data: itemFind, total: total,totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};

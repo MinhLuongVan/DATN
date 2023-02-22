@@ -11,7 +11,7 @@
     </div>
     <div class="block lg:flex justify-between">
       <span class="lg:pt-2.5 text-slate-700"
-        >Tổng số loại sản phẩm : {{ typeProduct.length }}</span
+        >Tổng số loại sản phẩm : {{ totalTypeProduct}}</span
       >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
@@ -29,7 +29,7 @@
     <div class="mt-2 lg:mt-4">
       <!-- BEGIN: Data List -->
       <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
-        <table v-if="typeProduct.length > 0" class="table table-report -mt-2">
+        <table v-if="typeproducts.length > 0" class="table table-report -mt-2">
           <thead>
             <tr>
               <th class="whitespace-nowrap">Mã loại sản phẩm</th>
@@ -39,7 +39,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in typeProduct" :key="item._id" class="intro-x">
+            <tr v-for="item in typeproducts" :key="item._id" class="intro-x">
               <td class="pt-4">{{ item.uuid }}</td>
               <td class="text-center pt-4">{{ item.name }}</td>
               <td class="text-center pt-4">
@@ -152,6 +152,23 @@
       </ModalBody>
     </Modal>
     <!-- END: Delete Confirmation Modal -->
+    <div v-if="typeproducts.length > 0"
+      class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+    >
+    <nav class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0">
+        <Paginate
+          :page-count="totalPages"
+          :page-range="3"
+          :margin-pages="2"
+          :prev-text="'<<'"
+          :next-text="'>>'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :click-handler="actionGetAllTypeProduct"
+        >
+        </Paginate>
+      </nav>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -161,13 +178,14 @@ import typeProductService from "../../../services/typeProductService";
 import { setNotificationToastMessage } from "../../../utils/myFunction";
 import { useRouter } from "vue-router";
 import { TypeProductModel } from "../../../model/typeProductModel";
-import { v1 as uuidv1 } from "uuid";
 import ShortUniqueId from "short-unique-id";
 import moment from "moment";
 import { typeProductInfor } from "../../../types/typeProductType";
 import {useTypeProductStore} from "../../../stores/typeProductStore";
+import Paginate from "vuejs-paginate-next";
 export default defineComponent({
   name: "Products",
+  components: { Paginate },
   setup() {
     const router = useRouter();
     const deleteConfirmationModal = ref(false);
@@ -175,20 +193,38 @@ export default defineComponent({
     const showButtonEdit = ref(false);
     const authStore = useAuthStore();
     const idUpdate = ref("");
+    const typeproducts = ref<typeProductInfor[]>([]);
     const selectedTypeProduct = ref<TypeProductModel>(new TypeProductModel());
     const name = ref("");
     const uuid = new ShortUniqueId({ length: 8 });
     const myTypeStore = useTypeProductStore();
     const typeProduct: any = computed(() => myTypeStore.typeProducts);
-    
+    const totalPages = ref(1);
+    const currentPage = ref(1);
+    const totalTypeProduct = ref(0);
     //reload data
     const reloadData = () => {
       name.value = "";
     };
 
     // get all typeproduct
-    function actionGetAllTypeProduct() {
-      myTypeStore.getAllTypeProduct();
+    async function actionGetAllTypeProduct(page: number) {
+      currentPage.value = page;
+      const data = {
+        page: currentPage.value
+      } as any;
+      const response = await typeProductService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      // products.value = response.data.values;
+      if (response.data.success) {
+        typeproducts.value = response.data.values.data;
+        totalTypeProduct.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
     }
     // Save typeproduct
     const actionSaveTypeProduct = async () => {
@@ -203,7 +239,8 @@ export default defineComponent({
         if (response.data.success) {
           AddConfirmationModal.value = false;
           reloadData();
-          myTypeStore.getAllTypeProduct();
+          // myTypeStore.getAllTypeProduct();
+          actionGetAllTypeProduct(1);
         } else {
           setNotificationToastMessage("Tải dữ liệu thất bại", false);
         }
@@ -227,7 +264,8 @@ export default defineComponent({
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-        myTypeStore.getAllTypeProduct();
+        // myTypeStore.getAllTypeProduct();
+        actionGetAllTypeProduct(1);
       }
     }
 
@@ -259,7 +297,8 @@ export default defineComponent({
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;
         reloadData();
-        myTypeStore.getAllTypeProduct();
+        // myTypeStore.getAllTypeProduct();
+        actionGetAllTypeProduct(1);
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
@@ -272,7 +311,8 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      actionGetAllTypeProduct();
+      actionGetAllTypeProduct(1);
+      // myTypeStore.getAllTypeProduct();
     });
 
     return {
@@ -283,6 +323,10 @@ export default defineComponent({
       name,
       typeProduct,
       showButtonEdit,
+      totalPages,
+      currentPage,
+      typeproducts,
+      totalTypeProduct,
       actionInitEditTypeProduct,
       actionSaveTypeProduct,
       actionEditTypeProduct,
@@ -291,6 +335,7 @@ export default defineComponent({
       AddConfirmationModal,
       deleteConfirmationModal,
       actionCloseModal,
+      actionGetAllTypeProduct
     };
   },
 });

@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteUser, findAllUsers, findOneUser, loginUser, registerUser, updateUser } from '../controllers/userController';
+import { deleteUser, findAllUsers, findOneUser, loginUser, registerUser, updateUser,findByPage } from '../controllers/userController';
 
 export const userRoute = function (app: express.Application) {
     app.route("/api/user/register").post(registerUser);
@@ -8,4 +8,5 @@ export const userRoute = function (app: express.Application) {
     app.route("/api/user/find-one").post(findOneUser);
     app.route("/api/user/delete").post(deleteUser);
     app.route("/api/user/update").post(updateUser);
+    app.route("/api/user/find-by-page").post(findByPage);
 }

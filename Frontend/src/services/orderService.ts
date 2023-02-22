@@ -15,5 +15,8 @@ class OrderService {
     delete(data: OrderModel, token: string) {
         return apiClient(token).post("/order/delete",data)
     }
+    findByPage(data: any, token: string) {
+        return apiClient(token).post("/order/find-by-page",data)
+    }
 }
 export default new OrderService();

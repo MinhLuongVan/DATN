@@ -21,5 +21,8 @@ class FeedBackService {
     delete(data: FeedBackModel, token: string) {
         return apiClient(token).post("/feedback/delete",data)
     }
+    findByPage(data: any, token: string) {
+        return apiClient(token).post("/feedback/find-by-page",data)
+    }
 }
 export default new FeedBackService();

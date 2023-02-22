@@ -230,9 +230,9 @@
     <div
       class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
     >
-      <nav class="w-full sm:w-auto sm:mr-auto items-center mx-auto">
+    <nav class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0">
         <Paginate
-          :page-count="5"
+          :page-count="totalPages"
           :page-range="3"
           :margin-pages="2"
           :prev-text="'<<'"
@@ -285,6 +285,7 @@ export default defineComponent({
     const uuid = new ShortUniqueId({ length: 8 });
     const Category: any = myTypeStore.typeProducts;
     const currentPage = ref(1);
+    const totalPages = ref(1);
     const uploadFiles = (file: any) => {
       if (!file) return;
       const sotrageRef = fireBaseRef(storage, `files/${file.name}`);
@@ -341,6 +342,7 @@ export default defineComponent({
       category.value = "";
       image.value = "";
     };
+
     // Get all product
     async function initGetAllProduct(page: number) {
       currentPage.value = page;
@@ -355,10 +357,12 @@ export default defineComponent({
       if (response.data.success) {
         products.value = response.data.values.data;
         totalProduct.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
+    
     onMounted(() => {
       initGetAllProduct(1);
     });
@@ -474,6 +478,7 @@ export default defineComponent({
       chosenFile,
       showButtonEdit,
       totalProduct,
+      totalPages,
       uploadAvatar,
       uploadFiles,
       actionSaveProduct,

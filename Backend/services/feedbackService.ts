@@ -137,3 +137,30 @@ export const deleteFeedBackServices = async function(data: IFeedback) {
         return errResponse(err);
     }
 }
+
+// findBy page feedback
+export const findByPageService = async function(data: any) {
+    try {
+        const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
+        const page = data.page;
+        const total = await Feedback.count();
+        const totalPage = Math.ceil(total / perPage)
+  
+    const itemFind = await Feedback.find().sort({createdAt: -1})
+      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+      .limit(perPage)
+        if(itemFind) {
+            return okResponse({data: itemFind, total: total,totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};

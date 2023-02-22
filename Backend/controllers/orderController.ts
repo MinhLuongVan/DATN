@@ -2,7 +2,7 @@ import { errorUnknown } from "../utils/myVariables";
 import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { IOrder } from '../models/interface/order';
-import { addOrderServices, deleteOrderServices, findOneOrderServices, getAllOrderServices } from "../services/orderService";
+import { addOrderServices, deleteOrderServices, findOneOrderServices, getAllOrderServices,findByPageService } from "../services/orderService";
 
 //get all order
 export const getAllOrder = async function (req: Request, res: Response) {
@@ -72,3 +72,20 @@ export const deleteOrder = async function (req: Request, res: Response) {
         return response.error(err, res);
     }
 }
+
+// Findby page order
+export const findByPage = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemOrder = await findByPageService(item);
+        return res.json(itemOrder);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 

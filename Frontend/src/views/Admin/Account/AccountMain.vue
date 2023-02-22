@@ -11,7 +11,7 @@
     </div>
     <div class="block lg:flex justify-between">
       <span class="lg:pt-2.5 text-slate-700"
-        >Tổng số tài khoản : {{ myAccount.length }}</span
+        >Tổng số tài khoản : {{ totalUser }}</span
       >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
@@ -40,7 +40,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in myAccount" :key="index" class="intro-x">
+            <tr v-for="(item, index) in users" :key="index" class="intro-x">
               <td>
                 <a href="" class="font-medium whitespace-nowrap">{{
                   item.username
@@ -223,6 +223,25 @@
         </ModalBody>
       </Modal>
       <!-- END: Delete Confirmation Modal -->
+      <div
+        class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+      >
+        <nav
+          class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
+        >
+          <Paginate
+            :page-count="totalPages"
+            :page-range="3"
+            :margin-pages="2"
+            :prev-text="'<<'"
+            :next-text="'>>'"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+            :click-handler="actionInitGetAllUser"
+          >
+          </Paginate>
+        </nav>
+      </div>
     </div>
   </div>
 </template>
@@ -239,9 +258,10 @@ import {
   setNotificationToastMessage,
 } from "../../../utils/myFunction";
 import { UserModel } from "../../../model/userModel";
+import Paginate from "vuejs-paginate-next";
 export default defineComponent({
   name: "Accounts",
-  components: {},
+  components: { Paginate },
   setup() {
     const deleteConfirmationModal = ref(false);
     const AddConfirmationModal = ref(false);
@@ -255,6 +275,9 @@ export default defineComponent({
     const sdt = ref("");
     const passwordagain = ref("");
     const idUpdate = ref("");
+    const currentPage = ref(1);
+    const totalPages = ref(1);
+    const totalUser = ref(0);
     const selectedUser = ref<UserModel>(new UserModel());
     const myAccount: any = computed(() => authStore.users);
 
@@ -289,6 +312,7 @@ export default defineComponent({
             authStore.registerUser(res.data.values);
             AddConfirmationModal.value = false;
             authStore.initGetAllUser();
+            actionInitGetAllUser(1);
           } else {
             setNotificationToastMessage(res.data.message, false);
           }
@@ -299,7 +323,26 @@ export default defineComponent({
         setNotificationFailedWhenGetData();
       }
     };
-    
+
+    //get all user by page
+    async function actionInitGetAllUser(page: number) {
+      currentPage.value = page;
+      const data = {
+        page: currentPage.value,
+      } as any;
+      const response = await userService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        users.value = response.data.values.data;
+        totalUser.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
     // lấy user by id
     async function actionInitEditAccount(item: userInfor) {
       const itemFindId: any = { _id: item._id } as userInfor;
@@ -334,7 +377,8 @@ export default defineComponent({
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
         deleteConfirmationModal.value = false;
-       authStore.initGetAllUser();
+        authStore.initGetAllUser();
+        actionInitGetAllUser(1);
       }
     }
 
@@ -356,6 +400,7 @@ export default defineComponent({
         showButtonEdit.value = false;
         reloadData();
         authStore.initGetAllUser();
+        actionInitGetAllUser(1);
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
@@ -377,6 +422,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
+      actionInitGetAllUser(1);
       authStore.initGetAllUser();
     });
     return {
@@ -391,6 +437,9 @@ export default defineComponent({
       users,
       idUpdate,
       myAccount,
+      currentPage,
+      totalPages,
+      totalUser,
       showButtonEdit,
       deleteConfirmationModal,
       AddConfirmationModal,
@@ -400,6 +449,7 @@ export default defineComponent({
       actionDeleteAccount,
       actionInitDeleteAccount,
       actionEditAccount,
+      actionInitGetAllUser,
     };
   },
 });

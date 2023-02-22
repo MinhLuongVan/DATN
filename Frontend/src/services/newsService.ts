@@ -18,5 +18,8 @@ class NewsService {
     delete(data: NewsModel, token: string) {
         return apiClient(token).post("/news/delete",data)
     }
+    findByPage(data: any, token: string) {
+        return apiClient(token).post("/news/find-by-page",data)
+    }
 }
 export default new NewsService();

@@ -2,7 +2,7 @@ import { ITypeProduct } from '../models/interface/typeProduct';
 import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { errorUnknown } from '../utils/myVariables';
-import { createTypeProductSevice, deleteTypeProductServices, findOneTypeProductServices, getAllTypeProductService, updateTypeProductSevice } from '../services/typeProductService';
+import { createTypeProductSevice, deleteTypeProductServices, findByPageService, findOneTypeProductServices, getAllTypeProductService, updateTypeProductSevice } from '../services/typeProductService';
 
 //Get All Product
 export const getAllTypeProduct = async function (req: Request, res: Response) {
@@ -107,3 +107,20 @@ export const deleteTypeProduct = async function (req: Request, res: Response) {
         return response.error(err, res);
     }
 }
+
+// Findby page typeproduct
+export const findByPage = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemTypeProduct = await findByPageService(item);
+        return res.json(itemTypeProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
