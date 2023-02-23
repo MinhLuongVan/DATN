@@ -12,7 +12,7 @@
       <!-- BEGIN: Page Introduce -->
       <div class="intro-y py-5">
         <div v-for="(item,index) in myNews" :key="index" class="border rounded-xl py-2 my-5">
-          <div class="grid grid-cols-4 gap-4 h-auto p-2">
+          <div class="grid grid-cols-4 gap-4 h-auto p-2" @click="router.push('/news/'+ item._id)">
             <div class="col-span-4 lg:col-span-1 image">
               <img
                 :src="item.image"

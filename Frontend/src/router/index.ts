@@ -8,6 +8,7 @@ import PageCart from "../views/Product/Cart.vue";
 import Pay from "../views/Product/Pay.vue";
 import Checkout from "../views/Product/CheckoutAll.vue";
 import PageNews from "../views/News/News.vue";
+import DetailNews from "../views/News/DetailNews.vue";
 import PageContact from "../views/Contact/Contact.vue";
 import PageTransport from "../views/Introduce/Transport.vue";
 import PageSecurity from "../views/Introduce/Security.vue";
@@ -81,6 +82,10 @@ const routes = [
         path: "/news",
         name: "side-menu-page-6",
         component: PageNews,
+      },
+      {
+        path: "/news/:id",
+        component: DetailNews ,
       },
       {
         path: "/contact",

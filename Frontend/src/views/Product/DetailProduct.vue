@@ -23,6 +23,7 @@
             <div class="col-span-9 h-80 lg:col-span-4 border">
               <img
                 :src="listProduct.image"
+                data-action="zoom"
                 alt="/"
                 class="w-full h-full bg-contain"
               />
