@@ -10,8 +10,13 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchFeedBack"
+            v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button
+            class="absolute inset-y-0 right-0 px-3 border-l"
+            @click="actionSearchFeedBack"
+          >
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -108,25 +113,26 @@
           </ModalBody>
         </Modal>
         <!-- END: Delete Confirmation Modal -->
-        <div v-if="feedBacks.length > 0"
-        class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
-      >
-        <nav
-          class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
+        <div
+          v-if="feedBacks.length > 0"
+          class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
         >
-          <Paginate
-            :page-count="totalPages"
-            :page-range="3"
-            :margin-pages="2"
-            :prev-text="'<<'"
-            :next-text="'>>'"
-            :container-class="'pagination'"
-            :page-class="'page-item'"
-            :click-handler="initGetAllComment"
+          <nav
+            class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
           >
-          </Paginate>
-        </nav>
-      </div>
+            <Paginate
+              :page-count="totalPages"
+              :page-range="3"
+              :margin-pages="2"
+              :prev-text="'<<'"
+              :next-text="'>>'"
+              :container-class="'pagination'"
+              :page-class="'page-item'"
+              :click-handler="initGetAllComment"
+            >
+            </Paginate>
+          </nav>
+        </div>
       </div>
       <!-- END: Data List -->
     </div>
@@ -157,6 +163,7 @@ export default defineComponent({
     const currentPage = ref(1);
     const totalPages = ref(1);
     const totalFeedback = ref(0);
+    const keyword = ref("");
 
     //get all comment
     async function initGetAllComment(page: number) {
@@ -168,7 +175,6 @@ export default defineComponent({
         data,
         authStore.currentUser.Token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
         feedBacks.value = response.data.values.data;
         totalFeedback.value = response.data.values.total;
@@ -178,6 +184,24 @@ export default defineComponent({
       }
     }
 
+    // search comment
+    async function actionSearchFeedBack() {
+      const data = {
+        content: keyword.value,
+        page: currentPage.value,
+      };
+      const response = await feedbackService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        feedBacks.value = response.data.values.data;
+        totalFeedback.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
 
     // init id delete
     function actionInitDeleteFeedback(item: feedbackInfor) {
@@ -214,10 +238,12 @@ export default defineComponent({
       totalFeedback,
       totalPages,
       feedBacks,
+      keyword,
       initGetAllComment,
       actionDeleteFeedback,
       actionInitDeleteFeedback,
       deleteConfirmationModal,
+      actionSearchFeedBack,
     };
   },
 });

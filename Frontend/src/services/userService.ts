@@ -25,6 +25,9 @@ class UserService {
     findByPage(data: any, token: string) {
         return apiClient(token).post("/user/find-by-page",data)
     }
+    search(data: UserModel, token: string) {
+        return apiClient(token).post("/user/search",data)
+    }
 
 }
 export default new UserService();

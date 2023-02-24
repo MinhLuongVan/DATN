@@ -138,7 +138,6 @@ export const updateUserServices = async function ( data: IUser) {
 }
 
 // Login
-
 export const loginUserServices = async function (data: IUser) {
     try {
         const createAccessToken = env.JWT_ACCESS_KEY;
@@ -183,16 +182,41 @@ export const loginUserServices = async function (data: IUser) {
 // findBy page user
 export const findByPageService = async function(data: any) {
     try {
-        const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
+        let condition = {} as any
+        if(data.email) {
+            condition.email = { $regex: data.email, $options: 'i'}
+        }
+        const perPage = 5; 
         const page = data.page;
         const total = await User.count();
         const totalPage = Math.ceil(total / perPage)
   
-    const itemFind = await User.find().sort({createdAt: -1})
-      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+    const itemFind = await User.find(condition).sort({createdAt: -1})
+      .skip((perPage * page) - perPage)
       .limit(perPage)
         if(itemFind) {
             return okResponse({data: itemFind, total: total,totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+// search order
+export const searchUserService = async function(data: IUser) {
+    try {  
+    const itemFind = await User.find({name: {$regex: data.email, $options:"$i"}}).sort({createdAt: -1})
+    
+        if(itemFind) {
+            return okResponse({data: itemFind});
         } else {
             return dataNotFoundResponse();
         }

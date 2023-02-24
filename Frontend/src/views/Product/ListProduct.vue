@@ -109,7 +109,7 @@
               <GiftIcon @click="showProductGift"></GiftIcon>
               <ListIcon @click="showProductList" class="ml-5"></ListIcon>
             </div>
-            <div class="flex">
+            <!-- <div class="flex">
               <p>Sắp xếp theo :</p>
               <select
                 class="rounded-full py-1 -mt-1 text-sm"
@@ -121,7 +121,7 @@
                 <option value="3">Tên(a-z)</option>
                 <option value="4">Tên(z-a)</option>
               </select>
-            </div>
+            </div> -->
           </div>
           <!-- BEGIN: product -->
           <div v-if="showProduct" class="intro-y grid grid-cols-9 gap-6">

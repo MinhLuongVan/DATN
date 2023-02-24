@@ -10,8 +10,13 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchContact"
+            v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button
+            class="absolute inset-y-0 right-0 px-3 border-l"
+            @click="actionSearchContact"
+          >
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -91,7 +96,8 @@
         </Modal>
         <!-- END: Delete Confirmation Modal -->
       </div>
-      <div v-if="myContact.length > 0"
+      <div
+        v-if="myContact.length > 0"
         class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
       >
         <nav
@@ -139,6 +145,7 @@ export default defineComponent({
     const currentPage = ref(1);
     const totalPages = ref(1);
     const totalContact = ref(0);
+    const keyword = ref("");
 
     // Get all contact
     async function initGetAllContact(page: number) {
@@ -150,7 +157,25 @@ export default defineComponent({
         data,
         authStore.currentUser.Token
       );
-      // products.value = response.data.values;
+      if (response.data.success) {
+        myContact.value = response.data.values.data;
+        totalContact.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // search contact
+    async function actionSearchContact() {
+      const data = {
+        email: keyword.value,
+        page: currentPage.value,
+      };
+      const response = await contactService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
       if (response.data.success) {
         myContact.value = response.data.values.data;
         totalContact.value = response.data.values.total;
@@ -194,10 +219,12 @@ export default defineComponent({
       totalContact,
       totalPages,
       myContact,
+      keyword,
       initGetAllContact,
       actionDeleteContact,
       actionInitDeleteContact,
       deleteConfirmationModal,
+      actionSearchContact,
     };
   },
 });

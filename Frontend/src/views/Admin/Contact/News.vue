@@ -347,7 +347,7 @@ export default defineComponent({
       }
     };
 
-    // search product
+    // search news
     async function actionSearchNews() {
       const data = {
         name: keyword.value,

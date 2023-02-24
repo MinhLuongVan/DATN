@@ -93,13 +93,17 @@ export const deleteContactServices = async function(data: IContact) {
 // findBy page contact
 export const findByPageService = async function(data: any) {
     try {
-        const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
+        let condition = {} as any
+        if(data.email) {
+            condition.email = { $regex: data.email, $options: 'i'}
+        }
+        const perPage = 5; 
         const page = data.page;
         const total = await Contact.count();
         const totalPage = Math.ceil(total / perPage)
   
-    const itemFind = await Contact.find().sort({createdAt: -1})
-      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+    const itemFind = await Contact.find(condition).sort({createdAt: -1})
+      .skip((perPage * page) - perPage) 
       .limit(perPage)
         if(itemFind) {
             return okResponse({data: itemFind, total: total,totalPage: totalPage});

@@ -19,8 +19,13 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchUser"
+            v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button
+            class="absolute inset-y-0 right-0 px-3 border-l"
+            @click="actionSearchUser"
+          >
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -275,6 +280,7 @@ export default defineComponent({
     const sdt = ref("");
     const passwordagain = ref("");
     const idUpdate = ref("");
+    const keyword = ref("");
     const currentPage = ref(1);
     const totalPages = ref(1);
     const totalUser = ref(0);
@@ -406,6 +412,25 @@ export default defineComponent({
       }
     }
 
+    // search user
+    async function actionSearchUser() {
+      const data = {
+        email: keyword.value,
+        page: currentPage.value,
+      };
+      const response = await userService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        users.value = response.data.values.data;
+        totalUser.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
     //reload data
     const reloadData = () => {
       (username.value = ""),
@@ -436,6 +461,7 @@ export default defineComponent({
       v$,
       users,
       idUpdate,
+      keyword,
       myAccount,
       currentPage,
       totalPages,
@@ -450,6 +476,7 @@ export default defineComponent({
       actionInitDeleteAccount,
       actionEditAccount,
       actionInitGetAllUser,
+      actionSearchUser,
     };
   },
 });

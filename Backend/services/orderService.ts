@@ -105,13 +105,13 @@ export const findByPageService = async function(data: any) {
         if(data.name) {
             condition.name = { $regex: data.name, $options: 'i'}
         }
-        const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
+        const perPage = 5; 
         const page = data.page;
         const total = await Order.count();
         const totalPage = Math.ceil(total / perPage)
   
     const itemFind = await Order.find(condition).sort({createdAt: -1})
-      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+      .skip((perPage * page) - perPage) 
       .limit(perPage)
         if(itemFind) {
             return okResponse({data: itemFind, total: total,totalPage: totalPage});

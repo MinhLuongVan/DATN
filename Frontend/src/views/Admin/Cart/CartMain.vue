@@ -59,7 +59,7 @@
                     <EyeIcon class="w-4 h-4 mr-1" /> Xem
                   </a>
                   <a
-                    class="flex items-center text-danger"
+                    class="flex items-center text-danger cursor-pointer"
                     @click="actionInitDeleteOrder(item)"
                   >
                     <Trash2Icon class="w-4 h-4 mr-1" /> Xóa
@@ -97,7 +97,7 @@
             </button>
             <button
               type="button"
-              class="btn btn-danger w-24"
+              class="btn btn-danger w-24 cursor-pointer"
               @click="actionDeleteOrder()"
             >
               Xóa
@@ -165,7 +165,6 @@ export default defineComponent({
         data,
         authStore.currentUser.Token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
         orders.value = response.data.values.data;
         totalOrder.value = response.data.values.total;

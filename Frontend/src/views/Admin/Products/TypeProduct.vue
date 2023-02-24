@@ -19,8 +19,10 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchTypeProduct"
+            v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button class="absolute inset-y-0 right-0 px-3 border-l" @click="actionSearchTypeProduct">
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -202,6 +204,7 @@ export default defineComponent({
     const totalPages = ref(1);
     const currentPage = ref(1);
     const totalTypeProduct = ref(0);
+    const keyword = ref("");
     //reload data
     const reloadData = () => {
       name.value = "";
@@ -217,7 +220,6 @@ export default defineComponent({
         data,
         authStore.currentUser.Token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
         typeproducts.value = response.data.values.data;
         totalTypeProduct.value = response.data.values.total;
@@ -303,6 +305,25 @@ export default defineComponent({
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }
     }
+
+     // search typeproduct
+     async function actionSearchTypeProduct() {
+      const data = {
+        name: keyword.value,
+        page: currentPage.value,
+      };
+      const response = await typeProductService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        typeproducts.value = response.data.values.data;
+        totalTypeProduct.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
     
     const actionCloseModal = () => {
       AddConfirmationModal.value = false;
@@ -321,6 +342,7 @@ export default defineComponent({
       moment,
       idUpdate,
       name,
+      keyword,
       typeProduct,
       showButtonEdit,
       totalPages,
@@ -335,7 +357,8 @@ export default defineComponent({
       AddConfirmationModal,
       deleteConfirmationModal,
       actionCloseModal,
-      actionGetAllTypeProduct
+      actionGetAllTypeProduct,
+      actionSearchTypeProduct
     };
   },
 });

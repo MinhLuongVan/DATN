@@ -141,13 +141,17 @@ export const deleteFeedBackServices = async function(data: IFeedback) {
 // findBy page feedback
 export const findByPageService = async function(data: any) {
     try {
-        const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
+        let condition = {} as any
+        if(data.content) {
+            condition.content = { $regex: data.content, $options: 'i'}
+        }
+        const perPage = 5; 
         const page = data.page;
         const total = await Feedback.count();
         const totalPage = Math.ceil(total / perPage)
   
-    const itemFind = await Feedback.find().sort({createdAt: -1})
-      .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
+    const itemFind = await Feedback.find(condition).sort({createdAt: -1})
+      .skip((perPage * page) - perPage) 
       .limit(perPage)
         if(itemFind) {
             return okResponse({data: itemFind, total: total,totalPage: totalPage});
@@ -164,3 +168,5 @@ export const findByPageService = async function(data: any) {
         return errResponse(err);
     }
 };
+
+
