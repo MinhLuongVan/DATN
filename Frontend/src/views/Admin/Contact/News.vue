@@ -10,15 +10,19 @@
       </button>
     </div>
     <div class="block lg:flex justify-between">
-      <span class="lg:pt-2.5 text-slate-700">Tổng số tin tức : {{totalNews}}</span>
+      <span class="lg:pt-2.5 text-slate-700"
+        >Tổng số tin tức : {{ totalNews }}</span
+      >
       <div class="flex">
         <div class="min-w-[215px] max-w-sm relative my-2 lg:my-0">
           <input
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchNews"
+            v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button class="absolute inset-y-0 right-0 px-3 border-l" @click="actionSearchNews">
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -31,6 +35,7 @@
           <thead>
             <tr>
               <th class="whitespace-nowrap text-center">Hình ảnh</th>
+              <th class="whitespace-nowrap text-center">Tiêu đề</th>
               <th class="whitespace-nowrap text-center">Nội dung</th>
               <th class="text-center whitespace-nowrap">Ngày tạo</th>
               <th class="text-center whitespace-nowrap">Hành động</th>
@@ -47,14 +52,17 @@
                   />
                 </div>
               </td>
-              <td v-if="item.content.length > 100" class="text-center pt-4">{{ item.content.slice(0,99)}}...</td>
-              <td v-else class="text-center pt-4">{{ item.content }}</td>
+              <td class="text-center pt-4">{{ item.name }}</td>
+              <td v-if="item.content.length > 100" class="pt-4">
+                {{ item.content.slice(0, 99) }}...
+              </td>
+              <td v-else class="pt-4">{{ item.content }}</td>
               <td class="text-center pt-4">
                 {{ moment(item.createdAt).format("DD/MM/YYYY HH:mm") }}
               </td>
               <td class="table-report__action w-56">
                 <div class="flex justify-center items-center">
-                    <a
+                  <a
                     class="flex items-center mr-3"
                     href="javascript:;"
                     @click="actionInitEditNews(item)"
@@ -75,7 +83,7 @@
         </table>
         <div v-else class="text-center">
           <span class="text-">Thật tiếc! Chưa có tin tức nào!</span>
-        </div> 
+        </div>
         <!-- BEGIN: Delete Confirmation Modal -->
         <Modal
           :show="deleteConfirmationModal"
@@ -162,7 +170,7 @@
           <button
             type="button"
             @click="actionCloseModal()"
-            class="btn btn-outline-secondary w-24 mr-1"
+            class="btn w-24 mr-1"
           >
             Trở lại
           </button>
@@ -177,7 +185,7 @@
           <button
             v-else
             type="button"
-            class="btn text-white bg-lime-500"
+            class="btn text-white bg-lime-500 w-24"
             @click="actionEditNews"
           >
             Cập nhật
@@ -186,25 +194,26 @@
       </ModalBody>
     </Modal>
     <!-- END: Delete Confirmation Modal -->
-    <div v-if="news.length > 0"
-        class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+    <div
+      v-if="news.length > 0"
+      class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
+    >
+      <nav
+        class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
       >
-        <nav
-          class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
+        <Paginate
+          :page-count="totalPages"
+          :page-range="3"
+          :margin-pages="2"
+          :prev-text="'<<'"
+          :next-text="'>>'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+          :click-handler="actionGetAllNews"
         >
-          <Paginate
-            :page-count="totalPages"
-            :page-range="3"
-            :margin-pages="2"
-            :prev-text="'<<'"
-            :next-text="'>>'"
-            :container-class="'pagination'"
-            :page-class="'page-item'"
-            :click-handler="actionGetAllNews"
-          >
-          </Paginate>
-        </nav>
-      </div>
+        </Paginate>
+      </nav>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -234,6 +243,7 @@ export default defineComponent({
     const name = ref("");
     const content = ref("");
     const image = ref("");
+    const keyword = ref("");
     const currentPage = ref(1);
     const totalPages = ref(1);
     const totalNews = ref(0);
@@ -300,7 +310,10 @@ export default defineComponent({
       const data = {
         page: currentPage.value,
       } as any;
-      const response = await newsService.findByPage(data,  authStore.currentUser.Token);
+      const response = await newsService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
       if (response.data.success) {
         news.value = response.data.values.data;
         totalNews.value = response.data.values.total;
@@ -317,19 +330,43 @@ export default defineComponent({
         content: content.value,
         image: image.value,
       } as newsInfor;
-      // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
-      //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
-      // } else {
-      const response = await newsService.save(data,  authStore.currentUser.Token);
-      if (response.data.success) {
-        AddConfirmationModal.value = false;
-        reloadData();
-        actionGetAllNews(1);
+      if (name.value === "" || content.value === "") {
+        setNotificationToastMessage("Vui lòng nhập đủ thông tin", false);
       } else {
-        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        const response = await newsService.save(
+          data,
+          authStore.currentUser.Token
+        );
+        if (response.data.success) {
+          AddConfirmationModal.value = false;
+          reloadData();
+          actionGetAllNews(1);
+        } else {
+          setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        }
       }
     };
 
+    // search product
+    async function actionSearchNews() {
+      const data = {
+        name: keyword.value,
+        page: currentPage.value,
+      };
+      const response = await newsService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        news.value = response.data.values.data;
+        totalNews.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    // lấy id delete
     function actionInitDeleteNews(item: newsInfor) {
       selectedNews.value._id = item._id;
       deleteConfirmationModal.value = true;
@@ -339,7 +376,10 @@ export default defineComponent({
     async function actionDeleteNews() {
       const itemDelete = new NewsModel();
       itemDelete._id = selectedNews.value._id;
-      const response = await newsService.delete(itemDelete,  authStore.currentUser.Token);
+      const response = await newsService.delete(
+        itemDelete,
+        authStore.currentUser.Token
+      );
       if (response.data.error) {
         setNotificationToastMessage("Xóa dữ liệu thất bại", false);
       } else {
@@ -351,7 +391,10 @@ export default defineComponent({
     // lấy news by id
     async function actionInitEditNews(item: newsInfor) {
       const itemFindId: any = { _id: item._id } as newsInfor;
-      const response = await newsService.findOne(itemFindId,  authStore.currentUser.Token);
+      const response = await newsService.findOne(
+        itemFindId,
+        authStore.currentUser.Token
+      );
       idUpdate.value = response.data.values._id;
       name.value = response.data.values.name;
       content.value = response.data.values.content;
@@ -368,7 +411,10 @@ export default defineComponent({
         content: content.value,
         image: image.value,
       } as newsInfor;
-      const response = await newsService.update(dataUpdate,  authStore.currentUser.Token);
+      const response = await newsService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
       if (response.data.success) {
         AddConfirmationModal.value = false;
         showButtonEdit.value = false;
@@ -393,6 +439,7 @@ export default defineComponent({
       news,
       moment,
       idUpdate,
+      keyword,
       name,
       image,
       chosenFile,
@@ -411,6 +458,7 @@ export default defineComponent({
       AddConfirmationModal,
       deleteConfirmationModal,
       actionCloseModal,
+      actionSearchNews,
     };
   },
 });

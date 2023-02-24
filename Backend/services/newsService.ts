@@ -24,7 +24,6 @@ export const getAllNewsServices = async function() {
     }
 };
 
-
 // Add news
 export const addNewServices = async function (data: INews) {
     try {
@@ -119,16 +118,41 @@ export const deleteNewServices = async function(data: INews) {
 // findBy page news
 export const findByPageService = async function(data: any) {
     try {
+        let condition = {} as any
+        if(data.name) {
+            condition.name = { $regex: data.name, $options: 'i'}
+        }
         const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
         const page = data.page;
         const total = await News.count();
         const totalPage = Math.ceil(total / perPage)
   
-    const itemFind = await News.find().sort({createdAt: -1})
+    const itemFind = await News.find(condition).sort({createdAt: -1})
       .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
       .limit(perPage)
         if(itemFind) {
             return okResponse({data: itemFind, total: total,totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+// search news
+export const searchNewsService = async function(data: INews) {
+    try {  
+    const itemFind = await News.find({name: {$regex: data.name, $options:"$i"}}).sort({createdAt: -1})
+    
+        if(itemFind) {
+            return okResponse({data: itemFind});
         } else {
             return dataNotFoundResponse();
         }

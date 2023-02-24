@@ -222,6 +222,7 @@ export const findByPage = async function (req: Request, res: Response) {
     }
 } 
 
+// search product
 export const searchProduct = async function (req: Request, res: Response) {
     try {
         const item = req.body;

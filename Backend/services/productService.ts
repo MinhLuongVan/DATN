@@ -280,7 +280,8 @@ export const findByPageService = async function(data: any) {
     }
 };
 
-export const searchProductService = async function(data: any) {
+//search product
+export const searchProductService = async function(data: IProduct) {
     try {  
     const itemFind = await Product.find({name: {$regex: data.name, $options:"$i"}}).sort({createdAt: -1})
     

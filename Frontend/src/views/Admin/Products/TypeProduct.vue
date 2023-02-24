@@ -128,7 +128,7 @@
           <button
             type="button"
             @click="actionCloseModal()"
-            class="btn btn-outline-secondary w-24 mr-1"
+            class="btn w-24 mr-1"
           >
             Trở lại
           </button>
@@ -143,7 +143,7 @@
           <button
             v-else
             type="button"
-            class="btn text-white bg-lime-500"
+            class="btn text-white bg-lime-500 w-24"
             @click="actionEditTypeProduct"
           >
             Cập nhật

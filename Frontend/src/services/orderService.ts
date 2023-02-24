@@ -18,5 +18,8 @@ class OrderService {
     findByPage(data: any, token: string) {
         return apiClient(token).post("/order/find-by-page",data)
     }
+    search(data: OrderModel, token: string) {
+        return apiClient(token).post("/order/search",data)
+    }
 }
 export default new OrderService();

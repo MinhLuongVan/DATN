@@ -24,9 +24,9 @@ export const useProductStore = defineStore({
                 }   
         },
 
-        async searchProduct(key) {
+        async searchProduct(key: string) {
             const authStore = useAuthStore();
-            const data = {
+            const data: any = {
                 name: key
             }
             const response =  await productService.search(data, authStore.currentUser.Token)

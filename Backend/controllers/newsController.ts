@@ -2,8 +2,7 @@ import { INews } from '../models/interface/news';
 import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { errorUnknown } from '../utils/myVariables';
-import { addNewServices, deleteNewServices, findOneNewServices, getAllNewsServices, updateNewSevices,findByPageService } from '../services/newsService';
-
+import { addNewServices, deleteNewServices, findOneNewServices, getAllNewsServices, updateNewSevices,findByPageService, searchNewsService } from '../services/newsService';
 
 //Get All news
 export const getAllNews = async function (req: Request, res: Response) {
@@ -39,7 +38,6 @@ export const saveNews = async function (req: Request, res: Response) {
 }
 
 // Find a news
-
 export const findIdNews = async function (req:Request, res:Response) {
     try {
         const itemId = req.body as INews;
@@ -57,7 +55,6 @@ export const findIdNews = async function (req:Request, res:Response) {
 };
 
 // Update news
-
 export const updateNews = async function (req: Request, res: Response) {
     try {
             const itemEdit = req.body as INews;
@@ -76,7 +73,6 @@ export const updateNews = async function (req: Request, res: Response) {
 };
 
 // Delete news
-
 export const deleteNews = async function (req: Request, res: Response) {
     try {
             const item = req.body as INews;
@@ -98,6 +94,23 @@ export const findByPage = async function (req: Request, res: Response) {
     try {
         const item = req.body;
         const itemNews = await findByPageService(item);
+        return res.json(itemNews);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
+
+// search news
+export const searchNews = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemNews = await searchNewsService(item);
         return res.json(itemNews);
     } catch (e: unknown) {
         let err: string;

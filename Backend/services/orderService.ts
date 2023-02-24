@@ -4,7 +4,6 @@ import { okResponse,errResponse,dataNotFoundResponse } from '../notifications/me
 import { Order } from '../models/orderModel';
 import { IOrder } from '../models/interface/order';
 
-
 //get all order
 export const getAllOrderServices = async function() {
     try {
@@ -102,16 +101,41 @@ export const deleteOrderServices = async function(data: IOrder) {
 // findBy page order
 export const findByPageService = async function(data: any) {
     try {
-        const perPage = 6; // số lượng sản phẩm xuất hiện trên 1 page
+        let condition = {} as any
+        if(data.name) {
+            condition.name = { $regex: data.name, $options: 'i'}
+        }
+        const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
         const page = data.page;
         const total = await Order.count();
         const totalPage = Math.ceil(total / perPage)
   
-    const itemFind = await Order.find().sort({createdAt: -1})
+    const itemFind = await Order.find(condition).sort({createdAt: -1})
       .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
       .limit(perPage)
         if(itemFind) {
             return okResponse({data: itemFind, total: total,totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+// search order
+export const searchOrderService = async function(data: IOrder) {
+    try {  
+    const itemFind = await Order.find({name: {$regex: data.name, $options:"$i"}}).sort({createdAt: -1})
+    
+        if(itemFind) {
+            return okResponse({data: itemFind});
         } else {
             return dataNotFoundResponse();
         }

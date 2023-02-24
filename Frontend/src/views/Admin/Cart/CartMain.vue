@@ -10,8 +10,10 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchOrder"
+            v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button class="absolute inset-y-0 right-0 px-3 border-l" @click="actionSearchOrder">
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -151,6 +153,7 @@ export default defineComponent({
     const totalPages = ref(1);
     const currentPage = ref(1);
     const totalOrder = ref(0);
+    const keyword = ref("");
 
     // get all order by page
     async function initGetAllOrder(page: number) {
@@ -194,6 +197,25 @@ export default defineComponent({
       }
     }
 
+     // search order
+     async function actionSearchOrder() {
+      const data = {
+        name: keyword.value,
+        page: currentPage.value,
+      };
+      const response = await orderService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        orders.value = response.data.values.data;
+        totalOrder.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
     onMounted(async () => {
       await initGetAllOrder(1);
       // await myOrderStore.getAllOrder();
@@ -209,7 +231,9 @@ export default defineComponent({
       actionInitDeleteOrder,
       actionDeleteOrder,
       deleteConfirmationModal,
-      initGetAllOrder
+      initGetAllOrder,
+      actionSearchOrder,
+      keyword
     };
   },
 });

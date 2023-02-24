@@ -19,10 +19,13 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
-            v-on:keyup.enter="actionSearchProduct"  
+            v-on:keyup.enter="actionSearchProduct"
             v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l">
+          <button
+            class="absolute inset-y-0 right-0 px-3 border-l"
+            @click="actionSearchProduct"
+          >
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -205,7 +208,7 @@
           <button
             type="button"
             @click="actionCloseModal()"
-            class="btn btn-outline-secondary w-24 mr-1"
+            class="btn w-24 mr-1"
           >
             Trở lại
           </button>
@@ -220,7 +223,7 @@
           <button
             v-else
             type="button"
-            class="btn text-white bg-lime-500"
+            class="btn text-white bg-lime-500 w-24"
             @click="actionEditProduct"
           >
             Cập nhật
@@ -230,9 +233,12 @@
     </Modal>
     <!-- END: Delete Confirmation Modal -->
     <div
+      v-if="products.length > 0"
       class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
     >
-    <nav class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0">
+      <nav
+        class="w-full sm:w-auto sm:mr-auto items-center mt-5 mx-auto bottom-0"
+      >
         <Paginate
           :page-count="totalPages"
           :page-range="3"
@@ -263,6 +269,7 @@ import ShortUniqueId from "short-unique-id";
 import moment from "moment";
 import { useTypeProductStore } from "../../../stores/typeProductStore";
 import Paginate from "vuejs-paginate-next";
+import { computed } from "@vue/reactivity";
 export default defineComponent({
   name: "Products",
   components: { Paginate },
@@ -282,10 +289,11 @@ export default defineComponent({
     const amount = ref(0);
     const discount = ref(0);
     const category = ref("");
-    const totalProduct = ref(0)
+    const keyword = ref("");
+    const totalProduct = ref(0);
     const chosenFile: any = ref(null);
     const uuid = new ShortUniqueId({ length: 8 });
-    const Category: any = myTypeStore.typeProducts;
+    const Category: any = computed(() => myTypeStore.typeProducts);
     const currentPage = ref(1);
     const totalPages = ref(1);
     const uploadFiles = (file: any) => {
@@ -309,7 +317,6 @@ export default defineComponent({
         }
       );
     };
-    const keyword = ref('');
 
     async function uploadAvatar(event: any) {
       chosenFile.value = event.target.files[0];
@@ -350,13 +357,12 @@ export default defineComponent({
     async function initGetAllProduct(page: number) {
       currentPage.value = page;
       const data = {
-        page: currentPage.value
+        page: currentPage.value,
       } as any;
       const response = await productService.findByPage(
         data,
         authStore.currentUser.Token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
         products.value = response.data.values.data;
         totalProduct.value = response.data.values.total;
@@ -366,16 +372,16 @@ export default defineComponent({
       }
     }
 
+    // search product
     async function actionSearchProduct() {
       const data = {
         name: keyword.value,
-        page: currentPage.value
-      }
+        page: currentPage.value,
+      };
       const response = await productService.findByPage(
         data,
         authStore.currentUser.Token
       );
-      // products.value = response.data.values;
       if (response.data.success) {
         products.value = response.data.values.data;
         totalProduct.value = response.data.values.total;
@@ -384,9 +390,10 @@ export default defineComponent({
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
-    
+
     onMounted(() => {
       initGetAllProduct(1);
+      myTypeStore.getAllTypeProduct();
     });
     // Save product
     const actionSaveProduct = async () => {
@@ -399,19 +406,25 @@ export default defineComponent({
         category: category.value,
         image: image.value,
       } as productInfor;
-      // if(name.value === " " || amount.value < 0 || price.value <= 0 || discount.value < 0) {
-      //   setNotificationToastMessage("Dữ liệu không hợp lệ",false)
-      // } else {
-      const response = await productService.save(
-        data,
-        authStore.currentUser.Token
-      );
-      if (response.data.success) {
-        AddConfirmationModal.value = false;
-        reloadData();
-        initGetAllProduct(1);
+      if (
+        name.value === " " ||
+        amount.value <= 0 ||
+        price.value <= 0 ||
+        discount.value < 0
+      ) {
+        setNotificationToastMessage("Dữ liệu không hợp lệ", false);
       } else {
-        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        const response = await productService.save(
+          data,
+          authStore.currentUser.Token
+        );
+        if (response.data.success) {
+          AddConfirmationModal.value = false;
+          reloadData();
+          initGetAllProduct(1);
+        } else {
+          setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        }
       }
     };
 
@@ -513,11 +526,9 @@ export default defineComponent({
       actionCloseModal,
       initGetAllProduct,
       actionSearchProduct,
-      keyword
+      keyword,
     };
   },
 });
 </script>
-<style>
-
-</style>
+<style></style>
