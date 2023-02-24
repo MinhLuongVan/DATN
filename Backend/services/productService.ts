@@ -252,12 +252,16 @@ export const deleteProductServices = async function(data: IProduct) {
 // findBy page product
 export const findByPageService = async function(data: any) {
     try {
+        let condition = {} as any
+        if(data.name) {
+            condition.name = { $regex: data.name, $options: 'i'}
+        }
         const perPage = 5; // số lượng sản phẩm xuất hiện trên 1 page
         const page = data.page;
         const total = await Product.count();
         const totalPage = Math.ceil(total / perPage)
   
-    const itemFind = await Product.find().sort({createdAt: -1})
+    const itemFind = await Product.find(condition).sort({createdAt: -1})
       .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
       .limit(perPage)
         if(itemFind) {

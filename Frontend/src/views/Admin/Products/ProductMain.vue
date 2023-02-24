@@ -19,6 +19,8 @@
             class="form-control shadow-none border border-slate-300 dark:border-slate-300 dark:bg-white dark:text-slate-700 pr-11"
             type="search"
             placeholder="Tìm kiếm..."
+            v-on:keyup.enter="actionSearchProduct"  
+            v-model="keyword"
           />
           <button class="absolute inset-y-0 right-0 px-3 border-l">
             <SearchIcon class="w-4 h-4" />
@@ -307,6 +309,7 @@ export default defineComponent({
         }
       );
     };
+    const keyword = ref('');
 
     async function uploadAvatar(event: any) {
       chosenFile.value = event.target.files[0];
@@ -349,6 +352,25 @@ export default defineComponent({
       const data = {
         page: currentPage.value
       } as any;
+      const response = await productService.findByPage(
+        data,
+        authStore.currentUser.Token
+      );
+      // products.value = response.data.values;
+      if (response.data.success) {
+        products.value = response.data.values.data;
+        totalProduct.value = response.data.values.total;
+        totalPages.value = response.data.values.totalPage;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thât bại", false);
+      }
+    }
+
+    async function actionSearchProduct() {
+      const data = {
+        name: keyword.value,
+        page: currentPage.value
+      }
       const response = await productService.findByPage(
         data,
         authStore.currentUser.Token
@@ -489,7 +511,9 @@ export default defineComponent({
       AddConfirmationModal,
       deleteConfirmationModal,
       actionCloseModal,
-      initGetAllProduct
+      initGetAllProduct,
+      actionSearchProduct,
+      keyword
     };
   },
 });
