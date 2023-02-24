@@ -3,7 +3,7 @@ import {Request, Response} from 'express';
 import * as response from "../notifications/message";
 import { errorUnknown } from '../utils/myVariables';
 import { errJwtNotVerify, errResponse } from '../notifications/message';
-import { getAllProductService, createProductSevice, findOneProductServices, updateProductSevice, deleteProductServices, getProductByNewService, getProductByCategoryService, getProductBySaleService, getProductByCactusTreeService, getProductByStoneLotusTreeService, getProductByHangingTreeService, findByPageService } from '../services/productService';
+import { getAllProductService, createProductSevice, findOneProductServices, updateProductSevice, deleteProductServices, getProductByNewService, getProductByCategoryService, getProductBySaleService, getProductByCactusTreeService, getProductByStoneLotusTreeService, getProductByHangingTreeService, findByPageService, searchProductService } from '../services/productService';
 
 //Get All Product
 export const getAllProduct = async function (req: Request, res: Response) {
@@ -210,6 +210,22 @@ export const findByPage = async function (req: Request, res: Response) {
     try {
         const item = req.body;
         const itemProduct = await findByPageService(item);
+        return res.json(itemProduct);
+    } catch (e: unknown) {
+        let err: string;
+        if (e instanceof Error) {
+            err = e.message;
+        } else {
+            err = errorUnknown;
+        }
+        return response.error(err, res);
+    }
+} 
+
+export const searchProduct = async function (req: Request, res: Response) {
+    try {
+        const item = req.body;
+        const itemProduct = await searchProductService(item);
         return res.json(itemProduct);
     } catch (e: unknown) {
         let err: string;

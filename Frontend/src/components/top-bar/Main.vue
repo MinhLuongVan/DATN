@@ -25,10 +25,10 @@
               type="text"
               class="search__input text-lime-500 lg:py-2.5 py-1.5 lg:text-base text-sm sm:mt-1"
               placeholder="Tìm kiếm..."
-              @focus="showSearchDropdown"
-              @blur="hideSearchDropdown"
+              v-model="searchKeyword"
+              v-on:keyup.enter="actionSearchProduct"            
             />
-            <SearchIcon class="search__icon dark:text-slate-500" />
+            <SearchIcon @click="actionSearchProduct" class="search__icon dark:text-slate-500" />
           </div>
           <!-- <a class="notification notification--light" href="">
           <SearchIcon class="notification__icon dark:text-slate-500" />
@@ -273,10 +273,12 @@ import { cartInfor } from "../../types/cartType";
 import { CartModel } from "../../model/cartModel";
 import { useCartStore } from "../../stores/cartStore";
 import { useSettingStore } from "../../stores/settingStore";
+import { useProductStore } from "../../stores/productStore";
 export default defineComponent({
   name: "top-bar",
   setup() {
     const searchDropdown = ref(false);
+    const productStore = useProductStore();
     const router = useRouter();
     const myCartStore = useCartStore();
     const authStore = useAuthStore();
@@ -287,6 +289,7 @@ export default defineComponent({
     const currentUser: any = computed(() => {
       return authStore.currentUser;
     });
+    const searchKeyword = ref('');
 
     const showSearchDropdown = () => {
       searchDropdown.value = true;
@@ -310,6 +313,11 @@ export default defineComponent({
       }
     }
 
+    function actionSearchProduct () {
+      productStore.searchKeyword = searchKeyword.value;
+    
+    }
+
     async function actionLogout() {
       Cookies.remove("Authorization");
       await router.push("/login");
@@ -330,6 +338,8 @@ export default defineComponent({
       hideSearchDropdown,
       actionLogout,
       actionDeleteProduct,
+      actionSearchProduct,
+      searchKeyword
     };
   },
 });

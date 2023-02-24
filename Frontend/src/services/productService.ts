@@ -45,5 +45,8 @@ class ProductService {
     findByPage(data: any, token: string) {
         return apiClient(token).post("/product/find-by-page",data)
     }
+    search(data: ProductModel, token: string) {
+        return apiClient(token).post("/product/search",data)
+    }
 }
 export default new ProductService();

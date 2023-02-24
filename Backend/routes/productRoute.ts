@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllProduct, saveProduct, findIdProduct, updateProduct, deleteProduct, getProductByNew, getProductByCategory, getProductBySale, getProductByCastus, getProductByStoneLotus, getProductByHangingTree,findByPage } from '../controllers/productController';
+import { getAllProduct, saveProduct, findIdProduct, updateProduct, deleteProduct, getProductByNew, getProductByCategory, getProductBySale, getProductByCastus, getProductByStoneLotus, getProductByHangingTree,findByPage, searchProduct } from '../controllers/productController';
 
 export const productRoute = function (app: express.Application) {
     app.route("/api/product").post(getAllProduct);
@@ -14,4 +14,5 @@ export const productRoute = function (app: express.Application) {
     app.route("/api/product/update").post(updateProduct);
     app.route("/api/product/delete").post(deleteProduct);
     app.route("/api/product/find-by-page").post(findByPage);
+    app.route("/api/product/search").post(searchProduct);
 }

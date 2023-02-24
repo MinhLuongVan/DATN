@@ -261,7 +261,27 @@ export const findByPageService = async function(data: any) {
       .skip((perPage * page) - perPage) // Trong page đầu tiên sẽ bỏ qua giá trị là 0
       .limit(perPage)
         if(itemFind) {
-            return okResponse({data: itemFind, total: total,totalPage: totalPage});
+            return okResponse({data: itemFind, total: total, totalPage: totalPage});
+        } else {
+            return dataNotFoundResponse();
+        }
+    } catch (error: unknown) {
+        let err: string;
+        if(error instanceof Error) {
+            err = error.message;
+        }else {
+            err = errorUnknown;
+        }
+        return errResponse(err);
+    }
+};
+
+export const searchProductService = async function(data: any) {
+    try {  
+    const itemFind = await Product.find({name: {$regex: data.name, $options:"$i"}}).sort({createdAt: -1})
+    
+        if(itemFind) {
+            return okResponse({data: itemFind});
         } else {
             return dataNotFoundResponse();
         }

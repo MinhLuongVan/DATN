@@ -259,13 +259,14 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
 import { productInfor } from "../../types/productType";
 import { setNotificationToastMessage } from "../../utils/myFunction";
 import bottom from "../../views/Footer/Footer.vue";
 import productService from "../../services/productService";
+import { useProductStore } from "../../stores/productStore";
 export default defineComponent({
   name: "Product",
   components: {
@@ -273,6 +274,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
+    const productStore = useProductStore();
     const sales = ref<productInfor[]>([]);
     const showTree = ref("Xương rồng");
     const authStore = useAuthStore();
@@ -293,6 +295,20 @@ export default defineComponent({
         }
       }
     );
+
+    watch(() => productStore.searchKeyword, async (value) => {
+      const authStore = useAuthStore();
+            const data = {
+                name: value
+            }
+            const response =  await productService.search(data, authStore.currentUser.Token)
+            if(response.data.success){
+                treeList.value =  response.data.values.data;
+            } else {
+                setNotificationToastMessage('Tải dữ liệu thất bại',false)
+            } 
+      
+    })
 
     function showProductGift() {
       showProduct.value = true;
