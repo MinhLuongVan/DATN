@@ -97,6 +97,7 @@
         </div>
       </div>
       <!-- END: Page contact -->
+      <div id="map" class="border h-80"></div>
     </div>
     <bottom />
   </div>
@@ -109,11 +110,13 @@ import { required, minLength } from "@vuelidate/validators";
 import { useAuthStore } from "../../stores/authStore";
 import { contactInfor } from "../../types/contactType";
 import ContactService from "../../services/contactService";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 import {
   setNotificationFailedWhenGetData,
   setNotificationToastMessage,
 } from "../../utils/myFunction";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 export default {
   name: "Contact",
   components: { bottom },
@@ -123,13 +126,16 @@ export default {
     const name = ref("");
     const note = ref("");
     const authStore = useAuthStore();
+    const map: any = ref("");
+    const marker: any = ref("");
+    const latlng = [21.028924, 105.798357];
 
     //reload data
     const reloadData = () => {
-      email.value ='';
+      email.value = "";
       name.value = "";
       note.value = "";
-    }
+    };
 
     const state = ref({
       email: "",
@@ -151,7 +157,10 @@ export default {
           name: state.value.name,
           note: state.value.note,
         } as contactInfor;
-        const res = await ContactService.save(data,  authStore.currentUser.Token);
+        const res = await ContactService.save(
+          data,
+          authStore.currentUser.Token
+        );
         if (res.data.success) {
           reloadData();
           setNotificationToastMessage("Gửi liên hệ thành công", true);
@@ -162,6 +171,19 @@ export default {
         setNotificationFailedWhenGetData();
       }
     };
+    onMounted(() => {
+      map.value = L.map("map").setView(latlng, 13);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        maxZoom: 18,
+      }).addTo(map.value);
+      marker.value = L.marker(latlng).addTo(map.value);
+      marker
+        .bindPopup("<b>Ngõ 113 Yên Hòa, Quận Cầu Giấy, Hà Nội</b>")
+        .openPopup();
+    });
+
     return {
       router,
       email,
@@ -170,6 +192,8 @@ export default {
       v$,
       state,
       submitContact,
+      map,
+      marker,
     };
   },
 };
