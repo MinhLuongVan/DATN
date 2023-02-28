@@ -1,6 +1,5 @@
 <template>
   <div>
-    <top-bar />
     <div class="lg:px-52 mt-3 lg:mt-8">
       <div class="intro-y flex sm:mt-4 lg:mt-0 items-center">
         <div class="flex" @click="router.push('/')">
@@ -97,7 +96,7 @@
         </div>
       </div>
       <!-- END: Page contact -->
-      <div id="map" class="border h-80"></div>
+      <div id="map" class="border h-80 mt-5 z-10"></div>
     </div>
     <bottom />
   </div>
@@ -126,8 +125,8 @@ export default {
     const name = ref("");
     const note = ref("");
     const authStore = useAuthStore();
-    const map: any = ref("");
-    const marker: any = ref("");
+    const map = ref("");
+    const marker = ref("");
     const latlng = [21.028924, 105.798357];
 
     //reload data
@@ -172,16 +171,13 @@ export default {
       }
     };
     onMounted(() => {
-      map.value = L.map("map").setView(latlng, 13);
+      map.value = L.map("map").setView(latlng, 17);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
         maxZoom: 18,
       }).addTo(map.value);
       marker.value = L.marker(latlng).addTo(map.value);
-      marker
-        .bindPopup("<b>Ngõ 113 Yên Hòa, Quận Cầu Giấy, Hà Nội</b>")
-        .openPopup();
     });
 
     return {
