@@ -167,7 +167,6 @@ export default defineComponent({
             : [0, 0, 0, 0, 0, 0, 0],
       },
     ];
-
     // Biểu đồ cột
     const chartOptions1 = {
       chart: {

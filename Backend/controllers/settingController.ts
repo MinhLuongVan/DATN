@@ -2,7 +2,13 @@ import { errorUnknown } from "../utils/myVariables";
 import { Request, Response } from "express";
 import * as response from "../notifications/message";
 import { ISetting } from "../models/interface/setting";
-import { addSettingServices, deleteSettingServices, findOneSettingServices, getAllSettingServices, updateSettingSevices } from "../services/settingService";
+import {
+  addSettingServices,
+  deleteSettingServices,
+  findOneSettingServices,
+  getAllSettingServices,
+  updateSettingSevices,
+} from "../services/settingService";
 
 //get all setting
 export const getAllSetting = async function (req: Request, res: Response) {
@@ -87,6 +93,3 @@ export const deleteSetting = async function (req: Request, res: Response) {
     return response.error(err, res);
   }
 };
-
-
-

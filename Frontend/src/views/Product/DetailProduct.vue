@@ -401,6 +401,7 @@ export default {
     const isShowDescribe = ref(false);
     const isShowEvaluate = ref(false);
     const quantity = ref(1);
+    const changeAmount = ref(0);
     const sales = ref<productInfor[]>([]);
     const products = ref<productInfor[]>([]);
     const currentUser: any = computed(() => {
@@ -496,6 +497,9 @@ export default {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
+
+    // change amount product
+    
 
     // feedback product
     async function actionFeedback() {
