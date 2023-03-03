@@ -39,6 +39,9 @@ class ProductService {
     update(data: productInfor, token: string) {
         return apiClient(token).post("/product/update",data)
     }
+    updateAmount(data: productInfor, token: string) {
+        return apiClient(token).post("/product/update-amount",data)
+    }
     delete(data: ProductModel, token: string) {
         return apiClient(token).post("/product/delete",data)
     }

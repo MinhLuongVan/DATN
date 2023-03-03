@@ -382,6 +382,7 @@ import { cartInfor } from "../../types/cartType";
 import cartService from "../../services/cartService";
 import feedbackService from "../../services/feedbackService";
 import { feedbackInfor } from "../../types/feedbackType";
+import { useProductStore } from "../../stores/productStore";
 
 export default {
   name: "DetailProduct",
@@ -396,6 +397,7 @@ export default {
     const route = useRoute();
     const authStore = useAuthStore();
     const myCartStore = useCartStore();
+    const myProductStore = useProductStore();
     const myFeedbackStore = useFeedbackStore();
     const listProduct: any = ref<productInfor[]>([]);
     const isShowDescribe = ref(false);
@@ -413,6 +415,7 @@ export default {
     const rating = ref(0);
     const showComment = ref(false);
     const idUpdate = ref(false);
+    const idUpdateAmout = ref("");
     const showBtnEdit = ref(false);
     function showDescribe() {
       isShowEvaluate.value = false;
@@ -442,6 +445,8 @@ export default {
       );
       if (response.data.success) {
         listProduct.value = response.data.values;
+        changeAmount.value = response.data.values.amount;
+        idUpdateAmout.value = response.data.values._id;
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
@@ -475,6 +480,23 @@ export default {
       }
     }
 
+    // change amount product
+    async function actionEditAmountProduct() {
+      const dataUpdate = {
+        _id: idUpdateAmout.value,
+        amount: Number((changeAmount.value) - (quantity.value)),
+      } as productInfor ;
+      const response = await productService.updateAmount(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        myProductStore.getAllProduct();
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+
     // add product in cart
     async function actionAddCart() {
       const data = {
@@ -493,13 +515,11 @@ export default {
         myCartStore.getAllCart();
         //router.push('/product/cart')
         setNotificationToastMessage("Thêm giỏ hàng thành công ", true);
+        actionEditAmountProduct();
       } else {
         setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
-
-    // change amount product
-    
 
     // feedback product
     async function actionFeedback() {
@@ -599,6 +619,8 @@ export default {
       idUpdate,
       downAmount,
       upAmount,
+      idUpdateAmout,
+      changeAmount,
       products,
       quantity,
       currentUser,
