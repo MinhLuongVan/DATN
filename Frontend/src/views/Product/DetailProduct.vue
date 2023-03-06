@@ -484,8 +484,8 @@ export default {
     async function actionEditAmountProduct() {
       const dataUpdate = {
         _id: idUpdateAmout.value,
-        amount: Number((changeAmount.value) - (quantity.value)),
-      } as productInfor ;
+        amount: Number(changeAmount.value - quantity.value),
+      } as productInfor;
       const response = await productService.updateAmount(
         dataUpdate,
         authStore.currentUser.Token
@@ -507,17 +507,21 @@ export default {
         productPrice: listProduct.value.priceSale,
         quantity: quantity.value,
       } as cartInfor;
-      const response = await cartService.save(
-        data,
-        authStore.currentUser.Token
-      );
-      if (response.data.success) {
-        myCartStore.getAllCart();
-        //router.push('/product/cart')
-        setNotificationToastMessage("Thêm giỏ hàng thành công ", true);
-        actionEditAmountProduct();
+      if (listProduct.value.amount <= 0) {
+        setNotificationToastMessage("Thật tiếc!Sản phẩm đã hết");
       } else {
-        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        const response = await cartService.save(
+          data,
+          authStore.currentUser.Token
+        );
+        if (response.data.success) {
+          myCartStore.getAllCart();
+          //router.push('/product/cart')
+          setNotificationToastMessage("Thêm giỏ hàng thành công ", true);
+          actionEditAmountProduct();
+        } else {
+          setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        }
       }
     }
 

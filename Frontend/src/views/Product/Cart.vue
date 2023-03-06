@@ -88,7 +88,7 @@
                 <button
                   type="button"
                   class="btn btn-danger w-24"
-                  @click="actionDeleteProduct"
+                  @click="actionDeleteCart"
                 >
                   Xóa
                 </button>
@@ -172,6 +172,9 @@ import { setNotificationToastMessage } from "../../utils/myFunction";
 import cartService from "../../services/cartService";
 import { CartModel } from "../../model/cartModel";
 import { useCartStore } from "../../stores/cartStore";
+import { productInfor } from "../../types/productType";
+import productService from "../../services/productService";
+import { useProductStore } from "../../stores/productStore";
 export default {
   name: "Cart",
   components: {
@@ -182,12 +185,15 @@ export default {
     const authStore = useAuthStore();
     const carts = ref<cartInfor[]>([]);
     const myCartStore = useCartStore();
+    const myProductStore = useProductStore();
     const myCart: any = computed(() => myCartStore.carts);
     const selectedCart = ref<CartModel>(new CartModel());
     const deleteConfirmationModal = ref(false);
     const quantityChange = ref(1);
+    const changeAmount = ref(0);
     const showInput = ref(false);
     const idUpdate = ref("");
+    const idUpdateAmout = ref("");
     const totalPrice = computed(() => {
       let total = 0;
       myCart.value.forEach((item: any) => {
@@ -225,14 +231,46 @@ export default {
       }
     }
 
+    // init id product
+    async function actionGetProductById(item: productInfor) {
+      const itemFind: any = { _id: item._id  } as productInfor;
+      const response = await productService.findOne(
+        itemFind,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        changeAmount.value = response.data.values.amount;
+        idUpdateAmout.value = response.data.values._id;
+      } else {
+        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+      }
+    }
+
+     // change amount product
+     async function actionEditAmountProduct() {
+      const dataUpdate = {
+        _id: idUpdateAmout.value,
+        amount: Number((changeAmount.value) + (quantityChange.value)),
+      } as productInfor ;
+      const response = await productService.updateAmount(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        myProductStore.getAllProduct();
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+
     // init id cart
     function actionInitDeleteCart(item: cartInfor) {
       selectedCart.value._id = item._id;
       deleteConfirmationModal.value = true;
     }
 
-    // Delete product
-    async function actionDeleteProduct() {
+    // Delete cart
+    async function actionDeleteCart() {
       const itemDelete = new CartModel();
       itemDelete._id = selectedCart.value._id;
       const response = await cartService.delete(
@@ -245,8 +283,10 @@ export default {
         deleteConfirmationModal.value = false;
         showInput.value = true;
         myCartStore.getAllCart();
+        actionEditAmountProduct();
       }
     }
+
     onMounted(async () => {
       await myCartStore.getAllCart();
     });
@@ -257,12 +297,14 @@ export default {
       showInput,
       totalPrice,
       idUpdate,
+      idUpdateAmout,
+      changeAmount,
       quantityChange,
       deleteConfirmationModal,
-      actionDeleteProduct,
+      actionDeleteCart,
       actionInitDeleteCart,
       actionInitEditCart,
-      actionEditCart,
+      actionEditCart, 
     };
   },
 };
