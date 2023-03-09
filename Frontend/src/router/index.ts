@@ -28,6 +28,7 @@ import LayoutAdmin from "../../src/layouts/Admin/layoutAdmin.vue";
 import AdminDashboard from "../views/Admin/Dashbroad/Main.vue";
 import AdminSetting from "../views/Admin/Setting/Configuration.vue";
 import { useAuthStore } from "../stores/authStore";
+import { useAuthAdminStore } from "../stores/authAdminStore";
 import Cookies from "js-cookie";
 import { env } from "../utils/myVariables";
 
@@ -168,8 +169,11 @@ const router = createRouter({
 });
 router.beforeEach(async (to, _from, next) => {
   const authStore = useAuthStore();
+  const authAdminStore = useAuthAdminStore();
   await authStore.getToken();
   await authStore.getInforUser();
+  await authAdminStore.getToken();
+  await authAdminStore.getInforUser();
 
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (Cookies.get(env.nameCookie) && authStore.isAuthenticated) {
@@ -178,8 +182,8 @@ router.beforeEach(async (to, _from, next) => {
       next("/login");
     }
   } else if (to.path && to.path.startsWith("/admin") && to.path !== '/admin/login') {
-    if (Cookies.get(env.nameCookie) && authStore.isAuthenticated && authStore.currentUser &&
-    authStore.currentUser.isAdmin) {
+    if (Cookies.get(env.nameCookieAdmin) && authAdminStore.isAuthenticated && authAdminStore.currentUserAdmin &&
+    authAdminStore.currentUserAdmin.isAdmin === true) {
       next();
     } else {
       next("/admin/login");

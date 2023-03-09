@@ -2,7 +2,6 @@ import axios, {AxiosInstance} from 'axios';
 import {env} from './utils/myVariables';
 import Cookies from 'js-cookie';
 
-
 const cookie = Cookies.get(env.nameCookie);
 
 export const apiAuthClient: AxiosInstance = axios.create({

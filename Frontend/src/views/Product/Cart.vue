@@ -175,6 +175,7 @@ import { useCartStore } from "../../stores/cartStore";
 import { productInfor } from "../../types/productType";
 import productService from "../../services/productService";
 import { useProductStore } from "../../stores/productStore";
+
 export default {
   name: "Cart",
   components: {
@@ -183,7 +184,7 @@ export default {
   setup() {
     const router = useRouter();
     const authStore = useAuthStore();
-    const carts = ref<cartInfor[]>([]);
+    const carts: any = ref<cartInfor[]>([]);
     const myCartStore = useCartStore();
     const myProductStore = useProductStore();
     const myCart: any = computed(() => myCartStore.carts);
@@ -231,9 +232,8 @@ export default {
       }
     }
 
-    // init id product
     async function actionGetProductById(item: productInfor) {
-      const itemFind: any = { _id: item._id  } as productInfor;
+      const itemFind: any = { _id: item._id } as productInfor;
       const response = await productService.findOne(
         itemFind,
         authStore.currentUser.Token
@@ -267,6 +267,7 @@ export default {
     function actionInitDeleteCart(item: cartInfor) {
       selectedCart.value._id = item._id;
       deleteConfirmationModal.value = true;
+      actionGetProductById(carts.value[0].productId)
     }
 
     // Delete cart
