@@ -202,6 +202,7 @@ export default {
       });
       return total;
     });
+    const test = computed(() => quantityChange.value)
 
     //init value by id cart
     async function actionInitEditCart(item: cartInfor) {
@@ -232,8 +233,8 @@ export default {
       }
     }
 
-    async function actionGetProductById(item: productInfor) {
-      const itemFind: any = { _id: item._id } as productInfor;
+    async function actionGetProductById(product_Id :string) {
+      const itemFind: any = { _id: product_Id } as productInfor;
       const response = await productService.findOne(
         itemFind,
         authStore.currentUser.Token
@@ -250,7 +251,7 @@ export default {
      async function actionEditAmountProduct() {
       const dataUpdate = {
         _id: idUpdateAmout.value,
-        amount: Number((changeAmount.value) + (quantityChange.value)),
+        amount: Number((changeAmount.value + quantityChange.value)),
       } as productInfor ;
       const response = await productService.updateAmount(
         dataUpdate,
@@ -267,7 +268,9 @@ export default {
     function actionInitDeleteCart(item: cartInfor) {
       selectedCart.value._id = item._id;
       deleteConfirmationModal.value = true;
-      actionGetProductById(carts.value[0].productId)
+      actionGetProductById(item.product_Id);
+      console.log('test',test.value);
+      
     }
 
     // Delete cart
@@ -301,6 +304,7 @@ export default {
       idUpdateAmout,
       changeAmount,
       quantityChange,
+      test,
       deleteConfirmationModal,
       actionDeleteCart,
       actionInitDeleteCart,

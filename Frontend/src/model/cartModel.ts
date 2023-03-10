@@ -2,6 +2,7 @@ export class CartModel {
     _id ='';
     userId = '';
     productId = '';
+    product_Id = '';
     productImage = '';
     productName = '';
     productPrice = 0;

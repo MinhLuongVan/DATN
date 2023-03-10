@@ -504,6 +504,7 @@ export default {
         productImage: listProduct.value.image,
         productName: listProduct.value.name,
         productId: listProduct.value.uuid,
+        product_Id: listProduct.value._id,
         productPrice: listProduct.value.priceSale,
         quantity: quantity.value,
       } as cartInfor;

@@ -36,6 +36,7 @@ export const addCartServices = async function (data: ICart) {
     const itemAddCart = await new Cart({
       userId: data.userId,
       productId: data.productId,
+      product_Id: data.product_Id,
       productImage: data.productImage,
       productName: data.productName,
       productPrice: data.productPrice,
