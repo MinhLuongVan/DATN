@@ -137,7 +137,7 @@ export default defineComponent({
         },
       },
       xaxis: {
-        categories: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+        categories: ["Su","Mo", "Tu", "We", "Th", "Fr", "Sa"],
       },
       dataLabels: {
         enabled: false,
@@ -158,7 +158,7 @@ export default defineComponent({
             ? myOrder.value.reduce(
                 (acc: any, cur: any) => {
                   const date = new Date(cur.createdAt);
-                  const dayOfWeek = date.getDay();
+                  const dayOfWeek = date.getUTCDay();
                   acc[dayOfWeek] += 1;
                   return acc;
                 },

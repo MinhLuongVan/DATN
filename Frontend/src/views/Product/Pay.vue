@@ -329,6 +329,7 @@ export default {
         if (response.data.success) {
           reloadData();
           setNotificationToastMessage("Đặt hàng thành công ", true);
+          router.push('/');
         } else {
           setNotificationToastMessage("Đặt hàng thất bại", false);
         }

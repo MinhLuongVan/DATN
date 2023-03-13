@@ -340,6 +340,7 @@ export default {
           reloadData();
           myCartStore.deleteAllCart();
           setNotificationToastMessage("Đặt hàng thành công ", true);
+          router.push('/');
         } else {
           setNotificationToastMessage("Đặt hàng thất bại", false);
         }
