@@ -5,7 +5,7 @@ import {env} from '../utils/myVariables';
 import UserService from '../services/userService'
 import { setNotificationToastMessage } from "../utils/myFunction";
 
-export const useAuthAdminStore = defineStore({
+export const useAuthAdminStore:StoreDefinition = defineStore({
     id:'authAdmin',
     state: () => ({
         currentUserAdmin: {} as User ,

@@ -85,7 +85,7 @@ export default {
         if (Cookies.get(env.nameCookieAdmin)) {
           authStore.logoutUserAdmin();
         }
-        if (authStore.currentUserAdmin.isAdmin === true) {
+        if (authStore.currentUserAdmin.isAdmin = true) {
           const res = await UserService.login(data);
           if (res.data.success) {
             await authStore.loginUserAdmin(res.data.values);

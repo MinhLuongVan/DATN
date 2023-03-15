@@ -7,6 +7,7 @@ import PageDetailProduct from "../views/Product/DetailProduct.vue";
 import PageCart from "../views/Product/Cart.vue";
 import Pay from "../views/Product/Pay.vue";
 import Checkout from "../views/Product/CheckoutAll.vue";
+import MyOrder from "../views/Product/MyOrder.vue";
 import PageNews from "../views/News/News.vue";
 import DetailNews from "../views/News/DetailNews.vue";
 import PageContact from "../views/Contact/Contact.vue";
@@ -78,6 +79,10 @@ const routes = [
       {
         path: "/checkout",
         component: Checkout,
+      },
+      {
+        path: "/my-order",
+        component: MyOrder,
       },
       {
         path: "/news",
