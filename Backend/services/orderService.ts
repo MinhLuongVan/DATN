@@ -28,6 +28,26 @@ export const getAllOrderServices = async function () {
   }
 };
 
+//get all OrderByid
+export const getAllOrderByIdServices = async function (userId: any) {
+  try {
+    const itemFind = await Order.find({ userId: userId.userId });
+    if (itemFind) {
+      return okResponse(itemFind);
+    } else {
+      return dataNotFoundResponse();
+    }
+  } catch (error: unknown) {
+    let err: string;
+    if (error instanceof Error) {
+      err = error.message;
+    } else {
+      err = errorUnknown;
+    }
+    return errResponse(err);
+  }
+};
+
 // Add order
 export const addOrderServices = async function (data: IOrder) {
   try {

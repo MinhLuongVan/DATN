@@ -12,7 +12,7 @@ import {
 } from "../services/feedbackService";
 import { IFeedback } from "../models/interface/feedback";
 
-// get all feedback by id
+// get all feedback
 export const getAllFeedBack = async function (req: Request, res: Response) {
   try {
     const itemFind = await getAllFeedBackServices();
@@ -28,7 +28,7 @@ export const getAllFeedBack = async function (req: Request, res: Response) {
   }
 };
 
-//get all feedback
+//get all feedback by id
 export const getAllFeedBackById = async function (req: Request, res: Response) {
   try {
     const productId = req.body;

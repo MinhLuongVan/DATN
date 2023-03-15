@@ -6,6 +6,9 @@ class OrderService {
     findAll(data: orderInfor, token: string) {
         return apiClient(token).post("/order",data)
     }
+    findAllById(data: orderInfor, token: string) {
+        return apiClient(token).post("/order/find-id",data)
+    }
     save(data: orderInfor, token: string) {
         return apiClient(token).post("/order/save",data)
     }
