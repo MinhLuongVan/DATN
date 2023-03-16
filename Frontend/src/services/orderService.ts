@@ -15,6 +15,9 @@ class OrderService {
     findOne(data: OrderModel, token: string) {
         return apiClient(token).post("/order/find-one",data)
     }
+    update(data: orderInfor, token: string) {
+        return apiClient(token).post("/order/update",data)
+    }
     delete(data: OrderModel, token: string) {
         return apiClient(token).post("/order/delete",data)
     }

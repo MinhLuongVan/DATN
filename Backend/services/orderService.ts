@@ -99,6 +99,30 @@ export const findOneOrderServices = async function (data: IOrder) {
   }
 };
 
+// update status order
+export const updateOrderSevices = async function (data: IOrder) {
+  try {
+    const itemUpdate = await Order.findOne({
+      _id: new mongoose.Types.ObjectId(data._id),
+    });
+    if (itemUpdate) {
+      itemUpdate.status = data.status,
+        await itemUpdate.save();
+      return okResponse(itemUpdate);
+    } else {
+      return dataNotFoundResponse();
+    }
+  } catch (error: unknown) {
+    let err: string;
+    if (error instanceof Error) {
+      err = error.message;
+    } else {
+      err = errorUnknown;
+    }
+    return errResponse(err);
+  }
+};
+
 // delete order
 export const deleteOrderServices = async function (data: IOrder) {
   try {

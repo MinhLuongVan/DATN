@@ -2,7 +2,7 @@ import { errorUnknown } from "../utils/myVariables";
 import { Request, Response } from "express";
 import * as response from "../notifications/message";
 import { IOrder } from "../models/interface/order";
-import { getAllOrderByIdServices } from '../services/orderService';
+import { getAllOrderByIdServices, updateOrderSevices } from '../services/orderService';
 import {
   addOrderServices,
   deleteOrderServices,
@@ -68,6 +68,23 @@ export const findIdOrder = async function (req: Request, res: Response) {
     const itemId = req.body as IOrder;
     const itemFindId = await findOneOrderServices(itemId);
     return res.json(itemFindId);
+  } catch (e: unknown) {
+    let err: string;
+    if (e instanceof Error) {
+      err = e.message;
+    } else {
+      err = errorUnknown;
+    }
+    return response.error(err, res);
+  }
+};
+
+// update order
+export const updateOrder = async function (req: Request, res: Response) {
+  try {
+    const itemEdit = req.body as IOrder;
+    const itemUpdate = await updateOrderSevices(itemEdit);
+    return res.json(itemUpdate);
   } catch (e: unknown) {
     let err: string;
     if (e instanceof Error) {

@@ -13,7 +13,10 @@
             v-on:keyup.enter="actionSearchOrder"
             v-model="keyword"
           />
-          <button class="absolute inset-y-0 right-0 px-3 border-l" @click="actionSearchOrder">
+          <button
+            class="absolute inset-y-0 right-0 px-3 border-l"
+            @click="actionSearchOrder"
+          >
             <SearchIcon class="w-4 h-4" />
           </button>
         </div>
@@ -42,7 +45,11 @@
               <td class="text-center pt-4">{{ item.name }}</td>
               <td class="text-center pt-4">{{ item.payments }}</td>
               <td class="text-center pt-4">
-                <button class="py-1 px-2 bg-slate-100 rounded-md">
+                <button
+                  class="py-1 px-2 text-white rounded-md"
+                  :class=" item.status === 'Chờ duyệt' ? 'bg-red-500' : 'bg-green-500'"
+                  @click="actionEditStatus(item)"
+                >
                   {{ item.status }}
                 </button>
               </td>
@@ -106,7 +113,8 @@
         </ModalBody>
       </Modal>
       <!-- END: Delete Confirmation Modal -->
-      <div v-if="orders.length > 0"
+      <div
+        v-if="orders.length > 0"
         class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
       >
         <nav
@@ -154,7 +162,9 @@ export default defineComponent({
     const currentPage = ref(1);
     const totalOrder = ref(0);
     const keyword = ref("");
-
+    const status = ref("");
+    const idUpdate = ref("");
+ 
     // get all order by page
     async function initGetAllOrder(page: number) {
       currentPage.value = page;
@@ -173,6 +183,30 @@ export default defineComponent({
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
     }
+
+    // update status
+    async function actionEditStatus(item: orderInfor) {
+      const itemFindId: any = { _id: item._id } as orderInfor;
+      const res = await orderService.findOne(
+        itemFindId,
+        authStore.currentUser.Token
+      );
+      idUpdate.value = res.data.values._id;
+      const dataUpdate = {
+        _id: idUpdate.value,
+        status: "Đang xử lý",
+      } as orderInfor;
+      const response = await orderService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        initGetAllOrder(1);
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+
     // init data delete order
     async function actionInitDeleteOrder(item: orderInfor) {
       selectedOrder.value._id = item._id;
@@ -196,8 +230,8 @@ export default defineComponent({
       }
     }
 
-     // search order
-     async function actionSearchOrder() {
+    // search order
+    async function actionSearchOrder() {
       const data = {
         name: keyword.value,
         page: currentPage.value,
@@ -227,12 +261,15 @@ export default defineComponent({
       totalPages,
       totalOrder,
       currentPage,
+      keyword,
+      status,
+      idUpdate,
       actionInitDeleteOrder,
       actionDeleteOrder,
       deleteConfirmationModal,
       initGetAllOrder,
       actionSearchOrder,
-      keyword
+      actionEditStatus,
     };
   },
 });

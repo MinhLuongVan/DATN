@@ -27,9 +27,14 @@
           <span class="font-medium">Hình thức thanh toán:</span>
           <p class="px-2">{{ myOrder.payments }}</p>
         </div>
-        <div class="flex py-2 text-base">
-          <span class="font-medium">Trạng thái:</span>
-          <p class="px-2">{{ myOrder.status }}</p>
+        <div class="flex py-1 text-base">
+          <span class="font-medium pt-1">Trạng thái:</span>
+          <p class="px-2"><button
+                  class="py-1 px-2 text-white text-sm rounded-md"
+                  :class=" myOrder.status === 'Chờ duyệt' ? 'bg-red-500' : 'bg-green-500'"
+                >
+                  {{ myOrder.status }}
+                </button></p>
         </div>
         <div class="flex py-2 text-base">
           <span class="font-medium">Ngày đặt:</span>

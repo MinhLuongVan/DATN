@@ -26,24 +26,24 @@
                 <span class="text-base font-medium">Họ tên</span>
                 <input
                   type="text"
-                  v-model="state.name"
+                  v-model="formData.name"
                   class="w-full rounded-md mt-2"
                   placeholder="Họ và tên"
                 />
-                <small class="text-red-500 text-base" v-if="v$.name.$errors">
-                  {{ v$.name.$errors[0]?.$message }}
+                <small class="text-red-500 text-base" v-if="errMsg">
+                  {{ nameErr }}
                 </small>
               </div>
               <div class="col-span-2 lg:col-span-1 mt-3 px-3">
                 <span class="text-base font-medium">Điện thoại</span>
                 <input
                   type="text"
-                  v-model="state.sđt"
+                  v-model="formData.sđt"
                   class="rounded-md mt-2 w-full"
                   placeholder="SĐT"
                 />
-                <small class="text-red-500 text-base" v-if="v$.sđt.$errors">
-                  {{ v$.sđt.$errors[0]?.$message }}
+                <small class="text-red-500 text-base" v-if="errMsg">
+                  {{ sđtErr }}
                 </small>
               </div>
             </div>
@@ -52,27 +52,24 @@
                 <span class="text-base font-medium">Tỉnh/Thành phố</span>
                 <input
                   type="text"
-                  v-model="state.city"
+                  v-model="formData.city"
                   class="w-full rounded-md mt-2"
                   placeholder="Vd: Bắc Giang"
                 />
-                <small class="text-red-500 text-base" v-if="v$.city.$errors">
-                  {{ v$.city.$errors[0]?.$message }}
+                <small class="text-red-500 text-base" v-if="errMsg">
+                  {{ cityErr }}
                 </small>
               </div>
               <div class="col-span-2 lg:col-span-1 mt-3 px-3">
                 <span class="text-base font-medium">Quận/Huyện</span>
                 <input
                   type="text"
-                  v-model="state.district"
+                  v-model="formData.district"
                   class="rounded-md mt-2 w-full"
                   placeholder="Vd: Yên Dũng"
                 />
-                <small
-                  class="text-red-500 text-base"
-                  v-if="v$.district.$errors"
-                >
-                  {{ v$.district.$errors[0]?.$message }}
+                <small class="text-red-500 text-base" v-if="errMsg">
+                  {{ detailErr }}
                 </small>
               </div>
             </div>
@@ -80,18 +77,18 @@
               <span class="text-base font-medium">Địa chỉ chi tiết</span>
               <input
                 type="text"
-                v-model="state.details"
+                v-model="formData.details"
                 class="w-full rounded-md mt-2"
                 placeholder="Vd: Thôn Tân Mỹ- Xã Lãng Sơn"
               />
-              <small class="text-red-500 text-base" v-if="v$.details.$errors">
-                {{ v$.details.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ detailErr }}
               </small>
             </div>
             <div class="mt-3 px-3">
               <span class="text-base font-medium">Ghi chú</span>
               <textarea
-                v-model="note"
+                v-model="formData.note"
                 class="w-full rounded-md mt-2 mb-4"
                 rows="2"
                 placeholder="Vd: Chuyển hàng tong giờ hành chính từ thứ 2 đến thứ 6"
@@ -177,8 +174,7 @@
                 <p>{{ listProduct.priceSale }}vnđ</p>
               </div>
             </div>
-            <div v-else class="flex p-3">
-            </div>
+            <div v-else class="flex p-3"></div>
           </div>
           <!-- End: Đơn hàng -->
 
@@ -223,9 +219,7 @@
             <tr v-else>
               <td class="border py-2 px-8">0vnđ</td>
               <td class="border text-center py-2 px-8">0vnđ</td>
-              <td class="border text-red-500 py-2 px-8">
-                0vnđ
-              </td>
+              <td class="border text-red-500 py-2 px-8">0vnđ</td>
             </tr>
           </table>
           <!-- End: Thành tiền-->
@@ -258,13 +252,11 @@ import { productInfor } from "../../types/productType";
 import productService from "../../services/productService";
 import { useAuthStore } from "../../stores/authStore";
 import bottom from "../../views/Footer/Footer.vue";
-import { computed, onMounted, ref } from "vue";
-import { setNotificationToastMessage } from "../../utils/myFunction";
+import { computed, onMounted, reactive, ref } from "vue";
+import { REQUIRED, setNotificationToastMessage } from "../../utils/myFunction";
 import { orderInfor } from "../../types/orderType";
 import OrderService from "../../services/orderService";
 import ShortUniqueId from "short-unique-id";
-import useValidate from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
 
 export default {
   name: "Pay",
@@ -280,45 +272,56 @@ export default {
     const currentUser: any = computed(() => {
       return authStore.currentUser;
     });
-    const name = ref("");
-    const sđt = ref("");
-    const city = ref("");
-    const district = ref("");
-    const details = ref("");
-    const note = ref("");
-    const status = ref("");
-    const payments = ref("");
-    const showProduct = ref(false);
-
-    const state = ref({
+    const formData = reactive({
       name: "",
+      sđt: "",
       city: "",
       district: "",
-      sđt: "",
       details: "",
+      note: "",
+      status: "",
+      payments: "",
     });
-    const rules = {
-      name: { required },
-      city: { required },
-      sđt: { required },
-      district: { required },
-      details: { required },
-    };
-    const v$ = useValidate(rules, state);
+    const showProduct = ref(false);
+    // validate
+    const errMsg = ref(false);
+    const nameErr = computed(() => {
+      if (!formData.name) return REQUIRED;
+    });
+    const sđtErr = computed(() => {
+      if (!formData.sđt) return REQUIRED;
+    });
+    const cityErr = computed(() => {
+      if (!formData.city) return REQUIRED;
+    });
+    const districtErr = computed(() => {
+      if (!formData.district) return REQUIRED;
+    });
+    const detailErr = computed(() => {
+      if (!formData.details) return REQUIRED;
+    });
+
     //Order
     const actionOrder = async () => {
-      const result = await v$.value.$validate();
-      if (result) {
+      if (
+        nameErr.value ||
+        sđtErr.value ||
+        cityErr.value ||
+        districtErr.value ||
+        detailErr.value
+      ) {
+        errMsg.value = true;
+      } else {
         const data = {
           userId: currentUser.value._id,
           uuid: uuid(),
-          name: state.value.name,
-          sđt: state.value.sđt,
-          city: state.value.city,
-          district: state.value.district,
-          details: state.value.details,
-          note: note.value,
-          status: "Đang xử lý",
+          name: formData.name,
+          sđt: formData.sđt,
+          city: formData.city,
+          district: formData.district,
+          details: formData.details,
+          note: formData.note,
+          status: "Chờ duyệt",
           payments: "Thanh toán khi nhận hàng",
           totalMoney: listProduct.value.priceSale,
         } as orderInfor;
@@ -329,7 +332,7 @@ export default {
         if (response.data.success) {
           reloadData();
           setNotificationToastMessage("Đặt hàng thành công ", true);
-          router.push('/');
+          router.push("/my-order");
         } else {
           setNotificationToastMessage("Đặt hàng thất bại", false);
         }
@@ -351,31 +354,23 @@ export default {
     }
 
     function reloadData() {
-      name.value = "";
-      sđt.value = "";
-      city.value = "";
-      district.value = "";
-      details.value = "";
       showProduct.value = true;
     }
-  
+
     onMounted(async () => {
       await actionGetProductById();
     });
     return {
       route,
       router,
-      v$,
-      state,
+      errMsg,
       uuid,
-      name,
-      city,
-      sđt,
-      district,
-      details,
-      note,
-      status,
-      payments,
+      nameErr,
+      sđtErr,
+      cityErr,
+      districtErr,
+      detailErr,
+      formData,
       showProduct,
       listProduct,
       actionOrder,

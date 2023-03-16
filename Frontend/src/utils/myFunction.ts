@@ -49,3 +49,4 @@ export function setNotificationFailedWhenGetData() {
     );
 
 }
+export const REQUIRED = "Vui lòng không bỏ trống ô này";
