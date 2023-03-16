@@ -196,6 +196,7 @@
                       >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
+                        @click="router.push('/pay/'+ item._id)"
                       ></ShoppingCartIcon>
                       </Tippy>
                       <Tippy
@@ -309,6 +310,7 @@
                       >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
+                        @click="router.push('/pay/'+ item._id)"
                       ></ShoppingCartIcon>
                       </Tippy>
                       <Tippy

@@ -106,8 +106,10 @@
         <div class="intro-y lg:col-span-8 col-span-12">
           <div class="flex border-b pb-4 justify-between">
             <div class="flex">
-              <GiftIcon @click="showProductGift"></GiftIcon>
-              <ListIcon @click="showProductList" class="ml-5"></ListIcon>
+              <GiftIcon v-if="showProduct" @click="showProductGift" class="text-lime-500"> </GiftIcon>
+              <GiftIcon v-else @click="showProductGift"></GiftIcon>
+              <ListIcon v-if="!showProduct" @click="showProductList" class="ml-5 text-lime-500"></ListIcon>
+              <ListIcon v-else @click="showProductList" class="ml-5"></ListIcon>
             </div>
             <!-- <div class="flex">
               <p>Sắp xếp theo :</p>
@@ -152,6 +154,7 @@
                       >
                       <ShoppingCartIcon
                         class="w-5 h-5 mx-3 hover:text-lime-500"
+                        @click="router.push('/pay/'+ item._id)"
                       ></ShoppingCartIcon>
                       </Tippy>
                       <Tippy
@@ -228,6 +231,7 @@
                     <div>
                       <button
                         class="btn bg-lime-500 text-slate-100 border-lime-500"
+                        @click="router.push('/pay/'+ item._id)"
                       >
                         <Shopping-cartIcon
                           class="w-5 h-5 mr-2"

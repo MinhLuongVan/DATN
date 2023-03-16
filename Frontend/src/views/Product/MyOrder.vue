@@ -119,10 +119,10 @@
                 </div>
                 <div class="w-full">
                   <div class="mt-3 h-auto">
-                    <div class="px-12 w-full">
+                    <div class="px-8 w-full">
                       <div class="flex py-2 text-base">
                         <span class="font-medium">Mã đơn hàng:</span>
-                        <p class="px-2">{{ myOrder.uuid }}</p>
+                        <p class="px-2">{{ formData.uuid }}</p>
                       </div>
                       <div class="flex py-2 text-base">
                         <span class="font-medium">Người đặt:</span>
@@ -139,7 +139,7 @@
                         <p>{{ formData.city }}</p>
                       </div>
                       <div class="flex py-1 text-base">
-                        <span class="font-medium pt-1">Trạng thái:</span>
+                        <span class="font-medium pt-0.5">Trạng thái:</span>
                         <p class="px-2">
                           <button
                             class="py-1 px-2 text-white text-sm rounded-md"
@@ -157,7 +157,7 @@
                         <span class="font-medium">Ngày đặt:</span>
                         <p class="px-2">
                           {{
-                            moment(myOrder.createdAt).format("DD/MM/YYYY HH:mm")
+                            moment(formData.cretedAt).format("DD/MM/YYYY HH:mm")
                           }}
                         </p>
                       </div>
@@ -173,7 +173,7 @@
                   </div>
                 </div>
               </div>
-              <div class="px-16 pb-8">
+              <div class="px-12 pb-8">
                 <button
                   type="button"
                   @click="showConfirmationModal = false"
@@ -206,11 +206,12 @@ export default defineComponent({
     const router = useRouter();
     const deleteConfirmationModal = ref(false);
     const showConfirmationModal = ref(false);
-    const myOrder: any = ref<orderInfor[]>([]);
+    const myOrder = ref<orderInfor[]>([]);
     const authStore = useAuthStore();
     const selectedOrder = ref<OrderModel>(new OrderModel());
     const idUpdate = ref("");
     const formData = reactive({
+      uuid: "",
       name: "",
       sđt: "",
       city: "",
@@ -219,7 +220,8 @@ export default defineComponent({
       note: "",
       status: "",
       payments: "",
-      totalMoney: 0
+      totalMoney: 0,
+      cretedAt: 1/1/2023 ,
     });
 
     // get order by id
@@ -244,14 +246,17 @@ export default defineComponent({
         authStore.currentUser.Token
       );
       idUpdate.value = response.data.values._id;
+      formData.uuid = response.data.values.uuid;
       formData.name = response.data.values.name;
       formData.sđt = response.data.values.sđt;
       formData.city = response.data.values.city;
       formData.district = response.data.values.district;
       formData.details = response.data.values.details;
+      formData.status = response.data.values.status;
       formData.note = response.data.values.note;
       formData.payments = response.data.values.payments;
       formData.totalMoney = response.data.values.totalMoney;
+      formData.cretedAt = response.data.values.createdAt;
       showConfirmationModal.value = true;
     }
 
