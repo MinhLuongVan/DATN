@@ -47,23 +47,23 @@
           <tbody>
             <tr v-for="(item, index) in users" :key="index" class="intro-x">
               <td>
-                <a href="" class="font-medium whitespace-nowrap">{{
+                <div class=" whitespace-nowrap">{{
                   item.username
-                }}</a>
+                }}</div>
               </td>
               <td>
-                <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
+                <div class="text-slate-500 whitespace-nowrap mt-0.5">
                   {{ item.email }}
                 </div>
               </td>
               <td>
-                <div class="text-slate-500 text-xs whitespace-nowrap mt-0.5">
+                <div class="text-slate-500 whitespace-nowrap mt-0.5">
                   {{ item.sdt }}
                 </div>
               </td>
               <td>
                 <div
-                  class="text-slate-500 text-xs text-center whitespace-nowrap mt-0.5"
+                  class="text-slate-500 text-center whitespace-nowrap mt-0.5"
                 >
                   {{ item.isAdmin }}
                 </div>
@@ -98,7 +98,7 @@
       >
         <ModalBody class="p-0">
           <div v-if="!showButtonEdit" class="px-5 pt-3 text-center text-2xl">
-            <h2 class="text-lime-500">Thêm Tài khoản</h2>
+            <h2 class="text-lime-500">Thêm tài khoản</h2>
           </div>
           <div v-else class="px-5 pt-3 text-center text-2xl">
             <h2 class="text-lime-500">Cập nhật tài khoản</h2>
@@ -108,63 +108,63 @@
               <label class="text-base">Họ và tên</label>
               <input
                 type="text"
-                v-model="state.username"
+                v-model.trim="state.username"
                 placeholder="Họ và tên"
                 class="form-control my-2"
               />
-              <small class="text-red-500 text-base" v-if="v$.username.$errors">
-                {{ v$.username.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ usernameErr }}
               </small>
             </div>
             <div class="px-5">
               <label class="text-base">Email</label>
               <input
                 type="text"
-                v-model="state.email"
+                v-model.trim="state.email"
                 placeholder="Email"
                 class="form-control my-2"
               />
-              <small class="text-red-500 text-base" v-if="v$.email.$errors">
-                {{ v$.email.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ emailErr }}
               </small>
             </div>
             <div class="px-5">
               <label class="text-base">SĐT</label>
               <input
                 type="text"
-                v-model="state.sdt"
+                v-model.trim="state.sdt"
                 placeholder="Số điện thoại"
                 class="form-control my-2"
               />
-              <small class="text-red-500 text-base" v-if="v$.sdt.$errors">
-                {{ v$.sdt.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ sđtErr }}
               </small>
             </div>
             <div class="px-5">
               <label class="text-base">Mật khẩu</label>
               <input
                 type="text"
-                v-model="state.password"
+                v-model.trim="state.password"
                 placeholder="Mật khẩu"
                 class="form-control my-2"
               />
-              <small class="text-red-500 text-base" v-if="v$.password.$errors">
-                {{ v$.password.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ passwordErr }}
               </small>
             </div>
             <div v-if="!showButtonEdit" class="px-5">
               <label class="text-base">Nhập lại mật khẩu</label>
               <input
                 type="text"
-                v-model="state.passwordagain"
-                placeholder="Mật khẩu"
+                v-model.trim="state.passwordagain"
+                placeholder="Nhập lại mật khẩu"
                 class="form-control my-2"
               />
               <small
                 class="text-red-500 text-base"
-                v-if="v$.passwordagain.$errors"
+                v-if="errMsg"
               >
-                {{ v$.passwordagain.$errors[0]?.$message }}
+                {{ againPasswordErr }}
               </small>
             </div>
           </div>
@@ -187,7 +187,7 @@
             <button
               v-else
               type="button"
-              class="btn text-white bg-lime-500"
+              class="btn text-white bg-lime-500 w-24"
               @click="actionEditAccount"
             >
               Cập nhật
@@ -256,10 +256,12 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "../../../stores/authStore";
 import { userInfor } from "../../../types/userType";
 import userService from "../../../services/userService";
-import useValidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
 import {
-  setNotificationFailedWhenGetData,
+  REGEXAGAiNPASSWORD,
+  REGEXEMAIL,
+  REGEXNUMBER,
+  REGEXPASSWORD,
+  REQUIRED,
   setNotificationToastMessage,
 } from "../../../utils/myFunction";
 import { UserModel } from "../../../model/userModel";
@@ -274,11 +276,6 @@ export default defineComponent({
     const authStore = useAuthStore();
     const users = ref<userInfor[]>([]);
     const showButtonEdit = ref(false);
-    const email = ref("");
-    const username = ref("");
-    const password = ref("");
-    const sdt = ref("");
-    const passwordagain = ref("");
     const idUpdate = ref("");
     const keyword = ref("");
     const currentPage = ref(1);
@@ -294,17 +291,53 @@ export default defineComponent({
       sdt: "",
       passwordagain: "",
     });
-    const rules = {
-      email: { required },
-      username: { required },
-      sdt: { required },
-      password: { required, minLength: minLength(6) },
-      passwordagain: { required },
-    };
-    const v$ = useValidate(rules, state);
+
+    // validate
+    const errMsg = ref(false);
+    const usernameErr = computed(() => {
+      if (!state.value.username) return REQUIRED;
+    });
+    const phonePattern = /^[0-9]{10,11}$/;
+    const sđtErr = computed(() => {
+      if (!state.value.sdt) {
+        return REQUIRED;
+      } else if (!phonePattern.test(state.value.sdt)) {
+        return REGEXNUMBER;
+      }
+    });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailErr = computed(() => {
+      if (!state.value.email) {
+        return REQUIRED;
+      } else if (!emailRegex.test(state.value.email)) {
+        return REGEXEMAIL;
+      }
+    });
+    const passwordErr = computed(() => {
+      if (!state.value.password) {
+        return REQUIRED;
+      } else if (state.value.password.length < 6) {
+        return REGEXPASSWORD;
+      }
+    });
+    const againPasswordErr = computed(() => {
+      if (!state.value.passwordagain) {
+        return REQUIRED;
+      } else if (state.value.passwordagain !== state.value.password) {
+        return REGEXAGAiNPASSWORD;
+      }
+    });
+
     const actionSaveAccount = async () => {
-      const result = await v$.value.$validate();
-      if (result) {
+      if (
+        emailErr.value ||
+        usernameErr.value ||
+        sđtErr.value ||
+        passwordErr.value ||
+        againPasswordErr.value
+      ) {
+        errMsg.value = true;
+      } else {
         const data = {
           email: state.value.email,
           username: state.value.username,
@@ -325,8 +358,6 @@ export default defineComponent({
         } else {
           setNotificationToastMessage("Vui lòng nhập đúng mật khẩu", false);
         }
-      } else {
-        setNotificationFailedWhenGetData();
       }
     };
 
@@ -361,7 +392,6 @@ export default defineComponent({
       state.value.email = response.data.values.email;
       state.value.sdt = response.data.values.sdt;
       state.value.password = response.data.values.password;
-      state.value.passwordagain = response.data.values.passwordagain;
       AddConfirmationModal.value = true;
       showButtonEdit.value = true;
     }
@@ -433,11 +463,12 @@ export default defineComponent({
 
     //reload data
     const reloadData = () => {
-      (username.value = ""),
-        (email.value = ""),
-        (password.value = ""),
-        (passwordagain.value = ""),
-        (sdt.value = "");
+      state.value.email = "";
+      state.value.username = "";
+      state.value.sdt = "";
+      state.value.password = "";
+      state.value.passwordagain = "";
+      errMsg.value = false;
     };
 
     const actionCloseModal = () => {
@@ -452,13 +483,13 @@ export default defineComponent({
     });
     return {
       router,
-      email,
-      username,
-      password,
-      passwordagain,
-      sdt,
       state,
-      v$,
+      errMsg,
+      usernameErr,
+      emailErr,
+      passwordErr,
+      againPasswordErr,
+      sđtErr,
       users,
       idUpdate,
       keyword,

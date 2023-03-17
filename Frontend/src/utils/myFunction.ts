@@ -50,3 +50,7 @@ export function setNotificationFailedWhenGetData() {
 
 }
 export const REQUIRED = "Vui lòng không bỏ trống ô này";
+export const REGEXEMAIL = "Vui lòng nhập đúng định dạng email";
+export const REGEXNUMBER = "Số điện thoại không hợp lệ";
+export const REGEXPASSWORD = "Mật khẩu phải hơn 6 ký tự";
+export const REGEXAGAiNPASSWORD = "Nhập lại mật khẩu không chính xác";

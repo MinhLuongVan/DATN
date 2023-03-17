@@ -19,19 +19,19 @@
                 type="text"
                 class="w-full mt-3 rounded-md"
                 placeholder="Tên của bạn"
-                v-model="state.name"
+                v-model="formData.name"
               />
-              <small class="text-red-500 text-base" v-if="v$.name.$errors">
-                {{ v$.name.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ nameErr }}
               </small>
               <input
                 type="text"
                 class="w-full mt-3 rounded-md"
                 placeholder="Địa chỉ email"
-                v-model="state.email"
+                v-model="formData.email"
               />
-              <small class="text-red-500 text-base" v-if="v$.email.$errors">
-                {{ v$.email.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ emailErr }}
               </small>
               <textarea
                 name=""
@@ -40,10 +40,10 @@
                 rows="5"
                 class="w-full mt-3 rounded-md"
                 placeholder="Nội dung"
-                v-model="state.note"
+                v-model="formData.note"
               ></textarea>
-              <small class="text-red-500 text-base" v-if="v$.note.$errors">
-                {{ v$.note.$errors[0]?.$message }}
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ noteErr }}
               </small>
             </form>
             <button
@@ -112,10 +112,12 @@ import ContactService from "../../services/contactService";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import {
+  REGEXEMAIL,
+  REQUIRED,
   setNotificationFailedWhenGetData,
   setNotificationToastMessage,
 } from "../../utils/myFunction";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 export default {
   name: "Contact",
   components: { bottom },
@@ -128,33 +130,45 @@ export default {
     const map = ref("");
     const marker = ref("");
     const latlng = [21.028924, 105.798357];
+    const formData = reactive({
+      name: "",
+      email: "",
+      note: "",
+    });
+    // validate
+    const errMsg = ref(false);
+    const nameErr = computed(() => {
+      if (!formData.name) return REQUIRED;
+    });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailErr = computed(() => {
+      if (!formData.email) {
+        return REQUIRED;
+      } else if (!emailRegex.test(formData.email)) {
+        return REGEXEMAIL;
+      }
+    });
+    const noteErr = computed(() => {
+      if (!formData.note) return REQUIRED;
+    });
 
     //reload data
     const reloadData = () => {
-      email.value = "";
-      name.value = "";
-      note.value = "";
+      formData.name = "";
+      formData.email = "";
+      formData.note = "";
+      errMsg.value = false;
     };
 
-    const state = ref({
-      email: "",
-      name: "",
-      note: "",
-    });
-    const rules = {
-      email: { required },
-      name: { required },
-      note: { required },
-    };
-    const v$ = useValidate(rules, state);
     const submitContact = async () => {
-      const result = await v$.value.$validate();
-      if (result) {
+      if (nameErr.value || emailErr.value || noteErr.value) {
+        errMsg.value = true;
+      } else {
         const data = {
           userId: authStore.currentUser._id,
-          email: state.value.email,
-          name: state.value.name,
-          note: state.value.note,
+          email: formData.email,
+          name: formData.name,
+          note: formData.note,
         } as contactInfor;
         const res = await ContactService.save(
           data,
@@ -166,8 +180,6 @@ export default {
         } else {
           setNotificationToastMessage(res.data.message, false);
         }
-      } else {
-        setNotificationFailedWhenGetData();
       }
     };
     onMounted(() => {
@@ -182,11 +194,11 @@ export default {
 
     return {
       router,
-      email,
-      name,
-      note,
-      v$,
-      state,
+      formData,
+      errMsg,
+      nameErr,
+      emailErr,
+      noteErr,
       submitContact,
       map,
       marker,

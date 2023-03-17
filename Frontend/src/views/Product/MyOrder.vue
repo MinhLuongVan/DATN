@@ -106,7 +106,6 @@
             </ModalBody>
           </Modal>
           <!-- END: Delete Confirmation Modal -->
-
           <!-- BEGIN : Modal show order -->
           <Modal
             :show="showConfirmationModal"
@@ -265,6 +264,7 @@ export default defineComponent({
       selectedOrder.value._id = item._id;
       deleteConfirmationModal.value = true;
     }
+    
     // Delete order
     async function actionDeleteOrder() {
       const itemDelete = new OrderModel();

@@ -11,7 +11,6 @@ import {
 } from "../notifications/message";
 
 // Register
-
 export const registerUserServices = async function (data: IUser) {
   try {
     const existedUser = await User.findOne({ email: data.email });
@@ -43,7 +42,6 @@ export const registerUserServices = async function (data: IUser) {
 };
 
 // Get All Users
-
 export const findAllUsersServices = async function () {
   try {
     const itemFind = await User.find().sort({ username: -1 });
@@ -64,10 +62,10 @@ export const findAllUsersServices = async function () {
 };
 
 // Get User
-export const findOneUserServices = async function (verify: string) {
+export const findOneUserServices = async function (data: IUser) {
   try {
     const itemFind = await User.findOne({
-      _id: new mongoose.Types.ObjectId(verify),
+      _id: new mongoose.Types.ObjectId(data._id),
     });
 
     if (itemFind) {
@@ -87,7 +85,6 @@ export const findOneUserServices = async function (verify: string) {
 };
 
 // Delete User
-
 export const deleteUserServices = async function (data: IUser) {
   try {
     const itemDelete = await User.findOneAndDelete({
@@ -110,7 +107,6 @@ export const deleteUserServices = async function (data: IUser) {
 };
 
 // Update User
-
 export const updateUserServices = async function (data: IUser) {
   try {
     const itemUpdate = await User.findOne({

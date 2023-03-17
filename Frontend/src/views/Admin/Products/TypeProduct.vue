@@ -120,7 +120,7 @@
             <label class="text-base">Tên loại sản phẩm</label>
             <input
               type="text"
-              v-model="name"
+              v-model.trim="name"
               class="form-control my-2"
               placeholder="Nhập tên sản phẩm"
             />

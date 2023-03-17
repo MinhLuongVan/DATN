@@ -61,7 +61,7 @@
                 <div class="flex justify-center items-center">
                   <a
                     class="flex items-center mr-3 cursor-pointer"
-                    @click="router.push('/admin/order/' + item._id)"
+                    @click="actionShowOrder(item)"
                   >
                     <EyeIcon class="w-4 h-4 mr-1" /> Xem
                   </a>
@@ -113,6 +113,84 @@
         </ModalBody>
       </Modal>
       <!-- END: Delete Confirmation Modal -->
+       <!-- BEGIN : Modal show order -->
+       <Modal
+            :show="showConfirmationModal"
+            @hidden="showConfirmationModal = false"
+          >
+            <ModalBody class="p-0">
+              <div class="p-5 text-center">
+                <div class="text-2xl mt-3 font-medium text-lime-500">
+                  Chi tiết đơn hàng
+                </div>
+                <div class="w-full">
+                  <div class="mt-3 h-auto">
+                    <div class="px-8 w-full">
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Mã đơn hàng:</span>
+                        <p class="px-2">{{ formData.uuid }}</p>
+                      </div>
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Người đặt:</span>
+                        <p class="px-2">{{ formData.name }}</p>
+                      </div>
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Sđt:</span>
+                        <p class="px-2">{{ formData.sđt }}</p>
+                      </div>
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Địa chỉ chi tiết:</span>
+                        <p class="px-2">{{ formData.details }}-</p>
+                        <p>{{ formData.district }}-</p>
+                        <p>{{ formData.city }}</p>
+                      </div>
+                      <div class="flex py-1 text-base">
+                        <span class="font-medium pt-0.5">Trạng thái:</span>
+                        <p class="px-2">
+                          <button
+                            class="py-1 px-2 text-white text-sm rounded-md"
+                            :class="
+                              formData.status === 'Chờ duyệt'
+                                ? 'bg-red-500'
+                                : 'bg-green-500'
+                            "
+                          >
+                            {{ formData.status }}
+                          </button>
+                        </p>
+                      </div>
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Ngày đặt:</span>
+                        <p class="px-2">
+                          {{
+                            moment(formData.cretedAt).format("DD/MM/YYYY HH:mm")
+                          }}
+                        </p>
+                      </div>
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Tổng tiền:</span>
+                        <p class="px-2">{{ formData.totalMoney }}vnđ</p>
+                      </div>
+                      <div class="flex py-2 text-base">
+                        <span class="font-medium">Ghi chú:</span>
+                        <p class="px-2">{{ formData.note }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-12 pb-8">
+                <button
+                  type="button"
+                  @click="showConfirmationModal = false"
+                  class="border rounded-md py-1.5 w-24 hover:bg-slate-100"
+                >
+                  Trở lại
+                </button>
+              </div>
+            </ModalBody>
+          </Modal>
+          <!-- END : Modal show order -->
       <div
         v-if="orders.length > 0"
         class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center"
@@ -138,7 +216,7 @@
 </template>
 <script lang="ts">
 import { useRouter } from "vue-router";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 import { useOrderStore } from "../../../stores/orderStore";
 import moment from "moment";
 import { orderInfor } from "../../../types/orderType";
@@ -156,6 +234,7 @@ export default defineComponent({
     const authStore = useAuthStore();
     const myOrder: any = computed(() => myOrderStore.orders);
     const deleteConfirmationModal = ref(false);
+    const showConfirmationModal = ref(false);
     const selectedOrder = ref<OrderModel>(new OrderModel());
     const orders = ref<orderInfor[]>([]);
     const totalPages = ref(1);
@@ -164,7 +243,20 @@ export default defineComponent({
     const keyword = ref("");
     const status = ref("");
     const idUpdate = ref("");
- 
+    const formData = reactive({
+      uuid: "",
+      name: "",
+      sđt: "",
+      city: "",
+      district: "",
+      details: "",
+      note: "",
+      status: "",
+      payments: "",
+      totalMoney: 0,
+      cretedAt: 2023,
+    });
+
     // get all order by page
     async function initGetAllOrder(page: number) {
       currentPage.value = page;
@@ -182,6 +274,28 @@ export default defineComponent({
       } else {
         setNotificationToastMessage("Tải dữ liệu thât bại", false);
       }
+    }
+
+    // show order
+    async function actionShowOrder(item: orderInfor) {
+      const itemFindId: any = { _id: item._id } as orderInfor;
+      const response = await orderService.findOne(
+        itemFindId,
+        authStore.currentUser.Token
+      );
+      idUpdate.value = response.data.values._id;
+      formData.uuid = response.data.values.uuid;
+      formData.name = response.data.values.name;
+      formData.sđt = response.data.values.sđt;
+      formData.city = response.data.values.city;
+      formData.district = response.data.values.district;
+      formData.details = response.data.values.details;
+      formData.status = response.data.values.status;
+      formData.note = response.data.values.note;
+      formData.payments = response.data.values.payments;
+      formData.totalMoney = response.data.values.totalMoney;
+      formData.cretedAt = response.data.values.createdAt;
+      showConfirmationModal.value = true;
     }
 
     // update status
@@ -264,12 +378,15 @@ export default defineComponent({
       keyword,
       status,
       idUpdate,
+      formData,
       actionInitDeleteOrder,
       actionDeleteOrder,
       deleteConfirmationModal,
+      showConfirmationModal,
       initGetAllOrder,
       actionSearchOrder,
       actionEditStatus,
+      actionShowOrder
     };
   },
 });

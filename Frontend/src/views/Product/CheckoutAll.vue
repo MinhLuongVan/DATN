@@ -26,7 +26,7 @@
                 <span class="text-base font-medium">Họ tên</span>
                 <input
                   type="text"
-                  v-model="formData.name"
+                  v-model.trim="formData.name"
                   class="w-full rounded-md mt-2"
                   placeholder="Họ và tên"
                 />
@@ -38,7 +38,7 @@
                 <span class="text-base font-medium">Điện thoại</span>
                 <input
                   type="text"
-                  v-model="formData.sđt"
+                  v-model.trim="formData.sđt"
                   class="rounded-md mt-2 w-full"
                   placeholder="SĐT"
                 />
@@ -52,7 +52,7 @@
                 <span class="text-base font-medium">Tỉnh/Thành phố</span>
                 <input
                   type="text"
-                  v-model="formData.city"
+                  v-model.trim="formData.city"
                   class="w-full rounded-md mt-2"
                   placeholder="Vd: Bắc Giang"
                 />
@@ -64,12 +64,12 @@
                 <span class="text-base font-medium">Quận/Huyện</span>
                 <input
                   type="text"
-                  v-model="formData.district"
+                  v-model.trim="formData.district"
                   class="rounded-md mt-2 w-full"
                   placeholder="Vd: Yên Dũng"
                 />
                 <small class="text-red-500 text-base" v-if="errMsg">
-                  {{ detailErr }}
+                  {{ districtErr }}
                 </small>
               </div>
             </div>
@@ -77,7 +77,7 @@
               <span class="text-base font-medium">Địa chỉ chi tiết</span>
               <input
                 type="text"
-                v-model="formData.details"
+                v-model.trim="formData.details"
                 class="w-full rounded-md mt-2"
                 placeholder="Vd: Thôn Tân Mỹ- Xã Lãng Sơn"
               />
@@ -248,7 +248,7 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { useCartStore } from "../../stores/cartStore";
 import { orderInfor } from "../../types/orderType";
 import { useAuthStore } from "../../stores/authStore";
-import { REQUIRED, setNotificationToastMessage } from "../../utils/myFunction";
+import { REGEXNUMBER, REQUIRED, setNotificationToastMessage } from "../../utils/myFunction";
 import OrderService from "../../services/orderService";
 import ShortUniqueId from "short-unique-id";
 export default {
@@ -293,8 +293,13 @@ export default {
     const nameErr = computed(() => {
       if (!formData.name) return REQUIRED;
     });
+    const phonePattern = /^[0-9]{10,11}$/;
     const sđtErr = computed(() => {
-      if (!formData.sđt) return REQUIRED;
+      if (!formData.sđt) {
+        return REQUIRED;
+      } else if (!phonePattern.test(formData.sđt)) {
+        return REGEXNUMBER;
+      }
     });
     const cityErr = computed(() => {
       if (!formData.city) return REQUIRED;
@@ -337,6 +342,7 @@ export default {
         if (response.data.success) {
           myCartStore.deleteAllCart();
           setNotificationToastMessage("Đặt hàng thành công ", true);
+          errMsg.value = false;
           router.push("/my-order");
         } else {
           setNotificationToastMessage("Đặt hàng thất bại", false);

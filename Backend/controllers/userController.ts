@@ -92,23 +92,21 @@ export const findAllUsers = async function (req: Request, res: Response) {
 };
 
 // find User
-
 export const findOneUser = async function (req: Request, res: Response) {
   try {
-    const authorization = req.headers["authorization"];
-    if (!authorization) {
-      return errJwtNotVerify(res);
-    }
+    // const authorization = req.headers["authorization"];
+    // if (!authorization) {
+    //   return errJwtNotVerify(res);
+    // }
+    // const verify = await authorizationServices(authorization);
 
-    const verify = await authorizationServices(authorization);
-
-    if (verify) {
+    // if (verify) {
       const item = req.body as IUser;
-      const itemService = await findOneUserServices(verify);
+      const itemService = await findOneUserServices(item);
       return res.json(itemService);
-    } else {
-      return errJwtNotVerify(res);
-    }
+    // } else {
+    //   return errJwtNotVerify(res);
+    // }
   } catch (e: unknown) {
     let err: string;
     if (e instanceof Error) {
