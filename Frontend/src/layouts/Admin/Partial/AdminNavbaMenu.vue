@@ -97,7 +97,11 @@
             >
               Trở lại
             </button>
-            <button type="button" class="btn text-white bg-lime-500" @click="actionChangePassword">
+            <button
+              type="button"
+              class="btn text-white bg-lime-500"
+              @click="actionChangePassword"
+            >
               Lưu và đóng
             </button>
           </div>
@@ -115,8 +119,14 @@ import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import { useAuthAdminStore } from "../../../stores/authAdminStore";
 import { useSettingStore } from "../../../stores/settingStore";
-import { REGEXAGAiNPASSWORD, REGEXPASSWORD, REQUIRED } from "../../../utils/myFunction";
+import {
+  REGEXAGAiNPASSWORD,
+  REGEXPASSWORD,
+  REQUIRED,
+  setNotificationToastMessage,
+} from "../../../utils/myFunction";
 import userService from "../../../services/userService";
+import { userInfor } from "../../../types/userType";
 export default defineComponent({
   name: "AdminNavbarMenu",
 
@@ -135,33 +145,56 @@ export default defineComponent({
       } else if (formData.password.length < 6) {
         return REGEXPASSWORD;
       }
-    })
+    });
     const againPasswordErr = computed(() => {
       if (!formData.passwordagain) {
         return REQUIRED;
       } else if (formData.passwordagain !== formData.password) {
         return REGEXAGAiNPASSWORD;
       }
-    })
+    });
     const formData = reactive({
+      username: "",
+      sdt: "",
+      email: "",
       password: "",
       passwordagain: "",
     });
 
-    async function actionShowChangePassword(userId:string) {
-      const itemFindId: any = { _id: userId} ;
-      console.log('data',itemFindId);
-      
+    async function actionShowChangePassword(userId: string) {
+      const itemFindId: any = { _id: userId };
       const response = await userService.findId(
         itemFindId,
         myAuth.currentUserAdmin.Token
       );
       idUpdate.value = response.data.values._id;
+      formData.username = response.data.values.username;
+      formData.email = response.data.values.email;
+      // formData.password = response.data.values.password;
+      formData.sdt = response.data.values.sdt;
       ChangeConfirmationModal.value = true;
     }
-
+    
+    // change password
     async function actionChangePassword() {
-      
+      const dataUpdate = {
+        _id: idUpdate.value,
+        username: formData.username,
+        email: formData.email,
+        sdt: formData.sdt,
+        password: formData.password,
+      } as userInfor;
+      const response = await userService.update(
+        dataUpdate,
+        myAuth.currentUserAdmin.Token
+      );
+      if (response.data.success) {
+        ChangeConfirmationModal.value = false;
+        myAuth.initGetAllUser();
+        actionLogout();
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
     }
 
     // Logout
@@ -186,7 +219,7 @@ export default defineComponent({
       againPasswordErr,
       ChangeConfirmationModal,
       actionShowChangePassword,
-      actionChangePassword
+      actionChangePassword,
     };
   },
 });
