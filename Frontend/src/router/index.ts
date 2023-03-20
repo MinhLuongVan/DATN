@@ -183,7 +183,7 @@ router.beforeEach(async (to, _from, next) => {
     }
   } else if (to.path && to.path.startsWith("/admin") && to.path !== '/admin/login') {
     if (Cookies.get(env.nameCookieAdmin) && authAdminStore.isAuthenticated && authAdminStore.currentUserAdmin &&
-    authAdminStore.currentUserAdmin.isAdmin === true) {
+    (authAdminStore.currentUserAdmin.isAdmin = true)) {
       next();
     } else {
       next("/admin/login");

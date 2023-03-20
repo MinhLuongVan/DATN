@@ -57,6 +57,7 @@ import {
   setNotificationFailedWhenGetData,
   setNotificationToastMessage,
 } from "../../../utils/myFunction";
+import { computed } from "@vue/reactivity";
 
 export default {
   name: "AdminLogin",
@@ -65,6 +66,7 @@ export default {
     const email = ref("");
     const password = ref("");
     const authStore = useAuthAdminStore();
+    const isAdmin = computed(() => authStore.currentUserAdmin.isAdmin)
 
     const state = ref({
       email: "",
@@ -85,7 +87,6 @@ export default {
         if (Cookies.get(env.nameCookieAdmin)) {
           authStore.logoutUserAdmin();
         }
-        if (authStore.currentUserAdmin.isAdmin = true) {
           const res = await UserService.login(data);
           if (res.data.success) {
             await authStore.loginUserAdmin(res.data.values);
@@ -93,9 +94,7 @@ export default {
           } else {
             setNotificationToastMessage(res.data.message, false);
           }
-        } else {
-          setNotificationToastMessage("Đăng nhập thất bại");
-        }
+         
       } else {
         setNotificationFailedWhenGetData();
       }
@@ -107,6 +106,7 @@ export default {
       password,
       v$,
       state,
+      isAdmin,
       submitLogin,
     };
   },

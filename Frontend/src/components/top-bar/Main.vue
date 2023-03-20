@@ -138,7 +138,8 @@
               </div>
             </div>
             <div
-              class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3"
+              class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3 cursor-pointer"
+              @click="actionShowChangePassword(userId)"
             >
               <LockIcon class="w-4 h-4 mr-2" /> Đổi mật khẩu
             </div>
@@ -184,23 +185,75 @@
       <a href="/news" class="hover:text-lime-500 mr-6 text-base">TIN TỨC</a>
       <a href="/contact" class="hover:text-lime-500 mr-6 text-base">LIÊN HỆ</a>
     </nav>
+
+      <!-- BEGIN: Change password Confirmation Modal -->
+      <Modal
+        :show="ChangeConfirmationModal"
+        @hidden="ChangeConfirmationModal = false"
+      >
+        <ModalBody class="p-0">
+          <div class="px-5 pt-3 text-center text-2xl">
+            <h2 class="text-lime-500">Đổi mật khẩu</h2>
+          </div>
+          <div class="pt-5">
+            <div class="px-5">
+              <label class="text-base">Mật khẩu</label>
+              <input
+                type="text"
+                v-model.trim="formData.password"
+                placeholder="Mật khẩu"
+                class="form-control my-2"
+              />
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ passwordErr }}
+              </small>
+            </div>
+            <div class="px-5">
+              <label class="text-base">Nhập lại mật khẩu</label>
+              <input
+                type="text"
+                v-model.trim="formData.passwordagain"
+                placeholder="Nhập lại mật khẩu"
+                class="form-control my-2"
+              />
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ againPasswordErr }}
+              </small>
+            </div>
+          </div>
+          <div class="pb-5 pt-2 text-center lg:pl-56 lg:pr-3">
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-24 mr-1"
+              @click="ChangeConfirmationModal = false"
+            >
+              Trở lại
+            </button>
+            <button type="button" class="btn text-white bg-lime-500" @click="actionChangePassword">
+              Lưu và đóng
+            </button>
+          </div>
+        </ModalBody>
+      </Modal>
+      <!-- END:  Change password Confirmation Modal -->
   </div>
   <!-- END: Top Bar -->
 </template>
 
 <script lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import { useAuthStore } from "../../stores/authStore";
-import { setNotificationToastMessage } from "../../utils/myFunction";
+import { REGEXAGAiNPASSWORD, REGEXPASSWORD, REQUIRED, setNotificationToastMessage } from "../../utils/myFunction";
 import cartService from "../../services/cartService";
 import { cartInfor } from "../../types/cartType";
 import { CartModel } from "../../model/cartModel";
 import { useCartStore } from "../../stores/cartStore";
 import { useSettingStore } from "../../stores/settingStore";
 import { useProductStore } from "../../stores/productStore";
+import userService from "../../services/userService";
 export default defineComponent({
   name: "top-bar",
   setup() {
@@ -217,6 +270,30 @@ export default defineComponent({
       return authStore.currentUser;
     });
     const searchKeyword = ref('');
+    const ChangeConfirmationModal = ref(false);
+    const idUpdate = ref("");
+    const errMsg = ref(false);
+    const userId = authStore.currentUser._id;
+    const passwordErr = computed(() => {
+      if (!formData.password) {
+        return REQUIRED;
+      } else if (formData.password.length < 6) {
+        return REGEXPASSWORD;
+      }
+    })
+    const againPasswordErr = computed(() => {
+      if (!formData.passwordagain) {
+        return REQUIRED;
+      } else if (formData.passwordagain !== formData.password) {
+        return REGEXAGAiNPASSWORD;
+      }
+    })
+    const formData = reactive({
+      username: "",
+      sđt: "",
+      password: "",
+      passwordagain: "",
+    });
 
     const showSearchDropdown = () => {
       searchDropdown.value = true;
@@ -249,6 +326,41 @@ export default defineComponent({
       Cookies.remove("Authorization");
       await router.push("/login");
     }
+
+    // lấy id 
+    async function actionShowChangePassword(userId:string) {
+      const itemFindId: any = { _id: userId} ;
+      console.log('data',itemFindId);
+      
+      const response = await userService.findId(
+        itemFindId,
+        authStore.currentUser.Token
+      );
+      idUpdate.value = response.data.values._id;
+      ChangeConfirmationModal.value = true;
+    }
+
+    // change password
+    async function actionChangePassword() {
+      const dataUpdate = {
+        _id: idUpdate.value,
+        username: formData.username,
+        email: state.value.email,
+        sdt: state.value.sdt,
+        password: state.value.password,
+      } as userInfor;
+      const response = await userService.update(
+        dataUpdate,
+        authStore.currentUser.Token
+      );
+      if (response.data.success) {
+        ChangeConfirmationModal.value = false;
+        authStore.initGetAllUser();
+      } else {
+        setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
+      }
+    }
+
     onMounted(() => {
       myCartStore.getAllCart();
       settingStore.getAllSetting();
@@ -266,7 +378,16 @@ export default defineComponent({
       actionLogout,
       actionDeleteProduct,
       actionSearchProduct,
-      searchKeyword
+      searchKeyword,
+      idUpdate,
+      userId,
+      errMsg,
+      formData,
+      passwordErr,
+      againPasswordErr,
+      ChangeConfirmationModal,
+      actionShowChangePassword,
+      actionChangePassword
     };
   },
 });

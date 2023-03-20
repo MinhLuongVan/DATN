@@ -383,7 +383,7 @@ export default defineComponent({
     // lấy user by id
     async function actionInitEditAccount(item: userInfor) {
       const itemFindId: any = { _id: item._id } as userInfor;
-      const response = await userService.findOne(
+      const response = await userService.findId(
         itemFindId,
         authStore.currentUser.Token
       );

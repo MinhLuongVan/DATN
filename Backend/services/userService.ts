@@ -62,12 +62,33 @@ export const findAllUsersServices = async function () {
 };
 
 // Get User
-export const findOneUserServices = async function (data: IUser) {
+export const findOneUserServices = async function (verify: string) {
+  try {
+    const itemFind = await User.findOne({
+      _id: new mongoose.Types.ObjectId(verify),
+    });
+    if (itemFind) {
+      return okResponse(itemFind);
+    } else {
+      return dataNotFoundResponse();
+    }
+  } catch (e: unknown) {
+    let err: string;
+    if (e instanceof Error) {
+      err = e.message;
+    } else {
+      err = errorUnknown;
+    }
+    return errResponse(err);
+  }
+};
+
+// Get id user update
+export const findUserIdServices = async function (data: IUser) {
   try {
     const itemFind = await User.findOne({
       _id: new mongoose.Types.ObjectId(data._id),
     });
-
     if (itemFind) {
       return okResponse(itemFind);
     } else {
@@ -213,7 +234,7 @@ export const findByPageService = async function (data: any) {
   }
 };
 
-// search order
+// search user
 export const searchUserService = async function (data: IUser) {
   try {
     const itemFind = await User.find({

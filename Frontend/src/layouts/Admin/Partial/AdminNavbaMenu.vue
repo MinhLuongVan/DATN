@@ -6,13 +6,10 @@
     <div v-for="item in mySetting" :key="item" class="h-full flex items-center">
       <!-- BEGIN: Logo -->
       <a href="" class="logo -intro-x md:flex xl:w-[180px] block">
-        <img
-          :src="item.logoAdmin"
-          alt=""
-          class="h-[45px] mx-1"
-          height="35"
-        />
-        <span class="pl-2 text-white mt-2.5 hidden lg:block">{{ item.name }}</span>
+        <img :src="item.logoAdmin" alt="" class="h-[45px] mx-1" height="35" />
+        <span class="pl-2 text-white mt-2.5 hidden lg:block">{{
+          item.name
+        }}</span>
       </a>
       <!-- END: Logo -->
       <div class="w-full h-full flex justify-between">
@@ -42,7 +39,8 @@
               </div>
             </div>
             <div
-              class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3"
+              class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3 cursor-pointer"
+              @click="actionShowChangePassword(userId)"
             >
               <LockIcon class="w-4 h-4 mr-2" /> Đổi mật khẩu
             </div>
@@ -50,23 +48,75 @@
               class="flex dropdown-item text-white text-sm hover:bg-white/5 p-3 cursor-pointer"
               @click="actionLogout()"
             >
-              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5"/> Đăng xuất
+              <ToggleRightIcon class="w-4 h-4 mr-2 mt-0.5" /> Đăng xuất
             </div>
           </DropdownMenu>
         </Dropdown>
       </div>
       <!-- END: Account Menu -->
+      <!-- BEGIN: Change password Confirmation Modal -->
+      <Modal
+        :show="ChangeConfirmationModal"
+        @hidden="ChangeConfirmationModal = false"
+      >
+        <ModalBody class="p-0">
+          <div class="px-5 pt-3 text-center text-2xl">
+            <h2 class="text-lime-500">Đổi mật khẩu</h2>
+          </div>
+          <div class="pt-5">
+            <div class="px-5">
+              <label class="text-base">Mật khẩu</label>
+              <input
+                type="text"
+                v-model.trim="formData.password"
+                placeholder="Mật khẩu"
+                class="form-control my-2"
+              />
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ passwordErr }}
+              </small>
+            </div>
+            <div class="px-5">
+              <label class="text-base">Nhập lại mật khẩu</label>
+              <input
+                type="text"
+                v-model.trim="formData.passwordagain"
+                placeholder="Nhập lại mật khẩu"
+                class="form-control my-2"
+              />
+              <small class="text-red-500 text-base" v-if="errMsg">
+                {{ againPasswordErr }}
+              </small>
+            </div>
+          </div>
+          <div class="pb-5 pt-2 text-center lg:pl-56 lg:pr-3">
+            <button
+              type="button"
+              class="btn btn-outline-secondary w-24 mr-1"
+              @click="ChangeConfirmationModal = false"
+            >
+              Trở lại
+            </button>
+            <button type="button" class="btn text-white bg-lime-500" @click="actionChangePassword">
+              Lưu và đóng
+            </button>
+          </div>
+        </ModalBody>
+      </Modal>
+      <!-- END:  Change password Confirmation Modal -->
     </div>
   </div>
   <!-- END: Top Bar -->
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import { useAuthAdminStore } from "../../../stores/authAdminStore";
 import { useSettingStore } from "../../../stores/settingStore";
+import { REGEXAGAiNPASSWORD, REGEXPASSWORD, REQUIRED } from "../../../utils/myFunction";
+import userService from "../../../services/userService";
 export default defineComponent({
   name: "AdminNavbarMenu",
 
@@ -74,21 +124,69 @@ export default defineComponent({
     const router = useRouter();
     const myAuth = useAuthAdminStore();
     const settingStore = useSettingStore();
-    const mySetting: any = computed(() =>settingStore.settings);
-
-    onMounted(() => {
-      settingStore.getAllSetting();
+    const mySetting: any = computed(() => settingStore.settings);
+    const ChangeConfirmationModal = ref(false);
+    const idUpdate = ref("");
+    const errMsg = ref(false);
+    const userId = myAuth.currentUserAdmin._id;
+    const passwordErr = computed(() => {
+      if (!formData.password) {
+        return REQUIRED;
+      } else if (formData.password.length < 6) {
+        return REGEXPASSWORD;
+      }
     })
+    const againPasswordErr = computed(() => {
+      if (!formData.passwordagain) {
+        return REQUIRED;
+      } else if (formData.passwordagain !== formData.password) {
+        return REGEXAGAiNPASSWORD;
+      }
+    })
+    const formData = reactive({
+      password: "",
+      passwordagain: "",
+    });
+
+    async function actionShowChangePassword(userId:string) {
+      const itemFindId: any = { _id: userId} ;
+      console.log('data',itemFindId);
+      
+      const response = await userService.findId(
+        itemFindId,
+        myAuth.currentUserAdmin.Token
+      );
+      idUpdate.value = response.data.values._id;
+      ChangeConfirmationModal.value = true;
+    }
+
+    async function actionChangePassword() {
+      
+    }
+
     // Logout
-    async function actionLogout () {
+    async function actionLogout() {
       Cookies.remove("AuthorizationAdmin");
       await router.push("/admin/login");
     }
+
+    onMounted(() => {
+      settingStore.getAllSetting();
+    });
     return {
       actionLogout,
       myAuth,
       router,
-      mySetting
+      mySetting,
+      idUpdate,
+      userId,
+      errMsg,
+      formData,
+      passwordErr,
+      againPasswordErr,
+      ChangeConfirmationModal,
+      actionShowChangePassword,
+      actionChangePassword
     };
   },
 });

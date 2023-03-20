@@ -8,6 +8,7 @@ import {
   updateUserServices,
   findByPageService,
   searchUserService,
+  findUserIdServices,
 } from "../services/userService";
 import { env, errorUnknown } from "../utils/myVariables";
 import { IUser } from "../models/interface/user";
@@ -94,19 +95,36 @@ export const findAllUsers = async function (req: Request, res: Response) {
 // find User
 export const findOneUser = async function (req: Request, res: Response) {
   try {
-    // const authorization = req.headers["authorization"];
-    // if (!authorization) {
-    //   return errJwtNotVerify(res);
-    // }
-    // const verify = await authorizationServices(authorization);
+    const authorization = req.headers["authorization"];
+    if (!authorization) {
+      return errJwtNotVerify(res);
+    }
+    const verify = await authorizationServices(authorization);
 
-    // if (verify) {
+    if (verify) {
       const item = req.body as IUser;
-      const itemService = await findOneUserServices(item);
+      const itemService = await findOneUserServices(verify);
       return res.json(itemService);
-    // } else {
-    //   return errJwtNotVerify(res);
-    // }
+    } else {
+      return errJwtNotVerify(res);
+    }
+  } catch (e: unknown) {
+    let err: string;
+    if (e instanceof Error) {
+      err = e.message;
+    } else {
+      err = errorUnknown;
+    }
+    return response.error(err, res);
+  }
+};
+
+// find UserId
+export const findUserId = async function (req: Request, res: Response) {
+  try {
+      const item = req.body as IUser;
+      const itemService = await findUserIdServices(item);
+      return res.json(itemService);
   } catch (e: unknown) {
     let err: string;
     if (e instanceof Error) {
@@ -119,7 +137,6 @@ export const findOneUser = async function (req: Request, res: Response) {
 };
 
 // delete User
-
 export const deleteUser = async function (req: Request, res: Response) {
   try {
     // const authorization = req.headers["authorization"];

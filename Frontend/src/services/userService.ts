@@ -22,6 +22,9 @@ class UserService {
     findOne(data: userInfor , token: string) {
         return apiClient(token).post("/user/find-one",data)
     }
+    findId(data: any , token: string) {
+        return apiClient(token).post("/user/find-id",data)
+    }
     findByPage(data: any, token: string) {
         return apiClient(token).post("/user/find-by-page",data)
     }

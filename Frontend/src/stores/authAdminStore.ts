@@ -45,7 +45,7 @@ export const useAuthAdminStore:StoreDefinition = defineStore({
             }
         },
         logoutUserAdmin() {
-            Cookies.remove(env.nameCookieAdmin)
+            Cookies.remove(env.nameCookieAdmin);
         },
        
     },
