@@ -203,7 +203,7 @@
           <div class="px-5">
             <label class="text-base">Mật khẩu mới</label>
             <input
-              type="text"
+             type="text"
               v-model.trim="formData.password"
               placeholder="Mật khẩu"
               class="form-control my-2"
@@ -351,7 +351,7 @@ export default defineComponent({
       idUpdate.value = response.data.values._id;
       formData.username = response.data.values.username;
       formData.email = response.data.values.email;
-      // formData.password = response.data.values.password;
+      formData.password = formData.password;
       formData.sdt = response.data.values.sdt;
       ChangeConfirmationModal.value = true;
     }
@@ -372,7 +372,7 @@ export default defineComponent({
       if (response.data.success) {
         ChangeConfirmationModal.value = false;
         authStore.initGetAllUser();
-        actionLogout();
+        setNotificationToastMessage("Đổi mật khẩu thành công", true);
       } else {
         setNotificationToastMessage("Cập nhật dữ liệu thất bại", false);
       }

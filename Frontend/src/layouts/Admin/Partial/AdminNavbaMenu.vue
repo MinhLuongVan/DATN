@@ -67,7 +67,7 @@
             <div class="px-5">
               <label class="text-base">Mật khẩu</label>
               <input
-                type="text"
+                type="password"
                 v-model.trim="formData.password"
                 placeholder="Mật khẩu"
                 class="form-control my-2"
@@ -79,7 +79,7 @@
             <div class="px-5">
               <label class="text-base">Nhập lại mật khẩu</label>
               <input
-                type="text"
+                type="password"
                 v-model.trim="formData.passwordagain"
                 placeholder="Nhập lại mật khẩu"
                 class="form-control my-2"
@@ -170,7 +170,7 @@ export default defineComponent({
       idUpdate.value = response.data.values._id;
       formData.username = response.data.values.username;
       formData.email = response.data.values.email;
-      // formData.password = response.data.values.password;
+      formData.password = formData.password;
       formData.sdt = response.data.values.sdt;
       ChangeConfirmationModal.value = true;
     }

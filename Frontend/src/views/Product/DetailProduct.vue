@@ -252,7 +252,7 @@
               class="intro-y mt-4"
             >
               <div
-                class="px-3 mb-2 hover:border border-lime-300"
+                class="px-3 mb-2 hover:border border-lime-300 cursor-pointer"
                 @click="router.push('/product/' + item._id)"
               >
                 <div class="p-2 flex">
@@ -371,7 +371,7 @@ import { useRoute } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref,watch } from "vue";
 import { productInfor } from "../../types/productType";
 import productService from "../../services/productService";
 import { useAuthStore } from "../../stores/authStore";
@@ -600,7 +600,22 @@ export default {
       }
     }
 
+    function scrollTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    }
+
+    watch(
+      () => route.params.id,
+      async () => {
+        await actionGetProductById();
+        scrollTop();
+      }
+    );
     onMounted(async () => {
+      scrollTop();
       await actionGetProductById();
       await initGetAllProductBySale();
       await initGetAllProductByRelate();
@@ -634,6 +649,7 @@ export default {
       actionDeleteFeedback,
       actionInitdata,
       actionEditFeedback,
+      scrollTop,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

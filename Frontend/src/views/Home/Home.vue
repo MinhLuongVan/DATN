@@ -147,7 +147,6 @@
                 </div>
               </div>
             </slide>
-
             <template #addons>
               <navigation />
             </template>
@@ -492,7 +491,7 @@ export default {
         1024: {
           itemsToShow: 4,
           snapAlign: "start",
-        },
+        }
       },
     };
   },
