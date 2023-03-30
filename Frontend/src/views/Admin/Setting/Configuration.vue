@@ -18,7 +18,7 @@
               <EditIcon class="w-4 h-4" />
             </button>
             <button
-              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700"
+              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700 hi"
             >
               <TrashIcon class="w-4 h-4" />
             </button>
@@ -26,7 +26,7 @@
         </div>
         <div v-if="showNameEdit" class="grid grid-cols-8 w-4/5 mt-1 bg-white">
           <input type="text" class="col-span-7" v-model="nameEdit" />
-          <button class="border" @click="actionEditName()">
+          <button class="border text-slate-500" @click="actionEditName()">
             <Upload-cloudIcon class="w-5 h-5 lg:ml-6"></Upload-cloudIcon>
           </button>
         </div>
@@ -43,7 +43,7 @@
               <EditIcon class="w-4 h-4" />
             </button>
             <button
-              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700"
+              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700 hidden"
             >
               <TrashIcon class="w-4 h-4" />
             </button>
@@ -54,7 +54,7 @@
           class="grid grid-cols-8 w-4/5 mt-1 bg-white"
         >
           <input type="text" class="col-span-7" v-model="keywordEdit" />
-          <button class="border" @click="actionEditKeyWord()">
+          <button class="border text-slate-500" @click="actionEditKeyWord()">
             <Upload-cloudIcon class="w-5 h-5 lg:ml-6"></Upload-cloudIcon>
           </button>
         </div>
@@ -80,7 +80,7 @@
               <EditIcon class="w-4 h-4" />
             </button>
             <button
-              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700"
+              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700 hidden"
             >
               <TrashIcon class="w-4 h-4" />
             </button>
@@ -95,7 +95,7 @@
           @change="uploadLogoUser"
           class="col-span-7 py-1.5 px-2 block mt-1"
         />
-          <button class="border" @click="actionEditLogoUser()">
+          <button class="border text-slate-500" @click="actionEditLogoUser()">
             <Upload-cloudIcon class="w-5 h-5 lg:ml-6"></Upload-cloudIcon>
           </button>
         </div>
@@ -121,7 +121,7 @@
               <EditIcon class="w-4 h-4" />
             </button>
             <button
-              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700"
+              class="border border-red-500 text-red-500 rounded-full p-2 hover:text-red-700 hidden"
             >
               <TrashIcon class="w-4 h-4" />
             </button>
@@ -136,7 +136,7 @@
           @change="uploadLogoAdmin"
           class="col-span-7 py-1.5 px-2 block mt-1"
         />
-          <button class="border" @click="actionEditLogoAdmin()">
+          <button class="border text-slate-500" @click="actionEditLogoAdmin()">
             <Upload-cloudIcon class="w-5 h-5 lg:ml-6"></Upload-cloudIcon>
           </button>
         </div>

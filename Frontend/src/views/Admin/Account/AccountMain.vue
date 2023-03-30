@@ -143,7 +143,7 @@
             <div class="px-5">
               <label class="text-base">Mật khẩu</label>
               <input
-                type="text"
+                type="password"
                 v-model.trim="state.password"
                 placeholder="Mật khẩu"
                 class="form-control my-2"
@@ -155,7 +155,7 @@
             <div v-if="!showButtonEdit" class="px-5">
               <label class="text-base">Nhập lại mật khẩu</label>
               <input
-                type="text"
+                type="password"
                 v-model.trim="state.passwordagain"
                 placeholder="Nhập lại mật khẩu"
                 class="form-control my-2"

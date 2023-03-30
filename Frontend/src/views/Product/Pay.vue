@@ -367,8 +367,16 @@ export default {
       errMsg.value = false;
     }
 
+    function scrollTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    }
+
     onMounted(async () => {
       await actionGetProductById();
+      scrollTop();
     });
     return {
       route,

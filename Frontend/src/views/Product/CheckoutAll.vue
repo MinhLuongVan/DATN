@@ -107,7 +107,7 @@
             </div>
             <div class="my-3 px-3 flex items-center cursor-pointer">
               <input
-                type="checkbox"
+                type="radio"
                 name="checkedATM"
                 id="checkedATM"
                 class="rounded-full"
@@ -130,7 +130,7 @@
 
             <div class="my-3 px-3 flex items-center cursor-pointer">
               <input
-                type="checkbox"
+                type="radio"
                 name="checked"
                 id="checked"
                 class="rounded-full"
@@ -350,8 +350,16 @@ export default {
       }
     };
 
+    function scrollTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    }
+
     onMounted(async () => {
       await myCartStore.getAllCart();
+      scrollTop();
     });
     return {
       route,

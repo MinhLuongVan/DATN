@@ -448,7 +448,7 @@ export default {
         changeAmount.value = response.data.values.amount;
         idUpdateAmout.value = response.data.values._id;
       } else {
-        setNotificationToastMessage("Tải dữ liệu thất bại", false);
+        //setNotificationToastMessage("Tải dữ liệu thất bại", false);
       }
     }
 
@@ -649,7 +649,6 @@ export default {
       actionDeleteFeedback,
       actionInitdata,
       actionEditFeedback,
-      scrollTop,
       settings: {
         itemsToShow: 1,
         snapAlign: "center",

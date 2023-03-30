@@ -106,7 +106,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  reactive,
+  ref,
+  watchEffect,
+} from "vue";
 import { useTypeProductStore } from "../../../stores/typeProductStore";
 import { useAuthStore } from "../../../stores/authStore";
 import { useProductStore } from "../../../stores/productStore";
@@ -137,7 +144,7 @@ export default defineComponent({
         },
       },
       xaxis: {
-        categories: ["Su","Mo", "Tu", "We", "Th", "Fr", "Sa"],
+        categories: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
       },
       dataLabels: {
         enabled: false,
@@ -150,23 +157,28 @@ export default defineComponent({
       },
     };
 
-    const chartSeries = [
+    const chartSeries = reactive([
       {
         name: "Orders",
-        data:
-          Array.isArray(myOrder.value) && myOrder.value.length > 0
-            ? myOrder.value.reduce(
-                (acc: any, cur: any) => {
-                  const date = new Date(cur.createdAt);
-                  const dayOfWeek = date.getUTCDay();
-                  acc[dayOfWeek] += 1;
-                  return acc;
-                },
-                [0, 0, 0, 0, 0, 0, 0]
-              )
-            : [0, 0, 0, 0, 0, 0, 0],
+        data: [0, 0, 0, 0, 0, 0, 0],
       },
-    ];
+    ]);
+
+    watchEffect(() => {
+      if (Array.isArray(myOrder.value) && myOrder.value.length > 0) {
+        const ordersByDayOfWeek = myOrder.value.reduce(
+          (acc: any, cur: any) => {
+            const date = new Date(cur.createdAt);
+            const dayOfWeek = date.getUTCDay();
+            acc[dayOfWeek] += 1;
+            return acc;
+          },
+          [0, 0, 0, 0, 0, 0, 0]
+        );
+
+        chartSeries[0].data = ordersByDayOfWeek;
+      }
+    });
     // Biểu đồ cột
     const chartOptions1 = {
       chart: {

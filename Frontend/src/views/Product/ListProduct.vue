@@ -263,7 +263,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
 import { productInfor } from "../../types/productType";
@@ -311,7 +311,6 @@ export default defineComponent({
             } else {
                 setNotificationToastMessage('Tải dữ liệu thất bại',false)
             } 
-      
     })
 
     function showProductGift() {

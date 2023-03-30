@@ -104,8 +104,6 @@
 <script lang="ts">
 import { useRouter } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
-import useValidate from "@vuelidate/core";
-import { required, minLength } from "@vuelidate/validators";
 import { useAuthStore } from "../../stores/authStore";
 import { contactInfor } from "../../types/contactType";
 import ContactService from "../../services/contactService";
@@ -123,9 +121,6 @@ export default {
   components: { bottom },
   setup() {
     const router = useRouter();
-    const email = ref("");
-    const name = ref("");
-    const note = ref("");
     const authStore = useAuthStore();
     const map = ref("");
     const marker = ref("");
