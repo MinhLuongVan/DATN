@@ -130,6 +130,29 @@
                   Thêm vào giỏ hàng
                 </button>
               </div>
+              <div class="flex mt-3">
+                <a href="">
+                  <img
+                    src="../../assets/images/facebook (1).png"
+                    alt=""
+                    class="w-8 h-8 mt-1"
+                  />
+                </a>
+                <a href="">
+                  <img
+                    src="../../assets/images/twitter.png"
+                    alt=""
+                    class="w-8 h-8 mt-1 mx-2"
+                  />
+                </a>
+                <a href="">
+                  <img
+                    src="../../assets/images/gmail.png"
+                    alt=""
+                    class="w-8 h-10"
+                  />
+                </a>
+              </div>
             </div>
           </div>
           <button
@@ -371,7 +394,7 @@ import { useRoute } from "vue-router";
 import bottom from "../../views/Footer/Footer.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { computed, onMounted, ref,watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { productInfor } from "../../types/productType";
 import productService from "../../services/productService";
 import { useAuthStore } from "../../stores/authStore";
@@ -603,8 +626,8 @@ export default {
     function scrollTop() {
       window.scrollTo({
         top: 0,
-        behavior: "smooth"
-      })
+        behavior: "smooth",
+      });
     }
 
     watch(

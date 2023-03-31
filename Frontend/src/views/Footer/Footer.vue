@@ -90,6 +90,17 @@
           riêng của mình, góp phần đáng kể làm cho cuộc sống chúng ta thêm sinh
           động, trở nên đáng yêu và thanh bình hơn ...
         </p>
+        <div class="flex justify-center mt-3">
+          <a href="">
+            <img src="../../assets/images/facebook (1).png" alt="" class="w-8 h-8 mt-1">
+          </a>
+          <a href="">
+            <img src="../../assets/images/twitter.png" alt="" class="w-8 h-8 mt-1 mx-2">
+          </a>
+          <a href="">
+            <img src="../../assets/images/gmail.png" alt="" class="w-8 h-10">
+          </a>
+        </div>
       </div>
     </div>
   </div>
