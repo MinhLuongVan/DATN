@@ -130,29 +130,6 @@
                   Thêm vào giỏ hàng
                 </button>
               </div>
-              <div class="flex mt-3">
-                <a href="">
-                  <img
-                    src="../../assets/images/facebook (1).png"
-                    alt=""
-                    class="w-8 h-8 mt-1"
-                  />
-                </a>
-                <a href="">
-                  <img
-                    src="../../assets/images/twitter.png"
-                    alt=""
-                    class="w-8 h-8 mt-1 mx-2"
-                  />
-                </a>
-                <a href="">
-                  <img
-                    src="../../assets/images/gmail.png"
-                    alt=""
-                    class="w-8 h-10"
-                  />
-                </a>
-              </div>
             </div>
           </div>
           <button
