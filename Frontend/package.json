@@ -6,7 +6,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "minh": "cross-env vite --mode minh",
-    "build-deploy": "vite build --mode=minh && vite preview"
+    "build-deploy": "vite build --mode=minh && vite preview",
+    "build:deploy:preview": "vite build --mode=production && vite preview",
+    "production:preview": "vite preview --mode=production"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-balloon": "^29.1.0",
