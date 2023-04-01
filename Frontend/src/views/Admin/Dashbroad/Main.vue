@@ -144,7 +144,7 @@ export default defineComponent({
         },
       },
       xaxis: {
-        categories: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+        categories: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su", "Mo"],
       },
       dataLabels: {
         enabled: false,
@@ -160,7 +160,7 @@ export default defineComponent({
     const chartSeries = reactive([
       {
         name: "Orders",
-        data: [0, 0, 0, 0, 0, 0, 0],
+        data: [0, 0, 0, 0, 0, 0, 0,0],
       },
     ]);
 
@@ -173,7 +173,7 @@ export default defineComponent({
             acc[dayOfWeek] += 1;
             return acc;
           },
-          [0, 0, 0, 0, 0, 0, 0]
+          [0, 0, 0, 0, 0, 0, 0,0]
         );
 
         chartSeries[0].data = ordersByDayOfWeek;
